@@ -1,7 +1,3 @@
-/**
- * Noorify Bot - النسخة الموحدة والنهائية
- * مخصص للاستضافة على Railway مع ربط مستودع GitHub
- */
 
 require('dotenv').config(); 
 const TelegramBot = require('node-telegram-bot-api');
