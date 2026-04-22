@@ -4,7 +4,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const fs = require('fs');
 const path = require('path');
 
-// جلب التوكن من متغيرات البيئة (Railway Environment Variables)
+
 const token = process.env.TELEGRAM_BOT_TOKEN; 
 
 if (!token) {
@@ -12,10 +12,10 @@ if (!token) {
     process.exit(1);
 }
 
-// إنشاء نسخة البوت مع تفعيل الـ Polling
+
 const bot = new TelegramBot(token, { polling: true });
 
-// مسار ملف حفظ البيانات (لضمان استمرار التذكير بعد إعادة التشغيل)
+
 const DATA_FILE = path.join(__dirname, 'reminders_data.json');
 
 let activeChats = [];
@@ -30,7 +30,6 @@ if (fs.existsSync(DATA_FILE)) {
 
 const activeIntervals = {};
 
-// دالة حفظ معرفات الدردشات النشطة
 const saveChats = () => {
     try {
         fs.writeFileSync(DATA_FILE, JSON.stringify(activeChats));
@@ -39,10 +38,7 @@ const saveChats = () => {
     }
 };
 
-/**
- * خريطة الملفات: تربط بين أزرار المكتبة وأسماء الملفات المرفوعة فعلياً على GitHub
- * تم ضبط الأسماء لتطابق صورك المرفوعة حرفياً
- */
+
 const filesMap = {
     'athkar_morning_evening': 'أذكار الصباح و المساء.pdf',
     'athkar_sleep': 'اذكار النوم.pdf',
@@ -79,7 +75,6 @@ const athkarList = [
 
 const getRandomDhikr = () => athkarList[Math.floor(Math.random() * athkarList.length)];
 
-// دالة لبدء التذكير الآلي كل ساعة
 const startReminder = (chatId) => {
     if (activeIntervals[chatId]) return;
     activeIntervals[chatId] = setInterval(() => {
@@ -97,10 +92,8 @@ const stopReminder = (chatId) => {
     saveChats();
 };
 
-// تشغيل التذكيرات المحفوظة عند بدء البوت
 activeChats.forEach(chatId => startReminder(chatId));
 
-// --- الأوامر البرمجية ---
 
 bot.onText(/\/start/, (msg) => {
     const welcomeText = `
@@ -171,7 +164,6 @@ bot.on('callback_query', (query) => {
     bot.answerCallbackQuery(query.id);
 });
 
-// الرد التلقائي عند كتابة كلمات ذكر
 bot.on('message', (msg) => {
     if (msg.text) {
         const text = msg.text;
