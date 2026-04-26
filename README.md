@@ -218,14 +218,6 @@ const athkarList = [
 4. Commit التغييرات (`git commit -m 'Add amazing feature'`)
 5. Push للفرع (`git push origin feature/amazing-feature`)
 6. افتح Pull Request
-
-### أفكار للتطوير:
-- [ ] إضافة لغات جديدة
-- [ ] نظام تصنيفات للأذكار
-- [ ] تذكيرات حسب الوقت
-- [ ] واجهة ويب
-- [ ] تطبيق محمول
-
 ---
 
 ## 🐛 الإبلاغ عن الأخطاء
