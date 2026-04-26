@@ -1,4 +1,4 @@
-# 🌿 Noorify Bot - بوت الأذكار الذكي
+#  Noorify Bot - بوت الأذكار الذكي
 
 <div dir="rtl">
 
