@@ -260,17 +260,15 @@ const athkarList = [
 ## 📞 التواصل
 
 - **Telegram:** [@vx_rq](https://t.me/vx_rq)
-- **GitHub:** [github.com/username/noorify-azkar-bot](https://github.com/username/noorify-azkar-bot)
-- **البريد:** your.email@example.com
-
----
+- **GitHub:** [github.com/username/noorify-bot](https://github.com/username/noorify-bot)
+- **البريد:** ramibitar.connct@gmail.com
 
 ## 🌟 النسخ والإصدارات
 
 | الإصدار | التاريخ | الميزات |
 |--------|--------|--------|
-| v2.0.0 | 2024 | نسخة احترافية متقدمة |
-| v1.0.0 | 2024 | النسخة الأساسية الأولى |
+| v2.0.0 | 2026 | نسخة احترافية متقدمة |
+| v1.0.0 | 2025 | النسخة الأساسية الأولى |
 
 ---
 
