@@ -260,7 +260,7 @@ const athkarList = [
 ## 📞 التواصل
 
 - **Telegram:** [@vx_rq](https://t.me/vx_rq)
-- **GitHub:** [github.com/username/noorify-bot](https://github.com/username/noorify-bot)
+- **GitHub:** [github.com/username/rambos2003-lab](https://github.com/username/rambos2003-lab)
 - **البريد:** ramibitar.connct@gmail.com
 
 ## 🌟 النسخ والإصدارات
