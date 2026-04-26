@@ -190,7 +190,7 @@ const athkarList = [
 
 ### خطوات النشر:
 
-1. **إنشح حساب على Railway:**
+1. **إنشئ حساب على Railway:**
    - اذهب إلى [Railway.app](https://railway.app)
    - سجل دخولك بـ GitHub
 
