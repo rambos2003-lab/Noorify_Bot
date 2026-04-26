@@ -1,0 +1,41 @@
+{
+  "name": "noorify-azkar-bot",
+  "version": "2.0.0",
+  "description": "Noorify - A smart Telegram bot for daily Adhkar reminders. اذكار يومية تلقائية",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "telegram",
+    "bot",
+    "adhkar",
+    "أذكار",
+    "islam",
+    "reminder",
+    "notification"
+  ],
+  "author": "Noorify Team",
+  "license": "MIT",
+  "dependencies": {
+    "node-telegram-bot-api": "^0.61.0",
+    "dotenv": "^16.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/username/noorify-azkar-bot"
+  },
+  "bugs": {
+    "url": "https://github.com/username/noorify-azkar-bot/issues"
+  },
+  "homepage": "https://github.com/username/noorify-azkar-bot#readme"
+}
