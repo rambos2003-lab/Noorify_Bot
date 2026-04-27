@@ -1,6 +1,6 @@
 from pathlib import Path
 
-content = """# 🌿 Noorify Bot — Smart Dhikr Companion
+content = """#  Noorify Bot — Smart Dhikr Companion
 
 <div align="center">
 
@@ -16,7 +16,7 @@ content = """# 🌿 Noorify Bot — Smart Dhikr Companion
 <br><br>
 
 🚀 **ابدأ الآن**  
-👉 https://t.me/Noorify_bot
+ https://t.me/Noorify_bot
 
 </div>
 
