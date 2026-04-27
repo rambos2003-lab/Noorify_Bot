@@ -1,5 +1,4 @@
 </p> <div align="center">
-
    ## بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ## 
 
 <div align="center">
