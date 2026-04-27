@@ -1,18 +1,25 @@
-# Noorify Bot — بوت الأذكار الذكي
+بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+
+# 🌿 Noorify Bot — بوت الأذكار الذكي
 
 "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ"
 
 بوت Telegram ذكي يساعدك على المداومة في ذكر الله يومياً — رفيقك الروحي الدائم على مدار الساعة.
 
-## 📊 إحصائيات وحالة المشروع
+## 📝 جدول المحتويات
 
-[![الإصدار](https://img.shields.io/badge/الإصدار-v2.0.0-blue)](https://github.com/rambos2003-lab/noorify-azkar-bot)
-[![الحالة](https://img.shields.io/badge/الحالة-متصل%2099.9%25-brightgreen)](https://github.com/rambos2003-lab/noorify-azkar-bot)
-[![المستخدمون](https://img.shields.io/badge/المستخدمون-1,245%2B-informational)](https://github.com/rambos2003-lab/noorify-azkar-bot)
-[![سرعة الاستجابة](https://img.shields.io/badge/سرعة_الاستجابة-120ms-yellow)](https://github.com/rambos2003-lab/noorify-azkar-bot)
-[![الترخيص](https://img.shields.io/badge/الترخيص-MIT-purple)](https://github.com/rambos2003-lab/noorify-azkar-bot/blob/main/LICENSE)
-
-
+*   [✨ المميزات الرئيسية](#-المميزات-الرئيسية)
+*   [📊 إحصائيات وحالة المشروع](#-إحصائيات-وحالة-المشروع)
+*   [⌘ قائمة الأوامر الكاملة](#-قائمة-الأوامر-الكاملة)
+*   [🏗 معمارية النظام](#-معمارية-النظام-system-architecture)
+*   [🚀 البدء السريع](#-البدء-السريع)
+    *   [للمستخدمين](#للمستخدمين)
+    *   [للمطورين](#للمطورين)
+*   [🛠 التقنيات المستخدمة](#-التقنيات-المستخدمة-tech-stack)
+*   [📁 هيكل المشروع](#-هيكل-المشروع)
+*   [🔒 الخصوصية والأمان](#-الخصوصية-والأمان)
+*   [🔮 الخطط المستقبلية](#-الخطط-المستقبلية)
+*   [✉️ التواصل والدعم](#-التواصل-والدعم)
 
 ## ✨ المميزات الرئيسية
 
@@ -30,6 +37,14 @@
 *   **نظام الإحصائيات:**
     *   تتبع شخصي للتقدم اليومي.
     *   عداد أذكار وتاريخ انضمام مفصل لكل مستخدم.
+
+## 📊 إحصائيات وحالة المشروع
+
+[![الإصدار](https://img.shields.io/badge/الإصدار-v2.0.0-blue?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
+[![الحالة](https://img.shields.io/badge/الحالة-متصل%2099.9%25-brightgreen?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
+[![المستخدمون](https://img.shields.io/badge/المستخدمون-1,245%2B-informational?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
+[![سرعة الاستجابة](https://img.shields.io/badge/سرعة_الاستجابة-120ms-yellow?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
+[![الترخيص](https://img.shields.io/badge/الترخيص-MIT-purple?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot/blob/main/LICENSE)
 
 ## ⌘ قائمة الأوامر الكاملة
 
@@ -123,19 +138,12 @@ noorify-azkar-bot/
 *   ميزة التذكير في ساعات محددة يدوياً.
 *   تطوير واجهة ويب للتحكم.
 
----
-
-بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
-
-Made with ♥ for the sake of Allah.
-
 ## ✉️ التواصل والدعم
 
 نحن نرحب بأي استفسارات، اقتراحات، أو مساهمات. لا تتردد في التواصل معنا عبر القنوات التالية:
 
-*   **GitHub:** [![GitHub](https://img.shields.io/badge/GitHub-rambos2003--lab-blue?style=flat&logo=github)](https://github.com/rambos2003-lab)
-*   **البريد الإلكتروني:** [![Email](https://img.shields.io/badge/Email-ramibitar.connct@gmail.com-red?style=flat&logo=gmail)](mailto:ramibitar.connct@gmail.com)
-*   **Telegram:** [![Telegram](https://img.shields.io/badge/Telegram-@vx_rq-blue?style=flat&logo=telegram)](https://t.me/vx_rq)
+*   **GitHub:** [![GitHub](https://img.shields.io/badge/GitHub-rambos2003--lab-blue?style=for-the-badge&logo=github)](https://github.com/rambos2003-lab)
+*   **البريد الإلكتروني:** [![Email](https://img.shields.io/badge/Email-ramibitar.connct@gmail.com-red?style=for-the-badge&logo=gmail)](mailto:ramibitar.connct@gmail.com)
+*   **Telegram:** [![Telegram](https://img.shields.io/badge/Telegram-@vx_rq-blue?style=for-the-badge&logo=telegram)](https://t.me/vx_rq)
 
 ---
-
