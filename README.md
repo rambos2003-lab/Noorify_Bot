@@ -160,7 +160,7 @@ noorify-azkar-bot/
 
 
 </p> <div align="center">
-Made with ♥ for the sake of Allah.
-</div>
    
 ## Made with ♥ for the sake of Allah ##
+</div>
+   
