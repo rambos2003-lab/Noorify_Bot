@@ -1,8 +1,7 @@
 </p> <div align="center">
-   </div>
-   
+     
    ## بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ## 
-
+</div>
 <div align="center">
 
 #  Noorify Bot — بوت الأذكار الذكي
