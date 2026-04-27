@@ -47,6 +47,8 @@
 ## 📈 الحالة والإحصائيات
 
 <p align="center">
+     
+</p> <div align="center">
 
 [![الإصدار](https://img.shields.io/badge/الإصدار-v2.0.0-blue?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
 [![الحالة](https://img.shields.io/badge/الحالة-متصل%2099.9%25-brightgreen?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
