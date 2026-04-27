@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌿 Noorify Bot
+#  Noorify Bot
 **رفيقك الروحي للذكر اليومي – بوت Telegram ذكي وتفاعلي**
 
 ![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
