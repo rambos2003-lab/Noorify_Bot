@@ -51,6 +51,7 @@
 </p> <div align="center">
 </div>
 
+
 [![الإصدار](https://img.shields.io/badge/الإصدار-v2.0.0-blue?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
 [![الحالة](https://img.shields.io/badge/الحالة-متصل%2099.9%25-brightgreen?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
 [![سرعة الاستجابة](https://img.shields.io/badge/سرعة_الاستجابة-120ms-yellow?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
@@ -74,6 +75,9 @@
 | `/daily_count`    | عدد أذكارك اليومية                     | إحصاء     |
 | `/stats`          | إحصائياتك الشخصية الكاملة             | إحصاء     |
 | `/library`        | فتح المكتبة الرقمية وتحميل الملفات    | مكتبة     |
+
+</div>
+
 
 ## 🏗 معمارية النظام (System Architecture)
 
