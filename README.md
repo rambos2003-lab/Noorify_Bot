@@ -115,7 +115,9 @@
 ## 🛠 التقنيات المستخدمة (Tech Stack)
 
 <p align="center">
-
+     
+</p> <div align="center">
+     
 ![NodeJS](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Telegraf](https://img.shields.io/badge/Telegraf-2AABEE?style=for-the-badge&logo=telegram&logoColor=white)
 ![Cron](https://img.shields.io/badge/node--cron-212121?style=for-the-badge&logo=clockify&logoColor=white)
