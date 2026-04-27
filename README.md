@@ -1,4 +1,3 @@
-<img width="1536" height="1024" alt="noorify_banner" src="https://github.com/user-attachments/assets/f06346b2-33f8-4341-a3da-d8d410be0b6e" />
 
 
 بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
