@@ -154,11 +154,14 @@ noorify-azkar-bot/
 
 <p align="center">
 
+</p> <div align="center">
+     
 [![GitHub](https://img.shields.io/badge/GitHub-rambos2003--lab-blue?style=for-the-badge&logo=github)](https://github.com/rambos2003-lab)
 [![Email](https://img.shields.io/badge/Email-ramibitar.connct@gmail.com-red?style=for-the-badge&logo=gmail)](mailto:ramibitar.connct@gmail.com)
 [![Telegram](https://img.shields.io/badge/Telegram-@vx_rq-blue?style=for-the-badge&logo=telegram)](https://t.me/vx_rq)
 
 </p>
+
 
 
 </p> <div align="center">
