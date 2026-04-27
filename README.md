@@ -53,6 +53,3 @@ echo "TELEGRAM_BOT_TOKEN=your_token_here" > .env
 
 # 4. شغل البوت
 npm start
-
-
-Made with ❤️ by Noorify Team
