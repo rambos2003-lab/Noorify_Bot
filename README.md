@@ -144,7 +144,7 @@ noorify-azkar-bot/
 
 *   إتمام نظام التذكيرات الذكية.
 *   إضافة المكتبة الرقمية والإحصائيات.
-*   دعم اللغات المتعددة (English, French, Urdu).
+*   دعم اللغات المتعددة ( Turkish,English,French,Urdu).
 *   ميزة التذكير في ساعات محددة يدوياً.
 *   تطوير واجهة ويب للتحكم.
 
@@ -157,3 +157,8 @@ noorify-azkar-bot/
 [![Telegram](https://img.shields.io/badge/Telegram-@vx_rq-blue?style=for-the-badge&logo=telegram)](https://t.me/vx_rq)
 
 </p>
+
+
+<div>
+   
+## Made with ♥ for the sake of Allah ##
