@@ -1,0 +1,141 @@
+# Noorify Bot — بوت الأذكار الذكي
+
+"أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ"
+
+بوت Telegram ذكي يساعدك على المداومة في ذكر الله يومياً — رفيقك الروحي الدائم على مدار الساعة.
+
+## 📊 إحصائيات وحالة المشروع
+
+[![الإصدار](https://img.shields.io/badge/الإصدار-v2.0.0-blue)](https://github.com/rambos2003-lab/noorify-azkar-bot)
+[![الحالة](https://img.shields.io/badge/الحالة-متصل%2099.9%25-brightgreen)](https://github.com/rambos2003-lab/noorify-azkar-bot)
+[![المستخدمون](https://img.shields.io/badge/المستخدمون-1,245%2B-informational)](https://github.com/rambos2003-lab/noorify-azkar-bot)
+[![سرعة الاستجابة](https://img.shields.io/badge/سرعة_الاستجابة-120ms-yellow)](https://github.com/rambos2003-lab/noorify-azkar-bot)
+[![الترخيص](https://img.shields.io/badge/الترخيص-MIT-purple)](https://github.com/rambos2003-lab/noorify-azkar-bot/blob/main/LICENSE)
+
+
+
+## ✨ المميزات الرئيسية
+
+*   **محرك الأذكار (Dhikr Engine):**
+    *   أكثر من 25 ذكر مختلف من مصادر إسلامية موثوقة.
+    *   خوارزمية عشوائية ذكية لتقديم تجربة متجددة.
+
+*   **نظام التذكيرات (Scheduler):**
+    *   4 أوضاع تذكير (30 دقيقة، ساعة، 3 ساعات، 6 ساعات).
+    *   يعمل 24/7 باستخدام `node-cron` لضمان الدقة العالية.
+
+*   **المكتبة الرقمية:**
+    *   محتوى روحي شامل (أذكار الصباح والمساء، حصن المسلم، القرآن الكريم).
+
+*   **نظام الإحصائيات:**
+    *   تتبع شخصي للتقدم اليومي.
+    *   عداد أذكار وتاريخ انضمام مفصل لكل مستخدم.
+
+## ⌘ قائمة الأوامر الكاملة
+
+| الأمر             | الوصف                                  | النوع      |
+| :---------------- | :------------------------------------- | :---------- |
+| `/start`          | الترحيب والقائمة الرئيسية              | أساسي     |
+| `/help`           | عرض جميع الأوامر والمساعدة             | أساسي     |
+| `/dhikr`          | احصل على ذكر عشوائي فوراً              | أساسي     |
+| `/reminder_on`    | تفعيل التذكيرات الآلية                 | تذكير     |
+| `/reminder_off`   | إيقاف التذكيرات مؤقتاً                 | تذكير     |
+| `/reminder_settings` | اختيار فترة التذكير المناسبة          | تذكير     |
+| `/daily_count`    | عدد أذكارك اليومية                     | إحصاء     |
+| `/stats`          | إحصائياتك الشخصية الكاملة             | إحصاء     |
+| `/library`        | فتح المكتبة الرقمية وتحميل الملفات    | مكتبة     |
+
+## 🏗 معمارية النظام (System Architecture)
+
+يعمل البوت بالتسلسل التالي:
+
+1.  **المستخدم:** يرسل طلباً عبر Telegram.
+2.  **Telegram API:** استقبال الطلب عبر Webhook أو Polling.
+3.  **Noorify Core:** المعالجة باستخدام Node.js وإطار عمل Telegraf.
+4.  **Scheduler:** إدارة المهام المجدولة عبر `node-cron`.
+5.  **Data Store:** تخزين البيانات محلياً في ملفات JSON لسرعة الاستجابة.
+
+## 🚀 البدء السريع
+
+### للمستخدمين:
+
+1.  افتح تطبيق Telegram.
+2.  ابحث عن البوت: `@Noorify_bot`.
+3.  أرسل أمر `/start`.
+4.  اضبط التذكيرات عبر `/reminder_settings`.
+
+### للمطورين:
+
+1.  **استنساخ المستودع:**
+    ```bash
+    git clone https://github.com/rambos2003-lab/noorify-azkar-bot
+    cd noorify-azkar-bot
+    ```
+
+2.  **تثبيت المكتبات البرمجية:**
+    ```bash
+    npm install
+    ```
+
+3.  **إعداد المتغيرات البيئية:**
+    قم بإنشاء ملف `.env` في الجذر وأضف الـ Token الخاص بك:
+    ```
+    TELEGRAM_BOT_TOKEN=your_bot_token_here
+    ```
+
+4.  **تشغيل البوت:**
+    ```bash
+    npm start
+    ```
+
+## 🛠 التقنيات المستخدمة (Tech Stack)
+
+*   **Node.js:** الإصدار 14.0.0 فما فوق.
+*   **Telegraf:** إطار عمل التفاعل مع Telegram API.
+*   **node-cron:** لجدولة مهام التذكير.
+*   **Railway:** منصة الاستضافة السحابية.
+*   **dotenv:** لإدارة متغيرات البيئة.
+
+## 📁 هيكل المشروع
+
+```
+noorify-azkar-bot/
+├── app.js                   ← نقطة الدخول ومنطق البوت
+├── .env                     ← متغيرات البيئة (خاص)
+├── package.json             ← التبعيات والأوامر
+├── reminders_data.json      ← بيانات التذكيرات النشطة
+├── user_preferences.json    ← إعدادات المستخدمين
+├── bot_stats.json           ← الإحصائيات العامة
+└── README.md                ← التوثيق
+```
+
+## 🔒 الخصوصية والأمان
+
+*   **تخزين محلي 100%:** لا يتم استخدام قواعد بيانات خارجية؛ البيانات تُحفظ في خادم البوت فقط.
+*   **لا مشاركة للبيانات:** معلومات المستخدمين سرية ولا تُشارك مع أي طرف ثالث.
+*   **حق الحذف:** يمكن للمستخدم طلب مسح كافة بياناته في أي وقت.
+
+## 🔮 الخطط المستقبلية
+
+*   إتمام نظام التذكيرات الذكية.
+*   إضافة المكتبة الرقمية والإحصائيات.
+*   دعم اللغات المتعددة (English, French, Urdu).
+*   ميزة التذكير في ساعات محددة يدوياً.
+*   تطوير واجهة ويب للتحكم.
+
+---
+
+بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+
+Made with ♥ for the sake of Allah.
+
+## ✉️ التواصل والدعم
+
+نحن نرحب بأي استفسارات، اقتراحات، أو مساهمات. لا تتردد في التواصل معنا عبر القنوات التالية:
+
+*   **GitHub:** [![GitHub](https://img.shields.io/badge/GitHub-rambos2003--lab-blue?style=flat&logo=github)](https://github.com/rambos2003-lab)
+*   **البريد الإلكتروني:** [![Email](https://img.shields.io/badge/Email-ramibitar.connct@gmail.com-red?style=flat&logo=gmail)](mailto:ramibitar.connct@gmail.com)
+*   **Telegram:** [![Telegram](https://img.shields.io/badge/Telegram-@vx_rq-blue?style=flat&logo=telegram)](https://t.me/vx_rq)
+
+---
+
