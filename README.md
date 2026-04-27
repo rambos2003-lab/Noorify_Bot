@@ -1,3 +1,4 @@
+<img width="640" height="640" alt="photo_2026-04-25_22-24-20" src="https://github.com/user-attachments/assets/e6b111dc-3e16-44f3-b11d-9ef3b41b5a2e" />
 بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
 
 <div align="center">
