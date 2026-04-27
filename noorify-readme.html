@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noorify Bot - بوت الأذكار الذكي</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Mono:wght@400;600&family=Tajawal:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080f0a;
+    --bg2: #0d1a10;
+    --bg3: #112016;
+    --card: #0f1f13;
+    --border: #1e3d24;
+    --green: #2ddb6f;
+    --green-dim: #1a7a3d;
+    --green-glow: rgba(45, 219, 111, 0.15);
+    --gold: #d4a843;
+    --gold-dim: #8a6b20;
+    --text: #e8f5eb;
+    --muted: #6b9a77;
+    --mono: 'IBM Plex Mono', monospace;
+    --arabic: 'Tajawal', sans-serif;
+    --serif: 'Amiri', serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--arabic);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Stars background ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 20% 10%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 20%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 60%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(2px 2px at 10% 50%, rgba(212,168,67,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 35%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 85%, rgba(255,255,255,0.4) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Noise grain overlay ── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    text-align: center;
+    padding: 72px 0 48px;
+    position: relative;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(45,219,111,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .logo-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .logo-icon {
+    width: 64px; height: 64px;
+    background: linear-gradient(135deg, #1a4d2a 0%, #0d2a15 100%);
+    border: 1px solid var(--green-dim);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    box-shadow: 0 0 30px rgba(45,219,111,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+
+  h1 {
+    font-family: var(--arabic);
+    font-size: 52px;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--green) 0%, #a8f5c2 50%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+  }
+
+  .hero-subtitle {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: var(--gold);
+    margin: 8px 0 4px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hero-desc {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .ayah {
+    font-family: var(--serif);
+    font-size: 26px;
+    color: var(--gold);
+    border: 1px solid var(--gold-dim);
+    border-radius: 12px;
+    padding: 16px 32px;
+    display: inline-block;
+    background: rgba(212,168,67,0.05);
+    margin-bottom: 36px;
+    animation: fadeUp 0.8s 0.3s ease both;
+    position: relative;
+  }
+
+  .ayah::before, .ayah::after {
+    content: '❋';
+    color: var(--gold-dim);
+    margin: 0 8px;
+  }
+
+  /* ── Badge row ── */
+  .badges {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 36px;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 100px;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid;
+    letter-spacing: 0.3px;
+  }
+
+  .badge-green { background: rgba(45,219,111,0.1); border-color: var(--green-dim); color: var(--green); }
+  .badge-gold  { background: rgba(212,168,67,0.1); border-color: var(--gold-dim); color: var(--gold); }
+  .badge-blue  { background: rgba(66,153,225,0.1); border-color: #2b5f8a; color: #63b3ed; }
+  .badge-gray  { background: rgba(255,255,255,0.05); border-color: #2a3f30; color: var(--muted); }
+
+  /* ── CTA buttons ── */
+  .cta-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 24px;
+    border-radius: 10px;
+    font-family: var(--arabic);
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.08), transparent);
+    pointer-events: none;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #1a6b38, #0e4220);
+    border: 1px solid var(--green-dim);
+    color: var(--green);
+    box-shadow: 0 0 20px rgba(45,219,111,0.2);
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 0 35px rgba(45,219,111,0.4);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--green-dim);
+    color: var(--green);
+    transform: translateY(-2px);
+  }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 48px 0;
+  }
+
+  /* ── Section header ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .section-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .icon-green { background: rgba(45,219,111,0.12); border: 1px solid var(--green-dim); }
+  .icon-gold  { background: rgba(212,168,67,0.12); border: 1px solid var(--gold-dim); }
+  .icon-blue  { background: rgba(66,153,225,0.12); border: 1px solid #2b5f8a; }
+
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    font-family: var(--arabic);
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── Stats row ── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 48px;
+    animation: fadeUp 0.8s 0.6s ease both;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 12px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .stat-card:hover { border-color: var(--green-dim); }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--green-dim), transparent);
+  }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+  }
+
+  .stat-value {
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--green);
+  }
+
+  /* ── Feature grid ── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .feature-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--green-glow);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .feature-card:hover { border-color: var(--green-dim); transform: translateY(-3px); }
+  .feature-card:hover::before { opacity: 1; }
+
+  .feature-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .feature-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+
+  .feature-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .feature-list {
+    list-style: none;
+    margin-top: 10px;
+  }
+
+  .feature-list li {
+    font-size: 13px;
+    color: var(--muted);
+    padding: 3px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .feature-list li::before {
+    content: '▸';
+    color: var(--green-dim);
+    font-size: 11px;
+  }
+
+  /* ── Commands table ── */
+  .cmd-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--mono);
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+
+  .cmd-table th {
+    text-align: right;
+    padding: 10px 16px;
+    background: rgba(45,219,111,0.06);
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+
+  .cmd-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(30,61,36,0.5);
+    vertical-align: middle;
+  }
+
+  .cmd-table tr:last-child td { border-bottom: none; }
+  .cmd-table tr:hover td { background: rgba(45,219,111,0.04); }
+
+  .cmd-name {
+    color: var(--green);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .cmd-desc { color: var(--text); font-family: var(--arabic); font-size: 14px; }
+  .cmd-use  { color: var(--muted); font-family: var(--arabic); font-size: 12px; }
+
+  .table-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .table-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,0,0,0.2);
+  }
+
+  .table-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot-g { background: #2ddb6f; }
+  .dot-y { background: #d4a843; }
+  .dot-r { background: #db4d4d; }
+
+  /* ── Code block ── */
+  .code-block {
+    background: #040a06;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+
+  .code-header {
+    padding: 10px 16px;
+    background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .code-body {
+    padding: 20px;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.8;
+    direction: ltr;
+    text-align: left;
+  }
+
+  .code-comment { color: #3d6e4a; }
+  .code-cmd     { color: var(--green); }
+  .code-string  { color: #a8f5c2; }
+  .code-keyword { color: var(--gold); }
+
+  /* ── Architecture ── */
+  .arch-diagram {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .arch-diagram::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(ellipse at center, rgba(45,219,111,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .arch-nodes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+    row-gap: 20px;
+  }
+
+  .arch-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .arch-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    min-width: 110px;
+    text-align: center;
+    position: relative;
+  }
+
+  .arch-box-green { border-color: var(--green-dim); color: var(--green); }
+  .arch-box-gold  { border-color: var(--gold-dim);  color: var(--gold); }
+  .arch-box-blue  { border-color: #2b5f8a; color: #63b3ed; }
+
+  .arch-label { font-size: 10px; color: var(--muted); font-family: var(--mono); }
+  .arch-icon  { font-size: 22px; }
+
+  .arch-arrow {
+    color: var(--green-dim);
+    font-size: 18px;
+    padding: 0 8px;
+    margin-top: -24px;
+  }
+
+  /* ── Install steps ── */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    transition: border-color 0.2s;
+  }
+
+  .step:hover { border-color: var(--green-dim); }
+
+  .step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: rgba(45,219,111,0.1);
+    border: 1px solid var(--green-dim);
+    color: var(--green);
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .step-content h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .step-content p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .step-content code {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: rgba(45,219,111,0.08);
+    color: var(--green);
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid rgba(45,219,111,0.2);
+  }
+
+  /* ── Project structure ── */
+  .tree {
+    background: #040a06;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 2;
+    direction: ltr;
+    text-align: left;
+  }
+
+  .tree-dir   { color: var(--gold); }
+  .tree-file  { color: var(--text); }
+  .tree-comment { color: var(--muted); }
+  .tree-line  { color: #2a3f30; }
+
+  /* ── Versions table ── */
+  .versions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .version-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 20px;
+  }
+
+  .version-tag {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--green);
+    background: rgba(45,219,111,0.1);
+    border: 1px solid var(--green-dim);
+    border-radius: 6px;
+    padding: 3px 10px;
+    min-width: 70px;
+    text-align: center;
+  }
+
+  .version-date { color: var(--muted); font-family: var(--mono); font-size: 12px; min-width: 80px; }
+  .version-desc { color: var(--text); font-size: 14px; }
+
+  /* ── Contact cards ── */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .contact-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.25s;
+    display: block;
+  }
+
+  .contact-card:hover {
+    border-color: var(--green-dim);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+
+  .contact-icon { font-size: 28px; margin-bottom: 10px; display: block; }
+  .contact-name { font-size: 15px; font-weight: 700; color: var(--green); margin-bottom: 4px; }
+  .contact-handle { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding: 48px 0 24px;
+    border-top: 1px solid var(--border);
+    margin-top: 64px;
+  }
+
+  .footer-bismillah {
+    font-family: var(--serif);
+    font-size: 28px;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .footer-text {
+    color: var(--muted);
+    font-size: 14px;
+    font-family: var(--mono);
+  }
+
+  .footer-heart { color: #db4d4d; }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate { animation: fadeUp 0.8s ease both; }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ── Responsive ── */
+  @media (max-width: 680px) {
+    h1 { font-size: 36px; }
+    .stats-grid { grid-template-columns: repeat(3, 1fr); }
+    .features-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .arch-nodes { gap: 8px; }
+    .arch-arrow { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ══ HERO ══ -->
+  <div class="hero">
+    <div class="hero-glow"></div>
+
+    <div class="logo-wrap">
+      <div class="logo-icon">🌿</div>
+      <h1>Noorify Bot</h1>
+    </div>
+
+    <div class="hero-subtitle">رفيقك اليومي للذكر والطاعات</div>
+    <div class="hero-desc">بوت تليجرام ذكي يساعدك على المداومة في ذكر الله</div>
+
+    <div class="ayah">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</div>
+
+    <div class="badges">
+      <span class="badge badge-green">✓ Version 2.0.0</span>
+      <span class="badge badge-gray">Node.js ≥14.0</span>
+      <span class="badge badge-gold">MIT License</span>
+      <span class="badge badge-blue">⬆ Telegram</span>
+      <span class="badge badge-green">● Online 99.9%</span>
+      <span class="badge badge-gold">★ 72 Stars</span>
+      <span class="badge badge-green">👥 1.2K+ Users</span>
+    </div>
+
+    <div class="cta-row">
+      <a href="https://t.me/Noorify_bot" class="btn btn-primary">
+        ✈ ابدأ مع البوت الآن
+      </a>
+      <a href="https://t.me/vx_rq" class="btn btn-secondary">
+        💬 تواصل مع المطوّر
+      </a>
+      <a href="https://github.com/rambos2003-lab" class="btn btn-secondary">
+        ⌥ GitHub
+      </a>
+    </div>
+  </div>
+
+  <!-- ══ STATS ══ -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">VERSION</div>
+      <div class="stat-value">2.0.0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">USERS</div>
+      <div class="stat-value">1.2K+</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">UPTIME</div>
+      <div class="stat-value">99.9%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">PING</div>
+      <div class="stat-value">120ms</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">STARS ★</div>
+      <div class="stat-value">72</div>
+    </div>
+  </div>
+
+  <!-- ══ FEATURES ══ -->
+  <div class="section-header">
+    <div class="section-icon icon-green">✨</div>
+    <div class="section-title">المميزات الرئيسية</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">📿</span>
+      <div class="feature-title">أذكار متنوعة</div>
+      <div class="feature-desc">أكثر من 25 ذكر مختلف من أفضل المصادر الإسلامية الموثوقة</div>
+      <ul class="feature-list">
+        <li>أذكار الصباح والمساء</li>
+        <li>أذكار النوم والاستيقاظ</li>
+        <li>أذكار عشوائية متجددة</li>
+      </ul>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">⏰</span>
+      <div class="feature-title">تذكيرات ذكية</div>
+      <div class="feature-desc">تتكيف مع جدولك اليومي بمرونة تامة</div>
+      <ul class="feature-list">
+        <li>كل 30 دقيقة</li>
+        <li>كل ساعة أو 3 ساعات</li>
+        <li>كل 6 ساعات</li>
+        <li>إيقاف وتشغيل بأمر واحد</li>
+      </ul>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">📚</span>
+      <div class="feature-title">المكتبة الرقمية</div>
+      <div class="feature-desc">محتوى روحي غني ومتنوع في مكان واحد</div>
+      <ul class="feature-list">
+        <li>حصن المسلم</li>
+        <li>القرآن الكريم</li>
+        <li>طرق كسب الثواب</li>
+      </ul>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">📊</span>
+      <div class="feature-title">إحصائيات وتتبع</div>
+      <div class="feature-desc">تابع رحلتك الروحية يوماً بيوم</div>
+      <ul class="feature-list">
+        <li>عداد أذكار يومي</li>
+        <li>إحصائياتك الشخصية</li>
+        <li>تاريخ الانضمام والتقدم</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ COMMANDS ══ -->
+  <div class="section-header">
+    <div class="section-icon icon-gold">📋</div>
+    <div class="section-title">قائمة الأوامر الكاملة</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="table-wrap">
+    <div class="table-header">
+      <span class="table-dot dot-r"></span>
+      <span class="table-dot dot-y"></span>
+      <span class="table-dot dot-g"></span>
+      <span style="margin-right:8px">الأوامر الأساسية</span>
+    </div>
+    <table class="cmd-table">
+      <thead>
+        <tr>
+          <th>الأمر</th>
+          <th>الوصف</th>
+          <th>الاستخدام</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="cmd-name">/start</span></td>
+          <td><span class="cmd-desc">الترحيب والقائمة الرئيسية</span></td>
+          <td><span class="cmd-use">ابدأ هنا أولاً</span></td>
+        </tr>
+        <tr>
+          <td><span class="cmd-name">/help</span></td>
+          <td><span class="cmd-desc">عرض جميع الأوامر والمساعدة</span></td>
+          <td><span class="cmd-use">إذا احتجت مساعدة</span></td>
+        </tr>
+        <tr>
+          <td><span class="cmd-name">/dhikr</span></td>
+          <td><span class="cmd-desc">احصل على ذكر عشوائي الآن</span></td>
+          <td><span class="cmd-use">في أي وقت</span></td>
+        </tr>
+        <tr>
+          <td><span class="cmd-name">/daily_count</span></td>
+          <td><span class="cmd-desc">عد أذكارك اليوم</span></td>
+          <td><span class="cmd-use">تابع إحصائياتك</span></td>
+        </tr>
+        <tr>
+          <td><span class="cmd-name">/reminder_on</span></td>
+          <td><span class="cmd-desc">فعّل التذكيرات الآلية</span></td>
+          <td><span class="cmd-use">ابدأ التذكيرات</span></td>
+        </tr>
+        <tr>
+          <td><span class="cmd-name">/reminder_off</span></td>
+          <td><span class="cmd-desc">أوقف التذكيرات الآلية</span></td>
+          <td><span class="cmd-use">توقف مؤقت</span></td>
+        </tr>
+        <tr>
+          <td><span class="cmd-name">/reminder_settings</span></td>
+          <td><span class="cmd-desc">اختر فترة التذكير</span></td>
+          <td><span class="cmd-use">غيّر الإعدادات</span></td>
+        </tr>
+        <tr>
+          <td><span class="cmd-name">/library</span></td>
+          <td><span class="cmd-desc">فتح مكتبة الملفات</span></td>
+          <td><span class="cmd-use">حمّل الملفات</span></td>
+        </tr>
+        <tr>
+          <td><span class="cmd-name">/stats</span></td>
+          <td><span class="cmd-desc">شوف إحصائياتك</span></td>
+          <td><span class="cmd-use">تابع تقدمك</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ ARCHITECTURE ══ -->
+  <div class="section-header">
+    <div class="section-icon icon-blue">🏗</div>
+    <div class="section-title">معمارية النظام</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="arch-diagram">
+    <div class="arch-nodes">
+      <div class="arch-node">
+        <div class="arch-icon">👤</div>
+        <div class="arch-box arch-box-blue">User</div>
+        <div class="arch-label">المستخدم</div>
+      </div>
+      <div class="arch-arrow">──→</div>
+      <div class="arch-node">
+        <div class="arch-icon">✈</div>
+        <div class="arch-box arch-box-blue">Telegram API</div>
+        <div class="arch-label">البوت API</div>
+      </div>
+      <div class="arch-arrow">──→</div>
+      <div class="arch-node">
+        <div class="arch-icon">🌿</div>
+        <div class="arch-box arch-box-green">Noorify Bot</div>
+        <div class="arch-label">Node.js / Telegraf</div>
+      </div>
+      <div class="arch-arrow">──→</div>
+      <div class="arch-node">
+        <div class="arch-icon">🗄</div>
+        <div class="arch-box arch-box-gold">JSON DB</div>
+        <div class="arch-label">Local Storage</div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px; display:flex; justify-content:center; gap:16px; flex-wrap:wrap;">
+      <span class="badge badge-green">Node.js</span>
+      <span class="badge badge-blue">Telegraf</span>
+      <span class="badge badge-gold">JSON</span>
+      <span class="badge badge-green">node-cron</span>
+      <span class="badge badge-gray">Railway</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ INSTALL ══ -->
+  <div class="section-header">
+    <div class="section-icon icon-green">🚀</div>
+    <div class="section-title">البدء السريع — للمطورين</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header">
+      <span class="table-dot dot-r"></span>
+      <span class="table-dot dot-y"></span>
+      <span class="table-dot dot-g"></span>
+      <span style="margin-right:8px">bash — installation</span>
+    </div>
+    <div class="code-body" dir="ltr">
+<span class="code-comment"># 1. Clone the repository</span>
+<span class="code-cmd">git</span> clone https://github.com/rambos2003-lab/noorify-azkar-bot
+<span class="code-cmd">cd</span> noorify-azkar-bot
+
+<span class="code-comment"># 2. Install dependencies</span>
+<span class="code-cmd">npm</span> install
+
+<span class="code-comment"># 3. Setup environment</span>
+<span class="code-cmd">echo</span> <span class="code-string">"TELEGRAM_BOT_TOKEN=your_token_here"</span> > .env
+
+<span class="code-comment"># 4. Start the bot</span>
+<span class="code-cmd">npm</span> start
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>متطلبات النظام</h4>
+        <p>تأكد من وجود <code>Node.js v14+</code> و <code>npm</code> على جهازك، وأنشئ بوت Telegram عبر <code>@BotFather</code></p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>استنسخ المشروع وثبّت المكتبات</h4>
+        <p>نفّذ أوامر <code>git clone</code> و <code>npm install</code> لتجهيز البيئة</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>أضف متغيرات البيئة</h4>
+        <p>أنشئ ملف <code>.env</code> وضع فيه الـ <code>TELEGRAM_BOT_TOKEN</code></p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>شغّل البوت 🎉</h4>
+        <p>نفّذ <code>npm start</code> وانتقل إلى البوت على Telegram</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ STRUCTURE ══ -->
+  <div class="section-header">
+    <div class="section-icon icon-gold">📁</div>
+    <div class="section-title">هيكل المشروع</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="tree">
+<span class="tree-dir">noorify-azkar-bot/</span>
+<span class="tree-line">├──</span> <span class="tree-file">app.js</span>                    <span class="tree-comment">← الملف الرئيسي</span>
+<span class="tree-line">├──</span> <span class="tree-file">.env</span>                      <span class="tree-comment">← متغيرات البيئة</span>
+<span class="tree-line">├──</span> <span class="tree-file">package.json</span>              <span class="tree-comment">← المكتبات المطلوبة</span>
+<span class="tree-line">├──</span> <span class="tree-file">reminders_data.json</span>       <span class="tree-comment">← بيانات التذكيرات</span>
+<span class="tree-line">├──</span> <span class="tree-file">user_preferences.json</span>     <span class="tree-comment">← تفضيلات المستخدمين</span>
+<span class="tree-line">├──</span> <span class="tree-file">bot_stats.json</span>            <span class="tree-comment">← الإحصائيات</span>
+<span class="tree-line">├──</span> <span class="tree-file">README.md</span>                 <span class="tree-comment">← التوثيق</span>
+<span class="tree-line">└──</span> <span class="tree-file">.gitignore</span>                <span class="tree-comment">← الملفات المتجاهلة</span>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ VERSIONS ══ -->
+  <div class="section-header">
+    <div class="section-icon icon-green">🌟</div>
+    <div class="section-title">الإصدارات</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="versions">
+    <div class="version-row">
+      <span class="version-tag">v2.0.0</span>
+      <span class="version-date">2024</span>
+      <span class="version-desc">النسخة الاحترافية المتقدمة — تذكيرات ذكية، إحصائيات، مكتبة رقمية</span>
+    </div>
+    <div class="version-row">
+      <span class="version-tag" style="color:var(--muted);border-color:#2a3f30;background:rgba(255,255,255,0.03)">v1.0.0</span>
+      <span class="version-date">2024</span>
+      <span class="version-desc">النسخة الأساسية الأولى — أذكار عشوائية وأوامر بسيطة</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ CONTACT ══ -->
+  <div class="section-header">
+    <div class="section-icon icon-blue">📞</div>
+    <div class="section-title">تواصل معنا</div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="contact-grid">
+    <a href="https://t.me/Noorify_bot" class="contact-card">
+      <span class="contact-icon">✈</span>
+      <div class="contact-name">Telegram Bot</div>
+      <div class="contact-handle">@Noorify_bot</div>
+    </a>
+    <a href="https://t.me/vx_rq" class="contact-card">
+      <span class="contact-icon">💬</span>
+      <div class="contact-name">المطوّر</div>
+      <div class="contact-handle">@vx_rq</div>
+    </a>
+    <a href="https://github.com/rambos2003-lab" class="contact-card">
+      <span class="contact-icon">⌥</span>
+      <div class="contact-name">GitHub</div>
+      <div class="contact-handle">rambos2003-lab</div>
+    </a>
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <div class="footer">
+    <div class="footer-bismillah">بسم الله الرحمن الرحيم</div>
+    <div class="footer-text">Made with <span class="footer-heart">♥</span> for the sake of Allah · Noorify Team · MIT License</div>
+  </div>
+
+</div>
+</body>
+</html>
