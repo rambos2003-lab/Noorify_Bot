@@ -1,65 +1,62 @@
+from pathlib import Path
+
+content = """# 🌿 Noorify Bot — Smart Dhikr Companion
+
 <div align="center">
 
-#  Noorify Bot - بوت الأذكار الذكي
-**رفيقك الروحي للذكر اليومي – بوت Telegram ذكي وتفاعلي**
+**بوت Telegram ذكي لمساعدتك على الاستمرار في الذكر اليومي بطريقة تفاعلية ومنظمة**
 
-![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
-![Node.js](https://img.shields.io/badge/node-%3E%3D14.0.0-green.svg)
-![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)
-![Telegram](https://img.shields.io/badge/Telegram-Bot-brightgreen.svg)
+<br>
 
-[المميزات](#-المميزات-الرئيسية) • [الأوامر](#-قائمة-الأوامر-الكاملة) • [التثبيت](#-البدء-السريع) • [الإعدادات](#-الإعدادات-والتطوير) • [النشر](#-النشر-على-railway) • [المساهمة](#-المساهمة-والتطوير)
+<img src="https://img.shields.io/badge/version-2.0.0-blue?style=for-the-badge" />
+<img src="https://img.shields.io/badge/node-%3E%3D14-green?style=for-the-badge" />
+<img src="https://img.shields.io/badge/platform-Telegram-brightgreen?style=for-the-badge" />
+<img src="https://img.shields.io/badge/license-MIT-lightgrey?style=for-the-badge" />
+
+<br><br>
+
+🚀 **ابدأ الآن**  
+👉 https://t.me/Noorify_bot
 
 </div>
 
 ---
 
-## 📖 مقدمة
-**Noorify** هو بوت Telegram ذكي يساعدك على الاستمرار في ذكر الله يومياً بشكل تلقائي وتفاعلي. صمم بعناية ليكون رفيقك الروحي في رحلتك نحو مداومة الذكر.
-
-### 🎯 جرّب البوت الآن
-[**@Noorify_bot**](https://t.me/Noorify_bot) - ابدأ رحلتك الآن!
-
----
-
-## ✨ المميزات الرئيسية
-
-### 📱 الأذكار الذكية
-- ✅ **أذكار متنوعة** - أكثر من 25 ذكر مختلف.
-- ✅ **أذكار عشوائية** - تجربة جديدة في كل مرة.
-- ✅ **أذكار موثوقة** - من أفضل المصادر الإسلامية.
-
-### ⏰ التذكيرات المخصصة
-- ✅ **4 فترات تذكير** - اختر ما يناسبك (30د، 1س، 3س، 6س).
-- ✅ **تذكيرات ذكية** - تتكيف مع جدولك اليومي.
-- ✅ **إيقاف وتشغيل سهل** - بأمر واحد فقط.
+## 📌 Table of Contents
+- 📖 About
+- ✨ Features
+- 📸 Preview
+- 📋 Commands
+- ⚡ Quick Start
+- ⚙️ Configuration
+- 📁 Project Structure
+- 🚀 Deployment
+- 🛠 Roadmap
+- 🤝 Contributing
+- 📞 Contact
 
 ---
 
-## 📋 قائمة الأوامر الكاملة
-
-| الفئة | الأمر | الوصف |
-| :--- | :--- | :--- |
-| **أساسية** | `/start` | الترحيب والقائمة الرئيسية |
-| **أذكار** | `/dhikr` | الحصول على ذكر عشوائي |
-| **إحصائيات** | `/daily_count` | عد أذكارك اليوم |
-| **تذكير** | `/reminder_on` | تفعيل التذكيرات الآلية |
-| **المزيد** | `/library` | فتح مكتبة الملفات |
+## 📖 About
+Noorify هو بوت Telegram يساعدك على المداومة على الذكر وتتبع تقدمك اليومي مع نظام تذكير ذكي.
 
 ---
 
-## 🚀 البدء السريع
+## ✨ Features
 
-```bash
-# 1. استنسخ المشروع
-git clone [https://github.com/rambos2003-lab/Noorify_Bot.git](https://github.com/rambos2003-lab/Noorify_Bot.git)
-cd Noorify_Bot
+### 📿 Smart Dhikr
+- 25+ ذكر
+- عشوائي
+- موثوق
 
-# 2. ثبت المكتبات
-npm install
+### ⏰ Reminders
+- 30 دقيقة / 1 ساعة / 3 / 6
+- تشغيل وإيقاف سريع
 
-# 3. أنشئ ملف .env وأضف التوكن
-echo "TELEGRAM_BOT_TOKEN=your_token_here" > .env
+### 📊 Stats
+- عداد يومي
+- تتبع المستخدم
 
-# 4. شغل البوت
-npm start
+---
+
+## 📸 Preview
