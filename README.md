@@ -49,7 +49,6 @@
 <p align="center">
      
 </p> <div align="center">
-     
 </div>
 
 [![الإصدار](https://img.shields.io/badge/الإصدار-v2.0.0-blue?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
@@ -60,7 +59,7 @@
 </p>
 
 </p> <div align="center">
-     </div>
+   
      
 ## ⌘ قائمة الأوامر الكاملة
 
@@ -124,7 +123,6 @@
 <p align="center">
      
 </p> <div align="center">
-     
  </div>
  
 ![NodeJS](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
