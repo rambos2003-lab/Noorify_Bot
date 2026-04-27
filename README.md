@@ -1,27 +1,31 @@
 بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
 
+<div align="center">
+
 # 🌿 Noorify Bot — بوت الأذكار الذكي
 
-"أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ"
+*"أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ"*
+
+</div>
 
 بوت Telegram ذكي يساعدك على المداومة في ذكر الله يومياً — رفيقك الروحي الدائم على مدار الساعة.
 
-## 📝 جدول المحتويات
+---
 
-*   [✨ المميزات الرئيسية](#-المميزات-الرئيسية)
-*   [📊 إحصائيات وحالة المشروع](#-إحصائيات-وحالة-المشروع)
-*   [⌘ قائمة الأوامر الكاملة](#-قائمة-الأوامر-الكاملة)
-*   [🏗 معمارية النظام](#-معمارية-النظام-system-architecture)
-*   [🚀 البدء السريع](#-البدء-السريع)
-    *   [للمستخدمين](#للمستخدمين)
-    *   [للمطورين](#للمطورين)
-*   [🛠 التقنيات المستخدمة](#-التقنيات-المستخدمة-tech-stack)
-*   [📁 هيكل المشروع](#-هيكل-المشروع)
-*   [🔒 الخصوصية والأمان](#-الخصوصية-والأمان)
-*   [🔮 الخطط المستقبلية](#-الخطط-المستقبلية)
-*   [✉️ التواصل والدعم](#-التواصل-والدعم)
+### <p align="center">📑 فهرس المحتويات</p>
 
-## ✨ المميزات الرئيسية
+<p align="center">
+<a href="#-أبرز-الميزات">🌟 أبرز الميزات</a> •
+<a href="#-الحالة-والإحصائيات">📈 الحالة والإحصائيات</a> •
+<a href="#-قائمة-الأوامر-الكاملة">⌘ قائمة الأوامر</a> •
+<a href="#-البدء-السريع">🚀 البدء السريع</a> •
+<a href="#-التقنيات-المستخدمة">🛠 التقنيات</a> •
+<a href="#-للتواصل-والدعم">✉️ التواصل</a>
+</p>
+
+---
+
+## 🌟 أبرز الميزات
 
 *   **محرك الأذكار (Dhikr Engine):**
     *   أكثر من 25 ذكر مختلف من مصادر إسلامية موثوقة.
@@ -38,13 +42,16 @@
     *   تتبع شخصي للتقدم اليومي.
     *   عداد أذكار وتاريخ انضمام مفصل لكل مستخدم.
 
-## 📊 إحصائيات وحالة المشروع
+## 📈 الحالة والإحصائيات
+
+<p align="center">
 
 [![الإصدار](https://img.shields.io/badge/الإصدار-v2.0.0-blue?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
 [![الحالة](https://img.shields.io/badge/الحالة-متصل%2099.9%25-brightgreen?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
-[![المستخدمون](https://img.shields.io/badge/المستخدمون-1,245%2B-informational?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
 [![سرعة الاستجابة](https://img.shields.io/badge/سرعة_الاستجابة-120ms-yellow?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
 [![الترخيص](https://img.shields.io/badge/الترخيص-MIT-purple?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot/blob/main/LICENSE)
+
+</p>
 
 ## ⌘ قائمة الأوامر الكاملة
 
@@ -105,11 +112,14 @@
 
 ## 🛠 التقنيات المستخدمة (Tech Stack)
 
-*   **Node.js:** الإصدار 14.0.0 فما فوق.
-*   **Telegraf:** إطار عمل التفاعل مع Telegram API.
-*   **node-cron:** لجدولة مهام التذكير.
-*   **Railway:** منصة الاستضافة السحابية.
-*   **dotenv:** لإدارة متغيرات البيئة.
+<p align="center">
+
+![NodeJS](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Telegraf](https://img.shields.io/badge/Telegraf-2AABEE?style=for-the-badge&logo=telegram&logoColor=white)
+![Cron](https://img.shields.io/badge/node--cron-212121?style=for-the-badge&logo=clockify&logoColor=white)
+![Railway](https://img.shields.io/badge/Railway-0B0D12?style=for-the-badge&logo=railway&logoColor=white)
+
+</p>
 
 ## 📁 هيكل المشروع
 
@@ -138,12 +148,12 @@ noorify-azkar-bot/
 *   ميزة التذكير في ساعات محددة يدوياً.
 *   تطوير واجهة ويب للتحكم.
 
-## ✉️ التواصل والدعم
+## ✉️ للتواصل والدعم
 
-نحن نرحب بأي استفسارات، اقتراحات، أو مساهمات. لا تتردد في التواصل معنا عبر القنوات التالية:
+<p align="center">
 
-*   **GitHub:** [![GitHub](https://img.shields.io/badge/GitHub-rambos2003--lab-blue?style=for-the-badge&logo=github)](https://github.com/rambos2003-lab)
-*   **البريد الإلكتروني:** [![Email](https://img.shields.io/badge/Email-ramibitar.connct@gmail.com-red?style=for-the-badge&logo=gmail)](mailto:ramibitar.connct@gmail.com)
-*   **Telegram:** [![Telegram](https://img.shields.io/badge/Telegram-@vx_rq-blue?style=for-the-badge&logo=telegram)](https://t.me/vx_rq)
+[![GitHub](https://img.shields.io/badge/GitHub-rambos2003--lab-blue?style=for-the-badge&logo=github)](https://github.com/rambos2003-lab)
+[![Email](https://img.shields.io/badge/Email-ramibitar.connct@gmail.com-red?style=for-the-badge&logo=gmail)](mailto:ramibitar.connct@gmail.com)
+[![Telegram](https://img.shields.io/badge/Telegram-@vx_rq-blue?style=for-the-badge&logo=telegram)](https://t.me/vx_rq)
 
----
+</p>
