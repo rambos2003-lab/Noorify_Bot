@@ -49,15 +49,15 @@
 <p align="center">
      
 </p> <div align="center">
-</div>
-
-
+     
 [![الإصدار](https://img.shields.io/badge/الإصدار-v2.0.0-blue?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
 [![الحالة](https://img.shields.io/badge/الحالة-متصل%2099.9%25-brightgreen?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
 [![سرعة الاستجابة](https://img.shields.io/badge/سرعة_الاستجابة-120ms-yellow?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
 [![الترخيص](https://img.shields.io/badge/الترخيص-MIT-purple?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot/blob/main/LICENSE)
 
 </p>
+
+</div>
 
 </p> <div align="center">
    
@@ -127,13 +127,13 @@
 <p align="center">
      
 </p> <div align="center">
- </div>
- 
+     
 ![NodeJS](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Telegraf](https://img.shields.io/badge/Telegraf-2AABEE?style=for-the-badge&logo=telegram&logoColor=white)
 ![Cron](https://img.shields.io/badge/node--cron-212121?style=for-the-badge&logo=clockify&logoColor=white)
 ![Railway](https://img.shields.io/badge/Railway-0B0D12?style=for-the-badge&logo=railway&logoColor=white)
 
+</div>
 </p>
 
 ## 📁 هيكل المشروع
