@@ -1,6 +1,7 @@
 <div align="center">
     
-# 🌙 Noorify Bot — بوت نورِفاي
+# <img width="1792" height="592" alt="watermark-removed-Gemini_Generated_Image_66q90u66q90u66q9" src="https://github.com/user-attachments/assets/64673bcf-0100-457b-8b2b-8570295c7541" />
+ Noorify Bot — بوت نورِفاي
 *"أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ"*
 
 بوت تليجرام ذكي يساعدك على المداومة في ذكر الله يومياً — رفيقك الدائم على مدار الساعة.
