@@ -1,18 +1,14 @@
-
-
-</p> <div align="center">
-     
-   ## بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ## 
-</div>
 <div align="center">
+    
+## بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ## 
 
-#  Noorify Bot — بوت الأذكار الذكي
+# 🌙 Noorify Bot — بوت نورِفاي
 
 *"أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ"*
 
-</div>
+بوت تليجرام ذكي يساعدك على المداومة في ذكر الله يومياً — رفيقك الدائم على مدار الساعة لك ولأفراد مجموعتك.
 
-بوت ذكي يساعدك على المداومة في ذكر الله يومياً — رفيقك الدائم على مدار الساعة.
+</div>
 
 ---
 
@@ -31,156 +27,124 @@
 
 ## 🌟 أبرز الميزات
 
-*   **محرك الأذكار (Dhikr Engine):**
-    *   أكثر من 25 ذكر مختلف من مصادر إسلامية موثوقة.
-    *   خوارزمية عشوائية ذكية لتقديم تجربة متجددة.
+تم تصميم بوت **نورِفاي** ليقدم تجربة متكاملة ومريحة للمستخدم، وتتضمن ميزاته:
 
-*   **نظام التذكيرات (Scheduler):**
-    *   4 أوضاع تذكير (30 دقيقة، ساعة، 3 ساعات، 6 ساعات).
-    *   يعمل 24/7 باستخدام `node-cron` لضمان الدقة العالية.
+* 📿 **محرك الأذكار (Dhikr Engine):**
+    * أكثر من 30 ذكراً ودعاءً من مصادر إسلامية موثوقة.
+    * خوارزمية عشوائية ذكية مدعومة برموز تعبيرية (Emojis) لتقديم تجربة بصرية مريحة ومتجددة.
+* ⏰ **نظام التذكيرات الذكي (Smart Scheduler):**
+    * 4 أوضاع للتذكير قابلة للتخصيص: (كل 30 دقيقة، كل ساعة، كل 3 ساعات، كل 6 ساعات).
+    * إمكانية تشغيل وإيقاف التذكيرات بضغطة زر.
+* 📚 **المكتبة الرقمية الإسلامية:**
+    * تحميل مباشر للكتب بصيغة PDF (أذكار الصباح والمساء، أذكار النوم والاستيقاظ، القرآن الكريم، حصن المسلم، طرق كسب الثواب).
+* 🏆 **نظام الإحصائيات والأوسمة (Gamification & Stats):**
+    * **عداد يومي للأذكار:** يتتبع عدد أذكارك اليومية ويمنحك أوسمة تشجيعية (🌱، 🌿، 💚، ⭐، 🏆) كلما زاد عدد أذكارك.
+    * **إحصائيات شخصية:** عرض تاريخ الانضمام، فترة التذكير الحالية، وحالة التذكيرات.
+* 🤖 **التفاعل الذكي (Smart Auto-Reply):**
+    * يتعرف البوت تلقائياً على الأذكار التي تكتبها في المحادثة (مثل: "الحمد لله"، "استغفر الله") ويرد عليك بأدعية تشجيعية.
+* 👥 **دعم المجموعات والقنوات (Groups & Channels):**
+    * يمكن إضافة البوت كعضو أو مشرف في المجموعات والقنوات لإرسال الأذكار التلقائية لجميع الأعضاء، مع رسائل ترحيبية مخصصة عند الإضافة.
 
-*   **المكتبة الرقمية:**
-    *   محتوى روحي شامل (أذكار الصباح والمساء، حصن المسلم، القرآن الكريم).
-
-*   **نظام الإحصائيات:**
-    *   تتبع شخصي للتقدم اليومي.
-    *   عداد أذكار وتاريخ انضمام مفصل لكل مستخدم.
+---
 
 ## 📈 الحالة والإحصائيات
 
-<p align="center">
-     
-</p> <div align="center">
-     
-[![الإصدار](https://img.shields.io/badge/الإصدار-v2.0.0-blue?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
+<div align="center">
+
+[![الإصدار](https://img.shields.io/badge/الإصدار-v2.0.0--Enhanced-blue?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
 [![الحالة](https://img.shields.io/badge/الحالة-متصل%2099.9%25-brightgreen?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
-[![سرعة الاستجابة](https://img.shields.io/badge/سرعة_الاستجابة-120ms-yellow?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot)
 [![الترخيص](https://img.shields.io/badge/الترخيص-MIT-purple?style=for-the-badge)](https://github.com/rambos2003-lab/noorify-azkar-bot/blob/main/LICENSE)
 
-</p>
-
 </div>
 
-</p> <div align="center">
-   
-     
+---
+
 ## ⌘ قائمة الأوامر الكاملة
 
-| الأمر             | الوصف                                  | النوع      |
-| :---------------- | :------------------------------------- | :---------- |
-| `/start`          | الترحيب والقائمة الرئيسية              | أساسي     |
-| `/help`           | عرض جميع الأوامر والمساعدة             | أساسي     |
-| `/dhikr`          | احصل على ذكر عشوائي فوراً              | أساسي     |
-| `/reminder_on`    | تفعيل التذكيرات الآلية                 | تذكير     |
-| `/reminder_off`   | إيقاف التذكيرات مؤقتاً                 | تذكير     |
-| `/reminder_settings` | اختيار فترة التذكير المناسبة          | تذكير     |
-| `/daily_count`    | عدد أذكارك اليومية                     | إحصاء     |
-| `/stats`          | إحصائياتك الشخصية الكاملة             | إحصاء     |
-| `/library`        | فتح المكتبة الرقمية وتحميل الملفات    | مكتبة     |
+| الأمر               | الوصف                                  | النوع      |
+| :------------------ | :------------------------------------- | :--------- |
+| `/start`            | الترحيب وبدء استخدام البوت             | أساسي      |
+| `/menu`             | عرض القائمة الرئيسية التفاعلية         | أساسي      |
+| `/help`             | عرض جميع الأوامر والمساعدة             | أساسي      |
+| `/dhikr`            | الحصول على ذكر عشوائي فوراً            | أساسي      |
+| `/reminder_on`      | تفعيل التذكيرات الآلية (محادثة/مجموعة) | تذكير      |
+| `/reminder_off`     | إيقاف التذكيرات مؤقتاً                 | تذكير      |
+| `/reminder_settings`| اختيار وتغيير فترة التذكير المناسبة    | تذكير      |
+| `/daily_count`      | عرض عداد أذكارك اليومية والأوسمة       | إحصاءات    |
+| `/stats`            | عرض إحصائياتك الشخصية الكاملة          | إحصاءات    |
+| `/library`          | فتح المكتبة الرقمية وتحميل الكتب (PDF) | مكتبة      |
 
-</div>
-
+---
 
 ## 🏗 معمارية النظام (System Architecture)
 
 يعمل البوت بالتسلسل التالي:
+1.  **المستخدم:** يرسل طلباً أو يضغط على زر تفاعلي (Inline Keyboard) عبر Telegram.
+2.  **Telegram API:** استقبال الطلب عبر ميزة Polling.
+3.  **Noorify Core:** معالجة البيانات باستخدام Node.js ومكتبة `node-telegram-bot-api`.
+4.  **Intervals:** إدارة التذكيرات المجدولة الخاصة بكل مستخدم ومجموعة بشكل مستقل.
+5.  **Data Store:** تخزين البيانات محلياً في ملفات JSON (`reminders_data.json`، `user_preferences.json`، `bot_stats.json`) لضمان سرعة الاستجابة وحفظ الإعدادات عند إعادة التشغيل.
 
-1.  **المستخدم:** يرسل طلباً عبر Telegram.
-2.  **Telegram API:** استقبال الطلب عبر Webhook أو Polling.
-3.  **Noorify Core:** المعالجة باستخدام Node.js وإطار عمل Telegraf.
-4.  **Scheduler:** إدارة المهام المجدولة عبر `node-cron`.
-5.  **Data Store:** تخزين البيانات محلياً في ملفات JSON لسرعة الاستجابة.
+---
 
 ## 🚀 البدء السريع
 
 ### للمستخدمين:
-
 1.  افتح تطبيق Telegram.
-2.  ابحث عن البوت: `@Noorify_bot`.
+2.  ابحث عن البوت: `@Noorify_bot` (أو المعرّف الخاص بك).
 3.  أرسل أمر `/start`.
-4.  اضبط التذكيرات عبر `/reminder_settings`.
+4.  اضبط التذكيرات عبر `/reminder_settings` أو عبر القائمة الرئيسية.
 
 ### للمطورين:
 
 1.  **استنساخ المستودع:**
     ```bash
-    git clone https://github.com/rambos2003-lab/noorify-azkar-bot
+    git clone [https://github.com/rambos2003-lab/noorify-azkar-bot](https://github.com/rambos2003-lab/noorify-azkar-bot)
     cd noorify-azkar-bot
     ```
 
-2.  **تثبيت المكتبات البرمجية:**
+2.  **تثبيت التبعيات (Dependencies):**
     ```bash
-    npm install
+    npm install dotenv node-telegram-bot-api
     ```
 
 3.  **إعداد المتغيرات البيئية:**
-    قم بإنشاء ملف `.env` في الجذر وأضف الـ Token الخاص بك:
-    ```
+    قم بإنشاء ملف `.env` في المسار الرئيسي وأضف توكن التليجرام الخاص بك:
+    ```env
     TELEGRAM_BOT_TOKEN=your_bot_token_here
     ```
 
-4.  **تشغيل البوت:**
+4.  **تجهيز ملفات المكتبة (اختياري):**
+    تأكد من وضع ملفات الـ PDF المذكورة في الكود داخل مجلد المشروع لتفعيل ميزة `/library`.
+
+5.  **تشغيل البوت:**
     ```bash
-    npm start
+    node app.js
     ```
+
+---
 
 ## 🛠 التقنيات المستخدمة (Tech Stack)
 
-<p align="center">
-     
-</p> <div align="center">
-     
+<div align="center">
+
 ![NodeJS](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![Telegraf](https://img.shields.io/badge/Telegraf-2AABEE?style=for-the-badge&logo=telegram&logoColor=white)
-![Cron](https://img.shields.io/badge/node--cron-212121?style=for-the-badge&logo=clockify&logoColor=white)
-![Railway](https://img.shields.io/badge/Railway-0B0D12?style=for-the-badge&logo=railway&logoColor=white)
+![Node-Telegram-Bot-Api](https://img.shields.io/badge/Telegram_Bot_API-2AABEE?style=for-the-badge&logo=telegram&logoColor=white)
+![JSON](https://img.shields.io/badge/JSON_Storage-000000?style=for-the-badge&logo=json&logoColor=white)
 
 </div>
-</p>
+
+---
 
 ## 📁 هيكل المشروع
 
-```
+```text
 noorify-azkar-bot/
-├── app.js                   ← نقطة الدخول ومنطق البوت
-├── .env                     ← متغيرات البيئة (خاص)
-├── package.json             ← التبعيات والأوامر
-├── reminders_data.json      ← بيانات التذكيرات النشطة
-├── user_preferences.json    ← إعدادات المستخدمين
-├── bot_stats.json           ← الإحصائيات العامة
-└── README.md                ← التوثيق
-```
-
-## 🔒 الخصوصية والأمان
-
-*   **تخزين محلي 100%:** لا يتم استخدام قواعد بيانات خارجية؛ البيانات تُحفظ في خادم البوت فقط.
-*   **لا مشاركة للبيانات:** معلومات المستخدمين سرية ولا تُشارك مع أي طرف ثالث.
-*   **حق الحذف:** يمكن للمستخدم طلب مسح كافة بياناته في أي وقت.
-
-## 🔮 الخطط المستقبلية
-
-*   إتمام نظام التذكيرات الذكية.
-*   إضافة المكتبة الرقمية والإحصائيات.
-*   دعم اللغات المتعددة ( Turkish,English,French,Urdu).
-*   ميزة التذكير في ساعات محددة يدوياً.
-*   تطوير واجهة ويب للتحكم.
-
-## ✉️ للتواصل والدعم
-
-<p align="center">
-
-</p> <div align="center">
-     
-[![GitHub](https://img.shields.io/badge/GitHub-rambos2003--lab-blue?style=for-the-badge&logo=github)](https://github.com/rambos2003-lab)
-[![Email](https://img.shields.io/badge/Email-ramibitar.connct@gmail.com-red?style=for-the-badge&logo=gmail)](mailto:ramibitar.connct@gmail.com)
-[![Telegram](https://img.shields.io/badge/Telegram-@vx_rq-blue?style=for-the-badge&logo=telegram)](https://t.me/vx_rq)
-
-</p>
-
-
-
-</p> <div align="center">
-   
-## Made with ♥ for the sake of Allah ##
-</div>
-   
+├── app.js                   ← نقطة الدخول ومنطق البوت الرئيسي
+├── .env                     ← متغيرات البيئة (خاص - لا يُرفع للـ Git)
+├── package.json             ← التبعيات ومعلومات المشروع
+├── reminders_data.json      ← بيانات التذكيرات والمحادثات النشطة (توليد تلقائي)
+├── user_preferences.json    ← إعدادات وإحصائيات المستخدمين (توليد تلقائي)
+├── bot_stats.json           ← الإحصائيات العامة للبوت (توليد تلقائي)
+├── *.pdf                    ← ملفات المكتبة الرقمية (تُضاف يدوياً)
+└── README.md                ← هذا التوثيق
