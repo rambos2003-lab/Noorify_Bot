@@ -42,7 +42,6 @@ loadData();
 
 // ==================== 2. SMART DHIKR ALGORITHM DATA ====================
 const dhikrPool = [
-    // أذكار نبوية مشهورة
     "سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَٰهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ",
     "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَىٰ عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ",
     "اللَّهُمَّ اجْعَلْنِي مِنَ التَّوَّابِينَ وَاجْعَلْنِي مِنَ الْمُتَطَهِّرِينَ",
@@ -52,7 +51,6 @@ const dhikrPool = [
     "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ",
     "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ الْعَظِيمِ",
     "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ",
-    // آيات قرآنية (من القائمة المرفقة)
     "﴿رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ﴾",
     "﴿رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ﴾",
     "﴿رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا﴾",
@@ -62,7 +60,6 @@ const dhikrPool = [
     "﴿رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي﴾",
     "﴿اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ﴾",
     "﴿قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ﴾",
-    // أدعية جامعة
     "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْبُخْلِ وَالْجُبْنِ، وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ",
     "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ",
     "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَأَعُوذُ بِكَ مِنَ النَّارِ",
@@ -107,6 +104,15 @@ const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const trackCommand = (cmd) => {
     botStats.commandsUsed[cmd] = (botStats.commandsUsed[cmd] || 0) + 1;
     saveData();
+};
+
+const isAdmin = async (chatId, userId) => {
+    try {
+        const chat = await bot.getChat(chatId);
+        if (chat.type === 'private') return true;
+        const member = await bot.getChatMember(chatId, userId);
+        return ['creator', 'administrator'].includes(member.status);
+    } catch { return false; }
 };
 
 const initUser = (userId, chatId) => {
@@ -257,6 +263,7 @@ const getWelcomeText = () => {
 
 📢 *في المجموعات والقنوات:*
 بمجرد إضافة البوت ورفعه مشرفاً، سيقوم تلقائياً بتفعيل التذكيرات (كل ساعتين افتراضياً). يمكنك تغيير الفترة من الإعدادات ⚙️.
+⚠️ *ملاحظة:* التحكم في التذكيرات متاح للمشرفين فقط.
 ─────────────────────
 
 💡 *لا تنسوا مشاركة البوت دعماً لنا وانتشاراً للخير والأجر والثواب، لعلها تكون صدقة جارية لنا ولكم. وفقنا الله وإياكم.* 🤲
@@ -288,6 +295,16 @@ bot.on('callback_query', async (query) => {
     const answer = (text) => bot.answerCallbackQuery(queryId, text ? { text } : {}).catch(() => {});
 
     if (!userPreferences[userId]) initUser(userId, chatId);
+
+    // Permission Check for sensitive commands
+    const adminCommands = ['menu_reminder_on', 'menu_reminder_off', 'menu_settings', 'interval_'];
+    if (adminCommands.some(cmd => data.startsWith(cmd))) {
+        const hasPerms = await isAdmin(chatId, userId);
+        if (!hasPerms) {
+            answer('عذراً، هذه الخاصية للمشرفين فقط ⚠️');
+            return;
+        }
+    }
 
     if (data === 'menu_back') {
         answer();
@@ -435,7 +452,7 @@ bot.on('my_chat_member', (update) => {
     const { chat, new_chat_member } = update;
     const status = new_chat_member?.status;
     if (status === 'member' || status === 'administrator') {
-        const welcome = `*السلام عليكم ورحمة الله وبركاته* 🌹\n\nتم إضافة بوت *نورِفاي* لـ ${chat.type === 'channel' ? 'القناة' : 'المجموعة'}.\n\n✅ تم تفعيل التذكيرات التلقائية كل *ساعتين*.\n⚙️ لتغيير الإعدادات استخدم أمر /menu`;
+        const welcome = `*السلام عليكم ورحمة الله وبركاته* 🌹\n\nتم إضافة بوت *نورِفاي* لـ ${chat.type === 'channel' ? 'القناة' : 'المجموعة'}.\n\n✅ تم تفعيل التذكيرات التلقائية كل *ساعتين*.\n⚙️ لتغيير الإعدادات استخدم أمر /menu\n⚠️ *ملاحظة:* التحكم متاح للمشرفين فقط.`;
         bot.sendMessage(chat.id, welcome, { parse_mode: 'Markdown' }).catch(() => {});
         if (!activeChats.includes(chat.id)) {
             activeChats.push(chat.id);
@@ -447,5 +464,5 @@ bot.on('my_chat_member', (update) => {
 
 bot.on('polling_error', (err) => console.error('Polling error:', err.message));
 
-console.log('Noorify Bot v5.0 — Final Smart Version');
+console.log('Noorify Bot v5.1 — Fixed Files & Permissions');
 console.log("Bot is running successfully... ✅");
