@@ -1,5 +1,6 @@
 /**
- * 🕌 NOORIFY ENGINE v6.0 - SAFE PATCH EDITION
+ * 🕌 NOORIFY ENGINE v6.1 - PRO STABLE EDITION
+ * Fully safe Telegram bot (NO Markdown = NO crashes)
  */
 
 require('dotenv').config();
@@ -16,7 +17,7 @@ const CONFIG = {
 };
 
 if (!CONFIG.TOKEN) {
-    console.error('CRITICAL ERROR: TELEGRAM_BOT_TOKEN NOT FOUND');
+    console.error("❌ Missing TELEGRAM_BOT_TOKEN");
     process.exit(1);
 }
 
@@ -24,66 +25,35 @@ const bot = new TelegramBot(CONFIG.TOKEN, { polling: true });
 
 // ---------------- LOGGER ----------------
 const logger = {
-    error: (err, context = '', extra = null) => {
-        console.error('BOT ERROR:', {
-            context,
+    error: (err, ctx = '', data = null) => {
+        console.error("❌ ERROR:", {
+            context: ctx,
             message: err?.message,
-            stack: err?.stack,
-            extra
+            data
         });
     }
 };
 
-// ---------------- ESCAPE SYSTEM ----------------
-const escapeMarkdown = (text = '') => {
-    return String(text)
-        .replace(/_/g, '\\_')
-        .replace(/\*/g, '\\*')
-        .replace(/\[/g, '\\[')
-        .replace(/]/g, '\\]')
-        .replace(/\(/g, '\\(')
-        .replace(/\)/g, '\\)')
-        .replace(/~/g, '\\~')
-        .replace(/`/g, '\\`')
-        .replace(/>/g, '\\>')
-        .replace(/#/g, '\\#')
-        .replace(/\+/g, '\\+')
-        .replace(/-/g, '\\-')
-        .replace(/=/g, '\\=')
-        .replace(/\|/g, '\\|')
-        .replace(/{/g, '\\{')
-        .replace(/}/g, '\\}')
-        .replace(/\./g, '\\.')
-        .replace(/!/g, '\\!');
-};
-
-// ---------------- SAFE WRAPPERS ----------------
-const safeSendMessage = async (chatId, text, options = {}) => {
+// ---------------- SAFE MESSAGE ENGINE ----------------
+const safeSend = async (chatId, text, options = {}) => {
     try {
-        return await bot.sendMessage(chatId, escapeMarkdown(text), {
-            parse_mode: 'MarkdownV2',
+        return await bot.sendMessage(chatId, text, {
+            parse_mode: undefined,
             ...options
         });
     } catch (err) {
-        logger.error(err, 'sendMessage', { chatId, text });
-        return bot.sendMessage(chatId, text).catch(e =>
-            logger.error(e, 'fallback sendMessage')
-        );
+        logger.error(err, "sendMessage");
     }
 };
 
-const safeEditMessage = async (text, params) => {
+const safeEdit = async (text, params) => {
     try {
-        return await bot.editMessageText(escapeMarkdown(text), {
-            parse_mode: 'MarkdownV2',
+        return await bot.editMessageText(text, {
+            parse_mode: undefined,
             ...params
         });
     } catch (err) {
-        logger.error(err, 'editMessage', params);
-        return bot.editMessageText(text, {
-            ...params,
-            parse_mode: undefined
-        }).catch(e => logger.error(e, 'fallback editMessage'));
+        logger.error(err, "editMessage", params);
     }
 };
 
@@ -98,38 +68,42 @@ if (fs.existsSync(CONFIG.DB_PATH)) {
     try {
         db = JSON.parse(fs.readFileSync(CONFIG.DB_PATH));
     } catch (e) {
-        logger.error(e, 'DB LOAD');
+        logger.error(e, "DB_LOAD");
     }
 }
 
-const persist = () => {
+const saveDB = () => {
     try {
         fs.writeFileSync(CONFIG.DB_PATH, JSON.stringify(db, null, 2));
     } catch (e) {
-        logger.error(e, 'DB SAVE');
+        logger.error(e, "DB_SAVE");
     }
 };
 
 // ---------------- CONTENT ----------------
-const DHIKR_POOL = [
+const DHIKR = [
     "سبحان الله والحمد لله ولا إله إلا الله والله أكبر",
     "أستغفر الله وأتوب إليه",
     "لا حول ولا قوة إلا بالله",
-    "اللهم صل وسلم على نبينا محمد"
+    "اللهم صل وسلم على نبينا محمد",
+    "حسبي الله ونعم الوكيل",
+    "رب اغفر لي ولوالدي"
 ];
 
 const MOTIVATION = [
-    "تقبل الله منك",
-    "استمر في الذكر",
-    "نور الله قلبك"
+    "تقبل الله منك 🤍",
+    "استمر في الذكر 🌿",
+    "نور الله قلبك ✨",
+    "بارك الله فيك 🌙"
 ];
 
 // ---------------- UTILS ----------------
 const utils = {
-    rand: (a) => a[Math.floor(Math.random() * a.length)],
-    isAdmin: async (c, u) => {
+    rand: (arr) => arr[Math.floor(Math.random() * arr.length)],
+
+    isAdmin: async (chat, user) => {
         try {
-            const m = await bot.getChatMember(c, u);
+            const m = await bot.getChatMember(chat, user);
             return ['creator', 'administrator'].includes(m.status);
         } catch {
             return false;
@@ -139,144 +113,173 @@ const utils = {
 
 // ---------------- UI ----------------
 const ui = {
-    main: () => ({
+    main: {
         reply_markup: {
             inline_keyboard: [
-                [{ text: "ذكر", callback_data: 'cmd_dhikr' }],
-                [{ text: "مسبحة", callback_data: 'cmd_tasbih_ui' }],
-                [{ text: "مكتبة", callback_data: 'cmd_lib' }],
-                [{ text: "إحصائيات", callback_data: 'cmd_stats' }]
+                [{ text: "📿 ذكر", callback_data: "dhikr" }],
+                [{ text: "🕋 مسبحة", callback_data: "tasbih" }],
+                [{ text: "📚 مكتبة", callback_data: "lib" }],
+                [{ text: "📊 إحصائيات", callback_data: "stats" }],
+                [{ text: "🔔 تفعيل", callback_data: "on" }, { text: "🔕 إيقاف", callback_data: "off" }]
             ]
         }
-    }),
-
-    tasbih: (u) => {
-        const c = db.users[u]?.tasbih || 0;
-
-        return {
-            text: `المسبحة\nالعدد: ${c}\nالدورة: ${c % 33}`,
-            markup: {
-                inline_keyboard: [
-                    [{ text: "تسبيح", callback_data: 'act_tasbih' }],
-                    [{ text: "رجوع", callback_data: 'cmd_start' }]
-                ]
-            }
-        };
     }
 };
 
-// ---------------- COMMANDS ----------------
+// ---------------- START ----------------
 bot.onText(/\/start/, async (msg) => {
     const uid = msg.from.id;
 
     if (!db.users[uid]) {
         db.users[uid] = { tasbih: 0, joined: Date.now() };
-        persist();
+        saveDB();
     }
 
-    await safeSendMessage(msg.chat.id,
-        `مرحبا بك في البوت`,
-        ui.main()
+    await safeSend(msg.chat.id,
+`🕌 مرحباً بك في نورِفاي
+
+بوت الأذكار والمسبحة الذكية
+
+👨‍💻 المطور: ${CONFIG.DEVELOPER_TAG}`,
+        ui.main
     );
 });
 
-// ---------------- CALLBACKS ----------------
+// ---------------- CALLBACK ----------------
 bot.on('callback_query', async (q) => {
     const cid = q.message.chat.id;
     const uid = q.from.id;
-    const mid = q.message.message_id;
     const act = q.data;
 
-    const notify = (t) => bot.answerCallbackQuery(q.id, { text: t }).catch(()=>{});
+    const reply = (t) =>
+        bot.answerCallbackQuery(q.id, { text: t }).catch(() => {});
 
     try {
 
-        if (act === 'cmd_start') {
-            return safeEditMessage("القائمة", {
-                chat_id: cid,
-                message_id: mid,
-                ...ui.main()
-            });
-        }
-
-        if (act === 'cmd_dhikr') {
-            return safeSendMessage(cid,
-                `${utils.rand(DHIKR_POOL)}\n${utils.rand(MOTIVATION)}`
+        // ---------------- DHIKR ----------------
+        if (act === "dhikr") {
+            return safeSend(cid,
+                `${utils.rand(DHIKR)}\n\n${utils.rand(MOTIVATION)}`
             );
         }
 
-        if (act === 'cmd_tasbih_ui') {
-            const t = ui.tasbih(uid);
-            return safeEditMessage(t.text, {
+        // ---------------- TASBIH ----------------
+        if (act === "tasbih") {
+            const c = db.users[uid].tasbih;
+
+            return safeEdit(
+`🕋 المسبحة
+
+العدد: ${c}
+الدورة: ${c % 33}`,
+            {
                 chat_id: cid,
-                message_id: mid,
-                reply_markup: t.markup
+                message_id: q.message.message_id,
+                reply_markup: {
+                    inline_keyboard: [
+                        [{ text: "➕ تسبيح", callback_data: "add" }],
+                        [{ text: "🔄 تصفير", callback_data: "reset" }],
+                        [{ text: "🔙 رجوع", callback_data: "start" }]
+                    ]
+                }
             });
         }
 
-        if (act === 'act_tasbih') {
+        if (act === "add") {
             db.users[uid].tasbih++;
-            persist();
+            saveDB();
+            reply("تم التسبيح");
 
-            const t = ui.tasbih(uid);
-            await safeEditMessage(t.text, {
+            return safeEdit(
+`🕋 المسبحة
+
+العدد: ${db.users[uid].tasbih}
+الدورة: ${db.users[uid].tasbih % 33}`,
+            {
                 chat_id: cid,
-                message_id: mid,
-                reply_markup: t.markup
+                message_id: q.message.message_id
             });
-
-            return notify("تم");
         }
 
-        if (act === 'cmd_stats') {
-            return safeSendMessage(cid,
-                `إحصائيات\n${db.users[uid]?.tasbih || 0}`
-            );
+        if (act === "reset") {
+            db.users[uid].tasbih = 0;
+            saveDB();
+            reply("تم التصفير");
         }
 
-        notify();
+        // ---------------- STATS ----------------
+        if (act === "stats") {
+            return safeSend(cid,
+`📊 إحصائياتك
+
+📿 التسبيح: ${db.users[uid].tasbih || 0}
+👥 المستخدمين: ${Object.keys(db.users).length}`);
+        }
+
+        // ---------------- TOGGLE REMINDERS ----------------
+        if (act === "on") {
+            db.chats[cid] = { active: true, last: Date.now() };
+            saveDB();
+            return safeSend(cid, "🔔 تم التفعيل");
+        }
+
+        if (act === "off") {
+            if (db.chats[cid]) db.chats[cid].active = false;
+            saveDB();
+            return safeSend(cid, "🔕 تم الإيقاف");
+        }
+
+        if (act === "start") {
+            return safeEdit("القائمة الرئيسية", {
+                chat_id: cid,
+                message_id: q.message.message_id,
+                ...ui.main
+            });
+        }
+
+        reply();
 
     } catch (err) {
-        logger.error(err, 'CALLBACK_HANDLER', { act });
+        logger.error(err, "CALLBACK");
     }
 });
 
-// ---------------- AUTO ENGINE ----------------
+// ---------------- AUTO REMINDER ----------------
 setInterval(() => {
     const now = Date.now();
 
-    Object.keys(db.chats).forEach(async (chatId) => {
-        const c = db.chats[chatId];
+    Object.keys(db.chats).forEach(async (id) => {
+        const c = db.chats[id];
 
-        if (c.active && now - c.lastSent > c.interval) {
+        if (c.active && now - c.last > CONFIG.DEFAULT_INTERVAL) {
             try {
-                await safeSendMessage(chatId,
-                    `${utils.rand(DHIKR_POOL)}`
+                await safeSend(id,
+                    `${utils.rand(DHIKR)}`
                 );
 
-                db.chats[chatId].lastSent = now;
+                db.chats[id].last = now;
                 db.stats.total_reminders++;
-                persist();
+                saveDB();
 
             } catch (e) {
-                logger.error(e, 'AUTO_SEND');
+                logger.error(e, "AUTO");
             }
         }
     });
 
 }, 60000);
 
-// ---------------- GROUP JOIN ----------------
+// ---------------- GROUP ADD ----------------
 bot.on('my_chat_member', async (msg) => {
     try {
-        if (msg.new_chat_member.status === 'member') {
-            await safeSendMessage(msg.chat.id,
-                "تم إضافة البوت"
+        if (msg.new_chat_member.status === "member") {
+            await safeSend(msg.chat.id,
+                "🕌 تم إضافة البوت بنجاح"
             );
         }
     } catch (e) {
-        logger.error(e, 'GROUP_JOIN');
+        logger.error(e, "JOIN");
     }
 });
 
-console.log("NOORIFY ENGINE SAFE VERSION ONLINE");
+console.log("🚀 NOORIFY ENGINE v6.1 ONLINE (STABLE)");
