@@ -1,91 +1,130 @@
 <div align="center">
-  <img src="https://img.icons8.com/fluent/96/000000/mosque.png" alt="Noorify Logo" width="100">
-  <h1>Noorify Bot — بوت نورِفاي</h1>
-  <p><b>"أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ"</b></p>
-  <p>بوت تليجرام إسلامي متكامل وذكي يساعدك على المداومة في ذكر الله يومياً — رفيقك الدائم على مدار الساعة.</p>
 
-  <a href="https://t.me/Noorify_bot">
-    <img src="https://img.shields.io/badge/Telegram-Bot-blue.svg?logo=telegram&style=for-the-badge" alt="Telegram Bot">
-  </a>
-  <img src="https://img.shields.io/badge/Version-5.1-green.svg?style=for-the-badge" alt="Version 5.1">
-  <img src="https://img.shields.io/badge/Language-Arabic-red.svg?style=for-the-badge" alt="Language Arabic">
+  <!-- Header Image -->
+  <img src="https://img.icons8.com/fluent/120/000000/mosque.png" alt="Noorify Logo" width="120">
+  
+  <h1 align="center">🕌 Noorify Bot — بوت نورِفاي v5.1</h1>
+  
+  <p align="center">
+    <b>"أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ"</b><br>
+    <i>الرفيق التقني المؤمن.. لنورٍ يملأ حياتك بذكر الله</i>
+  </p>
+
+  <!-- Badges Section -->
+  <p align="center">
+    <img src="https://img.shields.io/badge/Version-5.1.0-0078D4?style=for-the-badge&logo=appveyor" alt="Version">
+    <img src="https://img.shields.io/badge/Node.js-v18.x-339933?style=for-the-badge&logo=node.js" alt="Node.js">
+    <img src="https://img.shields.io/badge/Platform-Telegram-0088cc?style=for-the-badge&logo=telegram" alt="Telegram">
+    <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License">
+  </p>
+
+  <!-- Social Icons -->
+  <p align="center">
+    <a href="https://t.me/Noorify_bot">
+      <img src="https://img.shields.io/badge/جرب_البوت_الآن-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram">
+    </a>
+    <a href="https://t.me/vx_rq">
+      <img src="https://img.shields.io/badge/تواصل_مع_المطور-black?style=for-the-badge&logo=telegram&logoColor=white" alt="Developer">
+    </a>
+  </p>
+
 </div>
 
 ---
 
-## 🌟 أبرز الميزات (Key Features)
+## 🚀 نظرة عامة (Overview)
 
-تم تصميم **بوت نورِفاي** ليقدم تجربة إيمانية متكاملة ومريحة، تجمع بين التقنية والروحانية:
-
-*   **📿 خوارزمية الذكر الذكي:** اختيار عشوائي من بين أكثر من 100 ذكر ودعاء (قرآني ونبوي) لضمان التنوع وعدم التكرار.
-*   **🔔 نظام تذكيرات دوري:** إرسال أذكار تلقائية كل فترة زمنية (من 30 دقيقة إلى 6 ساعات) حسب اختيارك.
-*   **🕋 مسبحة إلكترونية تفاعلية:** عداد أذكار ذكي مع مؤشر تقدم (Progress Bar) ورسائل تحفيزية عند الإكمال.
-*   **📚 مكتبة إسلامية PDF:** تحميل مباشر لأهم الكتب والأذكار (حصن المسلم، القرآن الكريم، الداء والدواء، رياض الصالحين، وغيرها).
-*   **👥 دعم المجموعات والقنوات:** ترحيب تلقائي عند الإضافة مع نظام صلاحيات صارم (التحكم للمشرفين فقط) لضمان انضباط المجموعات.
-*   **📊 إحصائيات شخصية:** تتبع إجمالي أذكارك وتاريخ انضمامك للبوت.
+**بوت نورِفاي** ليس مجرد بوت أذكار تقليدي، بل هو محرك إيماني متطور يعتمد على خوارزميات ذكية لتقديم محتوى ديني غني ومنظم، مع واجهة مستخدم مهندسة بدقة لتناسب احتياجات الفرد والمجموعات.
 
 ---
 
-## 🛠️ الأوامر المتاحة (Bot Commands)
+## ✨ المميزات الخارقة (Super Features)
 
-| الأمر | الوصف |
-| :--- | :--- |
-| `/start` | 🕌 تشغيل البوت والرسالة الترحيبية |
-| `/menu` | 📋 القائمة الرئيسية والخدمات |
-| `/dhikr` | 📿 ذكر أو دعاء عشوائي فوري |
-| `/tasbih` | 🕋 المسبحة الإلكترونية التفاعلية |
-| `/library` | 📚 المكتبة الإسلامية والكتب |
-| `/stats` | 📊 إحصائياتك وإجمالي الأذكار |
-| `/reminder_on` | 🔔 تفعيل التذكيرات (للمشرفين فقط في المجموعات) |
-| `/reminder_off` | 🔕 إيقاف التذكيرات (للمشرفين فقط في المجموعات) |
-| `/help` | ❓ مساعدة وكيفية الاستخدام |
-
----
-
-## 🚀 طريقة التثبيت والتشغيل (Installation)
-
-إذا كنت ترغب في تشغيل نسختك الخاصة من البوت:
-
-1. **المتطلبات:**
-   - [Node.js](https://nodejs.org/) (إصدار 16 أو أحدث).
-   - توكن بوت من [@BotFather](https://t.me/BotFather).
-
-2. **التثبيت:**
-   ```bash
-   git clone https://github.com/your-username/Noorify_Bot.git
-   cd Noorify_Bot
-   npm install
-   ```
-
-3. **الإعداد:**
-   قم بإنشاء ملف `.env` في المجلد الرئيسي وأضف التوكن:
-   ```env
-   TELEGRAM_BOT_TOKEN=your_bot_token_here
-   ```
-
-4. **التشغيل:**
-   ```bash
-   node app.js
-   ```
+<table align="center">
+  <tr>
+    <td align="center" width="33%">
+      <img src="https://img.icons8.com/fluent/48/000000/artificial-intelligence.png"><br>
+      <b>خوارزمية الذكر الذكي</b><br>
+      اختيار ذكي من بين +100 ذكر ودعاء يمنع التكرار الممل.
+    </td>
+    <td align="center" width="33%">
+      <img src="https://img.icons8.com/fluent/48/000000/alarm-clock.png"><br>
+      <b>تذكيرات دورية</b><br>
+      نظام جدولة مرن يبدأ من 30 دقيقة وحتى 6 ساعات.
+    </td>
+    <td align="center" width="33%">
+      <img src="https://img.icons8.com/fluent/48/000000/prayer-beads.png"><br>
+      <b>مسبحة تفاعلية</b><br>
+      عداد متطور مع Progress Bar ورسائل تحفيزية.
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <img src="https://img.icons8.com/fluent/48/000000/books.png"><br>
+      <b>مكتبة PDF</b><br>
+      تحميل مباشر لأهم الكتب (الداء والدواء، رياض الصالحين، حصن المسلم).
+    </td>
+    <td align="center" width="33%">
+      <img src="https://img.icons8.com/fluent/48/000000/conference-call.png"><br>
+      <b>إدارة المجموعات</b><br>
+      نظام صلاحيات صارم (Admin-Only) للتحكم في الإعدادات.
+    </td>
+    <td align="center" width="33%">
+      <img src="https://img.icons8.com/fluent/48/000000/data-configuration.png"><br>
+      <b>إحصائيات حية</b><br>
+      تتبع نشاطك الإيماني وإجمالي الأذكار بشكل دقيق.
+    </td>
+  </tr>
+</table>
 
 ---
 
-## 📁 هيكلة الملفات (Project Structure)
+## 🛠️ الأوامر البرمجية (Terminal Commands)
 
-- `app.js`: الملف الأساسي والمحرك الرئيسي للبوت.
-- `*.pdf`: ملفات المكتبة الإسلامية (يجب أن تكون في المجلد الرئيسي).
-- `*.json`: ملفات تخزين البيانات المحلية (تنشأ تلقائياً).
+```bash
+/start       # 🕌 بوابة الدخول والترحيب
+/menu        # 📋 لوحة التحكم الرئيسية
+/dhikr       # 📿 طلب ذكر عشوائي فوري
+/tasbih      # 🕋 الدخول للمسبحة الإلكترونية
+/library     # 📚 تصفح وتحميل الكتب
+/stats       # 📊 عرض سجل نشاطك
+/reminder_on # 🔔 تفعيل محرك التذكير
+/help        # ❓ الدليل الكامل للاستخدام
+```
 
 ---
 
-## 🤝 المساهمة والتواصل
+## ⚙️ المتطلبات التقنية (Tech Stack)
 
-نرحب بمساهماتكم لتطوير البوت وزيادة الأجر. 
-- **المطور:** [@vx_rq](https://t.me/vx_rq)
-- **رابط البوت:** [t.me/Noorify_bot](https://t.me/Noorify_bot)
+<p align="left">
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black">
+  <img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white">
+  <img src="https://img.shields.io/badge/Railway-0B0D0E?style=flat-square&logo=railway&logoColor=white">
+  <img src="https://img.shields.io/badge/JSON_DB-blue?style=flat-square&logo=json&logoColor=white">
+</p>
 
-> "الدال على الخير كفاعله" — لا تنسوا مشاركة البوت ليكون صدقة جارية لنا ولكم.
+---
+
+## 📈 إحصائيات المشروع (Project Stats)
+
+<p align="center">
+  <img src="https://github-readme-stats.vercel.app/api/pin/?username=your-username&repo=Noorify_Bot&theme=radical&show_owner=true" alt="Repo Stats">
+</p>
+
+---
+
+## 👨‍💻 المطور (Developer)
 
 <div align="center">
-  <p>تم التطوير بكل ❤️ لخدمة الإسلام والمسلمين</p>
+  <a href="https://t.me/vx_rq">
+    <img src="https://img.icons8.com/fluent/48/000000/telegram-app.png" width="40">
+  </a>
+  <p><b>@vx_rq</b></p>
+  <p><i>"نبرمج لخدمة الأمة، ونبني ليبقى الأثر"</i></p>
+</div>
+
+---
+
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=120&section=footer&text=صدقة%20جارية&fontSize=30" width="100%">
 </div>
