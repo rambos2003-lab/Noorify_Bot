@@ -227,9 +227,6 @@ refactor: improve database handler
 ``` 
 
 ---
-
-إذا بدك نسخة **أقوى (Level GitHub Top Projects)** فيها:
-
 * automated checks
 * commit lint enforcement
 * semantic release
