@@ -80,11 +80,19 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             reply_markup=reply_markup
         )
     else: # في حال استدعاء من callback
-        await update.callback_query.edit_message_text(
-            final_text,
-            parse_mode=constants.ParseMode.MARKDOWN,
-            reply_markup=reply_markup
-        )
+        try:
+            await update.callback_query.edit_message_text(
+                final_text,
+                parse_mode=constants.ParseMode.MARKDOWN,
+                reply_markup=reply_markup
+            )
+        except Exception as e:
+            logger.error(f"Markdown error in welcome message: {e}")
+            # محاولة إرسال بدون تنسيق في حال الفشل
+            await update.callback_query.edit_message_text(
+                final_text.replace("*", "").replace("_", ""),
+                reply_markup=reply_markup
+            )
 
 # --- معالجات Callback Query ---
 
@@ -317,7 +325,9 @@ async def fasting_reminder_job(context: ContextTypes.DEFAULT_TYPE) -> None:
         for chat_id, _ in enabled_groups:
             try:
                 # إرسال التذكير مع زر للمشاركة لنشر الأجر
-                keyboard = [[InlineKeyboardButton("📢 شارك التذكير لنشر الأجر", url=f"https://t.me/share/url?url=https://t.me/{(await context.bot.get_me()).username}&text={urllib.parse.quote(msg)}")]]
+                bot_info = await context.bot.get_me()
+                share_url = f"https://t.me/share/url?url=https://t.me/{bot_info.username}&text={urllib.parse.quote('انضم لبوت نورِ فاي للذكر والأجر')}"
+                keyboard = [[InlineKeyboardButton("📢 شارك البوت لنشر الأجر", url=share_url)]]
                 await context.bot.send_message(
                     chat_id=chat_id, 
                     text=msg, 
@@ -336,35 +346,5 @@ async def on_new_chat_member(update: Update, context: ContextTypes.DEFAULT_TYPE)
             await context.bot.send_message(chat_id=chat_id, text=text, parse_mode=constants.ParseMode.MARKDOWN)
             
             # تفعيل افتراضي
-            database.update_group_settings(chat_id, enabled=True, interval=2)
-            await setup_repeating_job(chat_id, context)
-
-# --- التشغيل الرئيسي ---
-
-def main() -> None:
-    if TOKEN == "YOUR_BOT_TOKEN_HERE":
-        print("الرجاء وضع توكن البوت في متغيرات البيئة باسم BOT_TOKEN")
-        return
-
-    application = Application.builder().token(TOKEN).build()
-
-    # الأوامر
-    application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("menu", start))
-    
-    # الردود التفاعلية
-    application.add_handler(CallbackQueryHandler(handle_callback))
-    
-    # مراقبة الإضافة للمجموعات
-    application.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, on_new_chat_member))
-
-    # جدولة مهام الصيام (تعمل كل يوم الساعة 8 مساءً مثلاً)
-    application.job_queue.run_daily(fasting_reminder_job, time=time(20, 0, 0))
-
-    # بدء البوت
-    database.init_db()
-    print("بوت نورِ فاي يعمل الآن...")
-    application.run_polling()
-
-if __name__ == "__main__":
-    main()
+            database.update_group_se
+(Content truncated due to size limit. Use line ranges to read remaining content)
