@@ -17,7 +17,6 @@ logger = logging.getLogger(__name__)
 TOKEN = os.getenv("BOT_TOKEN")
 user_tasbih_data = {}
 group_settings = {}
-scheduler = AsyncIOScheduler()
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     keyboard = [
@@ -30,7 +29,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         [InlineKeyboardButton("ℹ️ مساعدة", callback_data='help_menu')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    # ملاحظة: تأكد أن WELCOME_TEXT في ملف constants يستخدم وسوم HTML مثل <b> بدلاً من *
     await update.message.reply_text(
         WELCOME_TEXT.format(admin=ADMIN_USERNAME),
         parse_mode='HTML',
@@ -39,29 +37,18 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def random_dhikr(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
-    if query:
-        await query.answer()
-        chat_id = query.message.chat_id
-    else:
-        chat_id = update.message.chat_id
+    chat_id = query.message.chat_id if query else update.message.chat_id
+    if query: await query.answer()
 
     dhikr = random.choice(DHIKRS)
     emotional_msg = random.choice(EMOTIONAL_MESSAGES)
-    # استخدام HTML
     message_text = f"<b>{dhikr}</b>\n\n<i>{emotional_msg}</i>"
 
     keyboard = [
         [InlineKeyboardButton("📿 ذكر عشوائي آخر", callback_data='random_dhikr')],
         [InlineKeyboardButton("🔙 رجوع", callback_data='main_menu')]
     ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-
-    await context.bot.send_message(
-        chat_id=chat_id,
-        text=message_text,
-        parse_mode='HTML',
-        reply_markup=reply_markup
-    )
+    await context.bot.send_message(chat_id=chat_id, text=message_text, parse_mode='HTML', reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
@@ -75,12 +62,7 @@ async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         [InlineKeyboardButton("🔕 إيقاف التذكيرات", callback_data='disable_reminders_admin')],
         [InlineKeyboardButton("ℹ️ مساعدة", callback_data='help_menu')]
     ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    await query.edit_message_text(
-        WELCOME_TEXT.format(admin=ADMIN_USERNAME),
-        parse_mode='HTML',
-        reply_markup=reply_markup
-    )
+    await query.edit_message_text(WELCOME_TEXT.format(admin=ADMIN_USERNAME), parse_mode='HTML', reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def tasbih_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
@@ -90,36 +72,28 @@ async def tasbih_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         [InlineKeyboardButton("اختر ذكرًا آخر", callback_data='choose_dhikr')],
         [InlineKeyboardButton("🔙 رجوع", callback_data='main_menu')]
     ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    await query.edit_message_text("اختر الذكر الذي تريد التسبيح به:", reply_markup=reply_markup)
+    await query.edit_message_text("اختر الذكر الذي تريد التسبيح به:", reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def choose_dhikr(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
     await query.answer()
-    dhikr_options = [[InlineKeyboardButton(dhikr, callback_data=f'start_tasbih_{dhikr}')] for dhikr in DHIKRS[:5]] 
+    dhikr_options = [[InlineKeyboardButton(dhikr, callback_data=f'start_tasbih_{dhikr}')] for dhikr in DHIKRS[:5]]
     dhikr_options.append([InlineKeyboardButton("🔙 رجوع", callback_data='tasbih_menu')])
-    reply_markup = InlineKeyboardMarkup(dhikr_options)
-    await query.edit_message_text("اختر الذكر من القائمة:", reply_markup=reply_markup)
+    await query.edit_message_text("اختر الذكر من القائمة:", reply_markup=InlineKeyboardMarkup(dhikr_options))
 
 async def start_tasbih(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
     await query.answer()
     user_id = query.from_user.id
-    dhikr_to_tasbih = query.data.replace("start_tasbih_", "")
-
-    user_tasbih_data[user_id] = {"dhikr": dhikr_to_tasbih, "count": 0}
-
+    dhikr = query.data.replace("start_tasbih_", "")
+    user_tasbih_data[user_id] = {"dhikr": dhikr, "count": 0}
+    
     keyboard = [
-        [InlineKeyboardButton(f"سبح ({dhikr_to_tasbih}) - العدد: 0", callback_data='increment_tasbih')],
+        [InlineKeyboardButton(f"سبح ({dhikr}) - العدد: 0", callback_data='increment_tasbih')],
         [InlineKeyboardButton("إعادة تعيين", callback_data='reset_tasbih')],
-        [InlineKeyboardButton("🔙 رجوع", callback_data='tasbih_menu')]
+        [InlineKeyboardButton("🔙 رجوع للمسبحة", callback_data='tasbih_menu')]
     ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    await query.edit_message_text(
-        f"بدأت التسبيح بـ: <b>{dhikr_to_tasbih}</b>\nاضغط على الزر للتسبيح.",
-        parse_mode='HTML',
-        reply_markup=reply_markup
-    )
+    await query.edit_message_text(f"بدأت التسبيح بـ: <b>{dhikr}</b>\nاضغط على الزر للتسبيح.", parse_mode='HTML', reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def increment_tasbih(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
@@ -127,20 +101,14 @@ async def increment_tasbih(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     user_id = query.from_user.id
     if user_id in user_tasbih_data:
         user_tasbih_data[user_id]["count"] += 1
-        current_count = user_tasbih_data[user_id]["count"]
+        count = user_tasbih_data[user_id]["count"]
         dhikr = user_tasbih_data[user_id]["dhikr"]
-
         keyboard = [
-            [InlineKeyboardButton(f"سبح ({dhikr}) - العدد: {current_count}", callback_data='increment_tasbih')],
+            [InlineKeyboardButton(f"سبح ({dhikr}) - العدد: {count}", callback_data='increment_tasbih')],
             [InlineKeyboardButton("إعادة تعيين", callback_data='reset_tasbih')],
-            [InlineKeyboardButton("🔙 رجوع للمسبحة", callback_data='tasbih_menu')]
+            [InlineKeyboardButton("🔙 رجوع", callback_data='tasbih_menu')]
         ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        await query.edit_message_text(
-            f"بدأت التسبيح بـ: <b>{dhikr}</b>\nاضغط على الزر للتسبيح.",
-            parse_mode='HTML',
-            reply_markup=reply_markup
-        )
+        await query.edit_message_text(f"بدأت التسبيح بـ: <b>{dhikr}</b>\nاضغط على الزر للتسبيح.", parse_mode='HTML', reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def reset_tasbih(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
@@ -154,24 +122,14 @@ async def reset_tasbih(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             [InlineKeyboardButton("إعادة تعيين", callback_data='reset_tasbih')],
             [InlineKeyboardButton("🔙 رجوع", callback_data='tasbih_menu')]
         ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        await query.edit_message_text(
-            f"تم إعادة تعيين التسبيح. بدأت التسبيح بـ: <b>{dhikr}</b>\nاضغط على الزر للتسبيح.",
-            parse_mode='HTML',
-            reply_markup=reply_markup
-        )
+        await query.edit_message_text(f"تم إعادة تعيين التسبيح. بدأت التسبيح بـ: <b>{dhikr}</b>", parse_mode='HTML', reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def library_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
     await query.answer()
-    keyboard = [[InlineKeyboardButton(book_name, callback_data=f'send_book_{book_name}')] for book_name in BOOKS.keys()]
+    keyboard = [[InlineKeyboardButton(b, callback_data=f'send_book_{b}')] for b in BOOKS.keys()]
     keyboard.append([InlineKeyboardButton("🔙 رجوع", callback_data='main_menu')])
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    await query.edit_message_text(
-        "📚 <b>المكتبة الإسلامية</b>\n\nاختر الكتاب الذي تود قراءته:",
-        parse_mode='HTML',
-        reply_markup=reply_markup
-    )
+    await query.edit_message_text("📚 <b>المكتبة الإسلامية</b>\nاختر الكتاب:", parse_mode='HTML', reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def send_book(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
@@ -179,34 +137,19 @@ async def send_book(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     book_name = query.data.replace("send_book_", "")
     file_name = BOOKS.get(book_name)
     if file_name:
-        file_url = f"{GITHUB_REPO_URL}{urllib.parse.quote(file_name)}"
-        await query.message.reply_document(
-            document=file_url,
-            caption=f"📖 كتاب: <b>{book_name}</b>\n\n<i>تم الإرسال من بوت نورِ فاي</i>",
-            parse_mode='HTML'
-        )
+        await query.message.reply_document(document=f"{GITHUB_REPO_URL}{urllib.parse.quote(file_name)}", caption=f"📖 كتاب: <b>{book_name}</b>", parse_mode='HTML')
 
 async def my_stats(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
     await query.answer()
     count = user_tasbih_data.get(query.from_user.id, {}).get("count", 0)
-    stats_text = f"📊 <b>إحصائياتك في نورِ فاي</b>\n\n• عدد التسبيحات الحالية: <b>{count}</b>\n\n<i>استمر في ذكر الله.</i>"
-    await query.edit_message_text(stats_text, parse_mode='HTML', reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 رجوع", callback_data='main_menu')]]))
+    await query.edit_message_text(f"📊 <b>إحصائياتك:</b>\n\n• عدد التسبيحات: <b>{count}</b>", parse_mode='HTML', reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 رجوع", callback_data='main_menu')]]))
 
-# باقي الدوال (enable_reminders, help_menu, etc.) اتبع نفس المنطق:
-# 1. غير parse_mode='Markdown' إلى parse_mode='HTML'
-# 2. غير وسوم التنسيق من * إلى <b> ومن _ إلى <i>
+async def help_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    query = update.callback_query
+    await query.answer()
+    await query.edit_message_text("📖 <b>دليل الاستخدام</b>\n\nالبوت يساعدك في التسبيح والأذكار والمكتبة.", parse_mode='HTML', reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 رجوع", callback_data='main_menu')]]))
 
-# تأكد من تعديل دالة send_scheduled_reminder أيضاً:
-async def send_scheduled_reminder(context: ContextTypes.DEFAULT_TYPE) -> None:
-    job = context.job
-    chat_id = job.chat_id
-    dhikr = random.choice(DHIKRS)
-    msg = random.choice(EMOTIONAL_MESSAGES)
-    await context.bot.send_message(chat_id=chat_id, text=f"🔔 <b>تذكير بالذكر</b>\n\n<b>{dhikr}</b>\n\n<i>{msg}</i>", parse_mode='HTML')
-
-# (قم بتعديل الدوال المتبقية بنفس الطريقة)
-# Run the bot
 def main() -> None:
     application = Application.builder().token(TOKEN).build()
     application.add_handler(CommandHandler("start", start))
@@ -219,7 +162,7 @@ def main() -> None:
     application.add_handler(CallbackQueryHandler(library_menu, pattern='^library_menu$'))
     application.add_handler(CallbackQueryHandler(send_book, pattern='^send_book_.*$'))
     application.add_handler(CallbackQueryHandler(my_stats, pattern='^my_stats$'))
-    # أضف باقي الهاندلرز بنفس التسلسل القديم
+    application.add_handler(CallbackQueryHandler(help_menu, pattern='^help_menu$'))
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 if __name__ == "__main__":
