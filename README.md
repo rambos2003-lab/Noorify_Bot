@@ -1,8 +1,6 @@
 <div align="center">
 
-  <!-- Header Image -->
-  <img src="https://img.icons8.com/fluent/120/000000/mosque.png" alt="Noorify Logo" width="120">
-  
+ 
   <h1 align="center">🕌 Noorify Bot — بوت نورِفاي v5.1</h1>
   
   <p align="center">
