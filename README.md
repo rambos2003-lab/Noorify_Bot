@@ -1,11 +1,9 @@
 <div align="center">
 
-  <!-- Project Banner -->
-  <img src="noorify_banner.png" alt="Noorify Engine Banner" width="800">
-  
+
   <br>
   
-  <h1>🕌 Noorify Engine v6.0 — النسخة الأسطورية</h1>
+  <h1>🕌 Noorify Engine v6.0 —</h1>
   
   <p align="center">
     <b>"نبرمج لخدمة الأمة، ونبني ليبقى الأثر"</b><br>
