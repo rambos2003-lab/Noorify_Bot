@@ -112,7 +112,6 @@ const jawamiList = [
     { num: 10, text: "اللهم اهدني وسددني", source: "رواه مسلم (2725)" }
 ];
 
-// تزامن الأسماء مع ملفاتك في GitHub
 const filesMap = {
     'hisn':     { name: 'حصن المسلم', file: 'حصن المسلم.pdf' },
     'salah':    { name: 'تعليم الصلاة', file: 'تعليم الصلاة.pdf' },
@@ -148,9 +147,15 @@ const activeIntervals = {};
 // ==================== 4. HELPER FUNCTIONS ====================
 const getRandomDhikr = () => dhikrList[Math.floor(Math.random() * dhikrList.length)];
 
+// دالة لتنظيف النصوص من الرموز التي قد تسبب خطأ في Markdown
+const escapeMarkdown = (text) => {
+    return text.replace(/[_*[\]()~`>#+-=|{}.!]/g, '\\$&');
+};
+
 const sendRandomJawami = (chatId) => {
     const j = jawamiList[Math.floor(Math.random() * jawamiList.length)];
-    bot.sendMessage(chatId, `*من جوامع دعاء النبي ﷺ:*\n\n${j.text}\n\n*المصدر:* ${j.source}`, {
+    const msg = `*من جوامع دعاء النبي ﷺ:*\n\n${j.text}\n\n*المصدر:* ${j.source}`;
+    bot.sendMessage(chatId, msg, {
         parse_mode: 'Markdown',
         reply_markup: { inline_keyboard: [[{ text: 'دعاء آخر', callback_data: 'jawami_random' }], [{ text: 'رجوع', callback_data: 'menu_back' }]] }
     }).catch(console.error);
@@ -197,7 +202,7 @@ const sendFile = async (chatId, fileKey) => {
             parse_mode: 'Markdown'
         });
     } else {
-        bot.sendMessage(chatId, `الملف *${info.name}* غير موجود في السيرفر.\nتأكد من وجود ملف باسم: \`${info.file}\``, { parse_mode: 'Markdown' });
+        bot.sendMessage(chatId, `الملف *${info.name}* غير موجود حالياً.`, { parse_mode: 'Markdown' });
     }
 };
 
@@ -347,7 +352,7 @@ _${d.text}_
 🤲 وفّقنا الله لما يحب ويرضى
 ─────────────────────
 *للتواصل:*
-*المطوّر:* @vx\_rq`
+*المطوّر:* @vx\\_rq`
     );
 };
 
@@ -375,7 +380,11 @@ bot.onText(/\/start/, (msg) => {
     const userId = msg.from?.id;
     trackCommand('start');
     if (userId) initUser(userId, chatId);
-    bot.sendMessage(chatId, getWelcomeText(userId), { parse_mode: 'Markdown', ...getMainKeyboard(userId) });
+    bot.sendMessage(chatId, getWelcomeText(userId), { parse_mode: 'Markdown', ...getMainKeyboard(userId) })
+    .catch(err => {
+        // Fallback if markdown fails
+        bot.sendMessage(chatId, "مرحباً بك في بوت نورِفاي", getMainKeyboard(userId));
+    });
 });
 
 bot.onText(/\/menu/, (msg) => {
@@ -397,7 +406,7 @@ bot.on('callback_query', async (query) => {
         userPreferences[userId].lang = data.split('_')[1];
         saveData();
         answer(t(userId, 'lang_changed'));
-        bot.editMessageText(getWelcomeText(userId), { chat_id: chatId, message_id: message.message_id, parse_mode: 'Markdown', ...getMainKeyboard(userId) });
+        bot.editMessageText(getWelcomeText(userId), { chat_id: chatId, message_id: message.message_id, parse_mode: 'Markdown', ...getMainKeyboard(userId) }).catch(() => {});
         return;
     }
 
@@ -417,7 +426,7 @@ bot.on('callback_query', async (query) => {
 
     if (data === 'menu_back') {
         answer();
-        bot.editMessageText(getWelcomeText(userId), { chat_id: chatId, message_id: message.message_id, parse_mode: 'Markdown', ...getMainKeyboard(userId) });
+        bot.editMessageText(getWelcomeText(userId), { chat_id: chatId, message_id: message.message_id, parse_mode: 'Markdown', ...getMainKeyboard(userId) }).catch(() => {});
         return;
     }
 
@@ -475,7 +484,7 @@ bot.on('callback_query', async (query) => {
 
     if (data === 'menu_help') {
         answer();
-        const helpText = `/dhikr — ذكر عشوائي\n/tasbih — المسبحة\n/library — المكتبة\n/jawami — جوامع الدعاء\n/stats — الإحصائيات\n/reminder_on — تفعيل التذكيرات\n/reminder_off — إيقاف التذكيرات\n/menu — القائمة الرئيسية\n\n*للتواصل:* @vx\_rq`;
+        const helpText = `/dhikr — ذكر عشوائي\n/tasbih — المسبحة\n/library — المكتبة\n/jawami — جوامع الدعاء\n/stats — الإحصائيات\n/reminder_on — تفعيل التذكيرات\n/reminder_off — إيقاف التذكيرات\n/menu — القائمة الرئيسية\n\n*للتواصل:* @vx\\_rq`;
         bot.sendMessage(chatId, helpText, { parse_mode: 'Markdown' });
         return;
     }
@@ -570,5 +579,5 @@ bot.on('message', async (msg) => {
 
 bot.on('polling_error', (err) => console.error('Polling error:', err.message));
 
-console.log('Noorify Bot v3.0 — Synced with GitHub');
+console.log('Noorify Bot v3.1 — Fixed Markdown Parsing');
 console.log("Bot Nourify is running successfully... ✅");
