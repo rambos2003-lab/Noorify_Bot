@@ -13,8 +13,7 @@
   <!-- Dynamic Badges -->
   <p align="center">
     <a href="https://github.com/rambos2003-lab/Noorify_Bot/releases">
-      <img src="https://img.shields.io/github/v/release/rambos2003-lab/Noorify_Bot?style=for-the-badge&color=0078D4&label=إصدار&logo=github" alt="Latest Release">
-    </a>
+\
     <img src="https://img.shields.io/badge/Node.js-v18.x-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js">
     <img src="https://img.shields.io/badge/الحالة-مستقر-success?style=for-the-badge" alt="Status">
   </p>
