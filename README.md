@@ -1,7 +1,7 @@
 <div align="center">
 
  
-  <h1 align="center">🕌 Noorify Bot — بوت نورِفاي v5.1</h1>
+  <h1 align="center">🕌 Noorify Bot — بوت نورِفاي </h1>
   
   <p align="center">
     <b>"أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ"</b><br>
