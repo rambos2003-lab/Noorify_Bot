@@ -1,6 +1,5 @@
 <div align="center">
 
-
   <br>
   
   <h1>🕌 Noorify Engine v6.0 
@@ -13,10 +12,9 @@
 
   <!-- Dynamic Badges -->
   <p align="center">
-    <a href="https://github.com/rambos2003-lab/Noorify_Bot/releases">
-<a
-    <img src="https://img.shields.io/badge/Node.js-v18.x-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js">
+    <img src="https://img.shields.io/badge/Python-v3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
     <img src="https://img.shields.io/badge/الحالة-مستقر-success?style=for-the-badge" alt="Status">
+    <img src="https://img.shields.io/badge/المنصة-Railway-0B0D0E?style=for-the-badge&logo=railway&logoColor=white" alt="Railway">
   </p>
 
   <!-- Call to Action -->
@@ -36,7 +34,7 @@
 
 ## 💎 لماذا Noorify v6.0؟ (The Legendary Edge)
 
-تعتبر هذه النسخة إعادة ابتكار شاملة للبوت، حيث تم الانتقال من مجرد ردود نصية إلى نظام تفاعلي ذكي يوفر تجربة مستخدم فريدة.
+تعتبر هذه النسخة إعادة ابتكار شاملة للبوت، حيث تم الانتقال من مجرد ردود نصية إلى نظام تفاعلي ذكي يوفر تجربة مستخدم فريدة باستخدام لغة **Python** لضمان أعلى مستويات الاستقرار والسرعة.
 
 ---
 
@@ -47,25 +45,25 @@
   <tr>
     <td align="center" style="border: none; padding: 25px;">
       <img src="https://img.icons8.com/fluent/80/000000/visual-game-boy.png"><br>
-      <b>المسبحة المرئية (Visual UI)</b><br>
-      واجهة تفاعلية مع شريط تقدم (Progress Bar) يتحدث لحظياً عند كل تسبيحة.
+      <b>المسبحة التفاعلية (Interactive UI)</b><br>
+      واجهة متطورة تتيح لك اختيار الذكر والتسبيح مع عداد حي وتصفير فوري.
     </td>
     <td align="center" style="border: none; padding: 25px;">
-      <img src="https://img.icons8.com/fluent/80/000000/radar.png"><br>
-      <b>البحث الجنائي (Deep Search)</b><br>
-      خوارزمية بحث عن الملفات تتخطى مشاكل التسمية العربية وتجد الملفات بذكاء.
+      <img src="https://img.icons8.com/fluent/80/000000/books.png"><br>
+      <b>المكتبة الذكية (Smart Library)</b><br>
+      ربط مباشر مع GitHub لتحميل أمهات الكتب الإسلامية بصيغة PDF بضغطة زر.
     </td>
   </tr>
   <tr>
     <td align="center" style="border: none; padding: 25px;">
-      <img src="https://img.icons8.com/fluent/80/000000/security-configuration.png"><br>
-      <b>درع المشرفين (Admin Shield)</b><br>
-      نظام حماية متطور يمنع غير المشرفين من تغيير إعدادات المجموعات.
+      <img src="https://img.icons8.com/fluent/80/000000/alarm-clock.png"><br>
+      <b>التذكير الذكي (Smart Reminders)</b><br>
+      نظام جدولة متطور للتذكير بالأذكار وصيام الاثنين والخميس مع الأدلة الشرعية.
     </td>
     <td align="center" style="border: none; padding: 25px;">
-      <img src="https://img.icons8.com/fluent/80/000000/database.png"><br>
-      <b>قاعدة بيانات موحدة</b><br>
-      نظام حفظ بيانات مركزي يضمن دقة الإحصائيات واستقرار التذكيرات.
+      <img src="https://img.icons8.com/fluent/80/000000/security-configuration.png"><br>
+      <b>درع المشرفين (Admin Shield)</b><br>
+      نظام صلاحيات صارم يضمن أن التحكم في إعدادات المجموعات مقتصر على الإدارة فقط.
     </td>
   </tr>
 </table>
@@ -82,14 +80,16 @@
 | `/dhikr` | 📿 | استدعاء ذكر أو دعاء عشوائي فوري |
 | `/tasbih` | 🕋 | الدخول لواجهة المسبحة المرئية المتطورة |
 | `/library` | 📚 | تصفح وتحميل المكتبة الإسلامية الشاملة |
-| `/stats` | 📊 | عرض سجل الإحصائيات الشخصية والعامة |
+| `/stats` | 📊 | عرض سجل الإحصائيات الشخصية |
 
 ---
 
-## 📦 التوثيق والإصدارات (Releases)
+## 🚀 طريقة التشغيل (Deployment)
 
-يتم توثيق كافة التحديثات التقنية وسجل التغييرات عبر نظام GitHub الرسمي لضمان الشفافية والمتابعة:
-👉 **[تصفح سجل الإصدارات](https://github.com/rambos2003-lab/Noorify_Bot/releases)**
+1. **ارفع الملفات:** قم برفع `bot.py`, `constants.py`, و `requirements.txt` إلى مستودعك.
+2. **الربط بـ Railway:** اربط المستودع بمنصة Railway.
+3. **المتغيرات:** أضف متغير البيئة `BOT_TOKEN` وضع فيه التوكن الخاص بك.
+4. **انطلق:** سيقوم النظام بالعمل تلقائياً وبدء نشر الخير.
 
 ---
 
