@@ -1,8 +1,6 @@
 <div align="center">
+<img width="1536" height="1024" alt="noorify_banner" src="https://github.com/user-attachments/assets/9f261d7d-06f4-4f7e-82a8-1d6bb1d89813" />
 
-  <!-- Bot Logo / Banner -->
-  <img src="photo_2026-04-28_22-43-19.jpg" alt="Noorify Logo" width="600">
-  
   <br>
   
   <h1>🕌 Noorify Bot — بوت نورِفاي</h1>
