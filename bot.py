@@ -1,8 +1,9 @@
 import logging
 import random
 import os
+import urllib.parse
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, ContextTypes, CallbackQueryHandler
+from telegram.ext import Application, CommandHandler, ContextTypes, CallbackQueryHandler, MessageHandler, filters
 from constants import WELCOME_TEXT, DHIKRS, EMOTIONAL_MESSAGES, ADMIN_USERNAME, BOOKS, GITHUB_REPO_URL
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from datetime import datetime, time, timedelta
@@ -26,19 +27,19 @@ scheduler = AsyncIOScheduler()
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Sends a welcome message when the command /start is issued."""
     keyboard = [
-        [InlineKeyboardButton("📿 ذكر عشوائي", callback_data=\'random_dhikr\')],
-        [InlineKeyboardButton("🕋 المسبحة الإلكترونية", callback_data=\'tasbih_menu\')],
-        [InlineKeyboardButton("📚 المكتبة الإسلامية", callback_data=\'library_menu\')],
-        [InlineKeyboardButton("📊 إحصائياتي", callback_data=\'my_stats\')],
-        [InlineKeyboardButton("🔔 تفعيل التذكيرات (للمشرفين)", callback_data=\'enable_reminders_admin\')],
-        [InlineKeyboardButton("🔕 إيقاف التذكيرات (للمشرفين)", callback_data=\'disable_reminders_admin\')],
-        [InlineKeyboardButton("⚙️ ضبط فترة التذكير (للمشرفين)", callback_data=\'set_reminder_interval_admin\')],
-        [InlineKeyboardButton("ℹ️ مساعدة", callback_data=\'help_menu\')]
+        [InlineKeyboardButton("📿 ذكر عشوائي", callback_data='random_dhikr')],
+        [InlineKeyboardButton("🕋 المسبحة الإلكترونية", callback_data='tasbih_menu')],
+        [InlineKeyboardButton("📚 المكتبة الإسلامية", callback_data='library_menu')],
+        [InlineKeyboardButton("📊 إحصائياتي", callback_data='my_stats')],
+        [InlineKeyboardButton("🔔 تفعيل التذكيرات (للمشرفين)", callback_data='enable_reminders_admin')],
+        [InlineKeyboardButton("🔕 إيقاف التذكيرات (للمشرفين)", callback_data='disable_reminders_admin')],
+        [InlineKeyboardButton("⚙️ ضبط فترة التذكير (للمشرفين)", callback_data='set_reminder_interval_admin')],
+        [InlineKeyboardButton("ℹ️ مساعدة", callback_data='help_menu')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     await update.message.reply_text(
         WELCOME_TEXT.format(admin=ADMIN_USERNAME),
-        parse_mode=\'Markdown\',
+        parse_mode='Markdown',
         reply_markup=reply_markup
     )
 
@@ -56,15 +57,15 @@ async def random_dhikr(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     message_text = f"*{dhikr}*\n\n_{emotional_msg}_"
 
     keyboard = [
-        [InlineKeyboardButton("📿 ذكر عشوائي آخر", callback_data=\'random_dhikr\')],
-        [InlineKeyboardButton("🔙 رجوع للقائمة الرئيسية", callback_data=\'main_menu\')]
+        [InlineKeyboardButton("📿 ذكر عشوائي آخر", callback_data='random_dhikr')],
+        [InlineKeyboardButton("🔙 رجوع للقائمة الرئيسية", callback_data='main_menu')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     await context.bot.send_message(
         chat_id=chat_id,
         text=message_text,
-        parse_mode=\'Markdown\',
+        parse_mode='Markdown',
         reply_markup=reply_markup
     )
 
@@ -73,19 +74,19 @@ async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
     await query.answer()
     keyboard = [
-        [InlineKeyboardButton("📿 ذكر عشوائي", callback_data=\'random_dhikr\')],
-        [InlineKeyboardButton("🕋 المسبحة الإلكترونية", callback_data=\'tasbih_menu\')],
-        [InlineKeyboardButton("📚 المكتبة الإسلامية", callback_data=\'library_menu\')],
-        [InlineKeyboardButton("📊 إحصائياتي", callback_data=\'my_stats\')],
-        [InlineKeyboardButton("🔔 تفعيل التذكيرات (للمشرفين)", callback_data=\'enable_reminders_admin\')],
-        [InlineKeyboardButton("🔕 إيقاف التذكيرات (للمشرفين)", callback_data=\'disable_reminders_admin\')],
-        [InlineKeyboardButton("⚙️ ضبط فترة التذكير (للمشرفين)", callback_data=\'set_reminder_interval_admin\')],
-        [InlineKeyboardButton("ℹ️ مساعدة", callback_data=\'help_menu\')]
+        [InlineKeyboardButton("📿 ذكر عشوائي", callback_data='random_dhikr')],
+        [InlineKeyboardButton("🕋 المسبحة الإلكترونية", callback_data='tasbih_menu')],
+        [InlineKeyboardButton("📚 المكتبة الإسلامية", callback_data='library_menu')],
+        [InlineKeyboardButton("📊 إحصائياتي", callback_data='my_stats')],
+        [InlineKeyboardButton("🔔 تفعيل التذكيرات (للمشرفين)", callback_data='enable_reminders_admin')],
+        [InlineKeyboardButton("🔕 إيقاف التذكيرات (للمشرفين)", callback_data='disable_reminders_admin')],
+        [InlineKeyboardButton("⚙️ ضبط فترة التذكير (للمشرفين)", callback_data='set_reminder_interval_admin')],
+        [InlineKeyboardButton("ℹ️ مساعدة", callback_data='help_menu')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     await query.edit_message_text(
         WELCOME_TEXT.format(admin=ADMIN_USERNAME),
-        parse_mode=\'Markdown\',
+        parse_mode='Markdown',
         reply_markup=reply_markup
     )
 
@@ -94,9 +95,9 @@ async def tasbih_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     query = update.callback_query
     await query.answer()
     keyboard = [
-        [InlineKeyboardButton("ابدأ التسبيح (سبحان الله)", callback_data=\'start_tasbih_سبحان الله\')],
-        [InlineKeyboardButton("اختر ذكرًا آخر", callback_data=\'choose_dhikr\')],
-        [InlineKeyboardButton("🔙 رجوع", callback_data=\'main_menu\')]
+        [InlineKeyboardButton("ابدأ التسبيح (سبحان الله)", callback_data='start_tasbih_سبحان الله')],
+        [InlineKeyboardButton("اختر ذكرًا آخر", callback_data='choose_dhikr')],
+        [InlineKeyboardButton("🔙 رجوع", callback_data='main_menu')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     await query.edit_message_text(
@@ -108,8 +109,9 @@ async def choose_dhikr(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     """Allows user to choose a dhikr from a list for tasbih."""
     query = update.callback_query
     await query.answer()
-    dhikr_options = [[InlineKeyboardButton(dhikr, callback_data=f\'start_tasbih_{dhikr}\\')] for dhikr in DHIKRS[:5]] # Show first 5 dhikrs for selection
-    dhikr_options.append([InlineKeyboardButton("🔙 رجوع", callback_data=\'tasbih_menu\')])
+    # تم تصحيح الخطأ هنا (إزالة الشرطة المائلة غير الضرورية)
+    dhikr_options = [[InlineKeyboardButton(dhikr, callback_data=f'start_tasbih_{dhikr}')] for dhikr in DHIKRS[:5]] 
+    dhikr_options.append([InlineKeyboardButton("🔙 رجوع", callback_data='tasbih_menu')])
     reply_markup = InlineKeyboardMarkup(dhikr_options)
     await query.edit_message_text(
         "اختر الذكر من القائمة:",
@@ -129,14 +131,14 @@ async def start_tasbih(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     }
 
     keyboard = [
-        [InlineKeyboardButton(f"سبح ({dhikr_to_tasbih}) - العدد: 0", callback_data=\'increment_tasbih\')],
-        [InlineKeyboardButton("إعادة تعيين", callback_data=\'reset_tasbih\')],
-        [InlineKeyboardButton("🔙 رجوع للمسبحة", callback_data=\'tasbih_menu\')]
+        [InlineKeyboardButton(f"سبح ({dhikr_to_tasbih}) - العدد: 0", callback_data='increment_tasbih')],
+        [InlineKeyboardButton("إعادة تعيين", callback_data='reset_tasbih')],
+        [InlineKeyboardButton("🔙 رجوع للمسبحة", callback_data='tasbih_menu')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     await query.edit_message_text(
         f"بدأت التسبيح بـ: *{dhikr_to_tasbih}*\nاضغط على الزر للتسبيح.",
-        parse_mode=\'Markdown\',
+        parse_mode='Markdown',
         reply_markup=reply_markup
     )
 
@@ -152,19 +154,19 @@ async def increment_tasbih(update: Update, context: ContextTypes.DEFAULT_TYPE) -
         dhikr = user_tasbih_data[user_id]["dhikr"]
 
         keyboard = [
-            [InlineKeyboardButton(f"سبح ({dhikr}) - العدد: {current_count}", callback_data=\'increment_tasbih\')],
-            [InlineKeyboardButton("إعادة تعيين", callback_data=\'reset_tasbih\')],
-            [InlineKeyboardButton("🔙 رجوع للمسبحة", callback_data=\'tasbih_menu\')]
+            [InlineKeyboardButton(f"سبح ({dhikr}) - العدد: {current_count}", callback_data='increment_tasbih')],
+            [InlineKeyboardButton("إعادة تعيين", callback_data='reset_tasbih')],
+            [InlineKeyboardButton("🔙 رجوع للمسبحة", callback_data='tasbih_menu')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await query.edit_message_text(
             f"بدأت التسبيح بـ: *{dhikr}*\nاضغط على الزر للتسبيح.",
-            parse_mode=\'Markdown\',
+            parse_mode='Markdown',
             reply_markup=reply_markup
         )
     else:
         await query.edit_message_text("حدث خطأ. يرجى البدء من جديد.",
-                                      reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 رجوع للقائمة الرئيسية", callback_data=\'main_menu\')]]))
+                                      reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 رجوع للقائمة الرئيسية", callback_data='main_menu')]]))
 
 async def reset_tasbih(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Resets the tasbih count."""
@@ -177,19 +179,19 @@ async def reset_tasbih(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         user_tasbih_data[user_id]["count"] = 0
 
         keyboard = [
-            [InlineKeyboardButton(f"سبح ({dhikr}) - العدد: 0", callback_data=\'increment_tasbih\')],
-            [InlineKeyboardButton("إعادة تعيين", callback_data=\'reset_tasbih\')],
-            [InlineKeyboardButton("🔙 رجوع للمسبحة", callback_data=\'tasbih_menu\')]
+            [InlineKeyboardButton(f"سبح ({dhikr}) - العدد: 0", callback_data='increment_tasbih')],
+            [InlineKeyboardButton("إعادة تعيين", callback_data='reset_tasbih')],
+            [InlineKeyboardButton("🔙 رجوع للمسبحة", callback_data='tasbih_menu')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await query.edit_message_text(
             f"تم إعادة تعيين التسبيح. بدأت التسبيح بـ: *{dhikr}*\nاضغط على الزر للتسبيح.",
-            parse_mode=\'Markdown\',
+            parse_mode='Markdown',
             reply_markup=reply_markup
         )
     else:
         await query.edit_message_text("حدث خطأ. يرجى البدء من جديد.",
-                                      reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 رجوع للقائمة الرئيسية", callback_data=\'main_menu\')]]))
+                                      reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 رجوع للقائمة الرئيسية", callback_data='main_menu')]]))
 
 async def library_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Shows the library menu with available books."""
@@ -219,8 +221,6 @@ async def send_book(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     file_name = BOOKS.get(book_name)
     
     if file_name:
-        # Construct the raw GitHub URL for the PDF file
-        import urllib.parse
         encoded_file_name = urllib.parse.quote(file_name)
         file_url = f"{GITHUB_REPO_URL}{encoded_file_name}"
         
@@ -264,8 +264,6 @@ async def is_admin(update: Update) -> bool:
         return True
     
     user_id = update.effective_user.id
-    chat_id = update.effective_chat.id
-    
     try:
         member = await update.effective_chat.get_member(user_id)
         return member.status in ["creator", "administrator"]
@@ -353,8 +351,9 @@ async def apply_interval(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             job.schedule_removal()
         context.job_queue.run_repeating(send_scheduled_reminder, interval=interval*3600, first=10, chat_id=chat_id, name=f"reminder_{chat_id}")
 
+    # تم إصلاح الخطأ هنا (إزالة الأقواس الزائدة)
     await query.edit_message_text(f"✅ تم ضبط فترة التذكير لتكون كل {interval} ساعة.",
-                                  reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 رجوع", callback_data='main_menu')]]))]))
+                                  reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 رجوع", callback_data='main_menu')]]))
 
 async def help_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Shows the help menu."""
@@ -392,10 +391,10 @@ async def send_fasting_reminder(context: ContextTypes.DEFAULT_TYPE) -> None:
     
     if day_of_week == 6: # Sunday, remind for Monday
         title = "🌙 *تذكير بصيام غدٍ الاثنين*"
-        hadith = "قال رسول الله ﷺ: 'تُعْرَضُ الأَعْمَالُ يَوْمَ الاِثْنَيْنِ وَالْخَمِيسِ فَأُحِبُّ أَنْ يُعْرَضَ عَمَلِي وَأَنَا صَائِمٌ'"
+        hadith = "قال رسول الله ﷺ: 'تُعْرَضُ الأَعْمَالُ يَوْمَ الاِثْنَيْنِ وَالْخَمِيسِ فَأُحِبُّ أَنْ يُعْرَضَ عَمَلِي وَأَنَا صَائِمٌ'"
     elif day_of_week == 2: # Wednesday, remind for Thursday
         title = "🌙 *تذكير بصيام غدٍ الخميس*"
-        hadith = "قال رسول الله ﷺ: 'تُعْرَضُ الأَعْمَالُ يَوْمَ الاِثْنَيْنِ وَالْخَمِيسِ فَأُحِبُّ أَنْ يُعْرَضَ عَمَلِي وَأَنَا صَائِمٌ'"
+        hadith = "قال رسول الله ﷺ: 'تُعْرَضُ الأَعْمَالُ يَوْمَ الاِثْنَيْنِ وَالْخَمِيسِ فَأُحِبُّ أَنْ يُعْرَضَ عَمَلِي وَأَنَا صَائِمٌ'"
     else:
         return
 
@@ -430,33 +429,32 @@ def main() -> None:
 
     # Command handlers
     application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("dhikr", random_dhikr)) # For direct command /dhikr
+    application.add_handler(CommandHandler("dhikr", random_dhikr))
 
     # Message handlers
-    from telegram.ext import MessageHandler, filters
     application.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, on_bot_added))
 
     # Callback query handlers
-    application.add_handler(CallbackQueryHandler(random_dhikr, pattern='^random_dhikr$' ))
-    application.add_handler(CallbackQueryHandler(main_menu, pattern='^main_menu$' ))
-    application.add_handler(CallbackQueryHandler(tasbih_menu, pattern='^tasbih_menu$' ))
-    application.add_handler(CallbackQueryHandler(choose_dhikr, pattern='^choose_dhikr$' ))
-    application.add_handler(CallbackQueryHandler(start_tasbih, pattern='^start_tasbih_.*$' ))
-    application.add_handler(CallbackQueryHandler(increment_tasbih, pattern="^increment_tasbih$" ))
-    application.add_handler(CallbackQueryHandler(reset_tasbih, pattern="^reset_tasbih$" ))
-    application.add_handler(CallbackQueryHandler(library_menu, pattern='^library_menu$' ))
-    application.add_handler(CallbackQueryHandler(send_book, pattern='^send_book_.*$' ))
-    application.add_handler(CallbackQueryHandler(my_stats, pattern='^my_stats$' ))
-    application.add_handler(CallbackQueryHandler(enable_reminders_admin, pattern='^enable_reminders_admin$' ))
-    application.add_handler(CallbackQueryHandler(disable_reminders_admin, pattern='^disable_reminders_admin$' ))
-    application.add_handler(CallbackQueryHandler(set_reminder_interval_admin, pattern='^set_reminder_interval_admin$' ))
-    application.add_handler(CallbackQueryHandler(apply_interval, pattern='^set_int_.*$' ))
-    application.add_handler(CallbackQueryHandler(help_menu, pattern='^help_menu$' ))
+    application.add_handler(CallbackQueryHandler(random_dhikr, pattern='^random_dhikr$'))
+    application.add_handler(CallbackQueryHandler(main_menu, pattern='^main_menu$'))
+    application.add_handler(CallbackQueryHandler(tasbih_menu, pattern='^tasbih_menu$'))
+    application.add_handler(CallbackQueryHandler(choose_dhikr, pattern='^choose_dhikr$'))
+    application.add_handler(CallbackQueryHandler(start_tasbih, pattern='^start_tasbih_.*$'))
+    application.add_handler(CallbackQueryHandler(increment_tasbih, pattern="^increment_tasbih$"))
+    application.add_handler(CallbackQueryHandler(reset_tasbih, pattern="^reset_tasbih$"))
+    application.add_handler(CallbackQueryHandler(library_menu, pattern='^library_menu$'))
+    application.add_handler(CallbackQueryHandler(send_book, pattern='^send_book_.*$'))
+    application.add_handler(CallbackQueryHandler(my_stats, pattern='^my_stats$'))
+    application.add_handler(CallbackQueryHandler(enable_reminders_admin, pattern='^enable_reminders_admin$'))
+    application.add_handler(CallbackQueryHandler(disable_reminders_admin, pattern='^disable_reminders_admin$'))
+    application.add_handler(CallbackQueryHandler(set_reminder_interval_admin, pattern='^set_reminder_interval_admin$'))
+    application.add_handler(CallbackQueryHandler(apply_interval, pattern='^set_int_.*$'))
+    application.add_handler(CallbackQueryHandler(help_menu, pattern='^help_menu$'))
 
-    # Schedule fasting reminders (every day at 8 PM to check for next day)
+    # Schedule fasting reminders (every day at 8 PM)
     application.job_queue.run_daily(send_fasting_reminder, time=time(20, 0, 0))
 
-    # Run the bot until the user presses Ctrl-C
+    # Run the bot
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 if __name__ == "__main__":
