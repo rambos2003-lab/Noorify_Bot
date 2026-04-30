@@ -3,7 +3,8 @@
 
   <br>
   
-  <h1>🕌 Noorify Engine v6.0 —</h1>
+  <h1>🕌 Noorify Engine v6.0 
+  </h1>
   
   <p align="center">
     <b>"نبرمج لخدمة الأمة، ونبني ليبقى الأثر"</b><br>
