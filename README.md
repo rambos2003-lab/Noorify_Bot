@@ -1,78 +1,91 @@
-
 <div align="center">
-    
-# <img width="1792" height="592" alt="watermark-removed-Gemini_Generated_Image_66q90u66q90u66q9" src="https://github.com/user-attachments/assets/64673bcf-0100-457b-8b2b-8570295c7541" />
- Noorify Bot — بوت نورِفاي
-*"أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ"*
+  <img src="https://img.icons8.com/fluent/96/000000/mosque.png" alt="Noorify Logo" width="100">
+  <h1>Noorify Bot — بوت نورِفاي</h1>
+  <p><b>"أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ"</b></p>
+  <p>بوت تليجرام إسلامي متكامل وذكي يساعدك على المداومة في ذكر الله يومياً — رفيقك الدائم على مدار الساعة.</p>
 
-بوت تليجرام ذكي يساعدك على المداومة في ذكر الله يومياً — رفيقك الدائم على مدار الساعة.
+  <a href="https://t.me/Noorify_bot">
+    <img src="https://img.shields.io/badge/Telegram-Bot-blue.svg?logo=telegram&style=for-the-badge" alt="Telegram Bot">
+  </a>
+  <img src="https://img.shields.io/badge/Version-5.1-green.svg?style=for-the-badge" alt="Version 5.1">
+  <img src="https://img.shields.io/badge/Language-Arabic-red.svg?style=for-the-badge" alt="Language Arabic">
+</div>
 
 ---
-</div>
 
 ## 🌟 أبرز الميزات (Key Features)
 
-تم تصميم **بوت نورِفاي** ليقدم تجربة إيمانية متكاملة ومريحة، تجمع بين البساطة في التصميم والذكاء في الأداء. إليك أهم ما يميزه:
+تم تصميم **بوت نورِفاي** ليقدم تجربة إيمانية متكاملة ومريحة، تجمع بين التقنية والروحانية:
 
-> ### 📿 محرك الأذكار (Dhikr Engine)
-> * **تنوع كبير:** يضم أكثر من 30 ذكراً ودعاءً من أصح المصادر الإسلامية.
-> * **خوارزمية ذكية:** عرض الأذكار بشكل عشوائي يمنع التكرار الممل، مدعوماً برموز تعبيرية (Emojis) تضفي جمالية على الرسائل.
-
-> ### ⏰ نظام التذكيرات الذكي (Smart Scheduler)
-> * **تحكم كامل:** إمكانية تفعيل أو إيقاف التذكيرات بضغطة زر واحدة.
-> * **فترات مرنة:** اختر ما يناسب جدولك من بين 4 أوضاع (كل 30 دقيقة، ساعة، 3 ساعات، أو 6 ساعات).
-
-> ### 📚 المكتبة الرقمية الإسلامية
-> * **وصول سريع:** تحميل مباشر لكتب الأذكار والقرآن الكريم بصيغة PDF.
-> * **محتوى شامل:** تشمل (أذكار الصباح والمساء، حصن المسلم، أذكار النوم والاستيقاظ، وطرق كسب الثواب).
-
-> ### 🏆 نظام الإحصائيات والأوسمة (Gamification & Stats)
-> * **تحفيز مستمر:** عداد يومي يتتبع نشاطك ويمنحك أوسمة تشجيعية تتطور من (🌱) إلى (🏆) حسب اجتهادك.
-> * **تقرير الحالة:** عرض مفصل لتاريخ انضمامك، إعداداتك الحالية، ومدى تقدمك.
-
-> ### 🤖 التفاعل الذكي (Smart Auto-Reply)
-> * **استجابة لحظية:** بمجرد كتابة ذكر في المحادثة، يقوم البوت بالرد عليك بدعاء تشجيعي لتعزيز روح الذاكرين.
-
-> ### 👥 دعم المجموعات والقنوات
-> * **نشر الخير:** إمكانية إضافة البوت للمجموعات ليعمل كمنبه دوري للأعضاء، مع رسائل ترحيبية ذكية.
+*   **📿 خوارزمية الذكر الذكي:** اختيار عشوائي من بين أكثر من 100 ذكر ودعاء (قرآني ونبوي) لضمان التنوع وعدم التكرار.
+*   **🔔 نظام تذكيرات دوري:** إرسال أذكار تلقائية كل فترة زمنية (من 30 دقيقة إلى 6 ساعات) حسب اختيارك.
+*   **🕋 مسبحة إلكترونية تفاعلية:** عداد أذكار ذكي مع مؤشر تقدم (Progress Bar) ورسائل تحفيزية عند الإكمال.
+*   **📚 مكتبة إسلامية PDF:** تحميل مباشر لأهم الكتب والأذكار (حصن المسلم، القرآن الكريم، الداء والدواء، رياض الصالحين، وغيرها).
+*   **👥 دعم المجموعات والقنوات:** ترحيب تلقائي عند الإضافة مع نظام صلاحيات صارم (التحكم للمشرفين فقط) لضمان انضباط المجموعات.
+*   **📊 إحصائيات شخصية:** تتبع إجمالي أذكارك وتاريخ انضمامك للبوت.
 
 ---
 
-## ⌘ قائمة الأوامر (Commands)
+## 🛠️ الأوامر المتاحة (Bot Commands)
 
-| الأمر | الوصف | النوع |
-| :--- | :--- | :--- |
-| `/start` | الترحيب وبدء الاستخدام | أساسي |
-| `/dhikr` | ذكر عشوائي | أساسي |
-| `/reminder_on` | تفعيل التذكيرات الآلية | تذكير |
-| `/reminder_settings` | تغيير فترة التذكير | تذكير |
-| `/daily_count` | عرض أذكارك والأوسمة | إحصائيات |
-| `/library` | فتح المكتبة الرقمية | مكتبة |
+| الأمر | الوصف |
+| :--- | :--- |
+| `/start` | 🕌 تشغيل البوت والرسالة الترحيبية |
+| `/menu` | 📋 القائمة الرئيسية والخدمات |
+| `/dhikr` | 📿 ذكر أو دعاء عشوائي فوري |
+| `/tasbih` | 🕋 المسبحة الإلكترونية التفاعلية |
+| `/library` | 📚 المكتبة الإسلامية والكتب |
+| `/stats` | 📊 إحصائياتك وإجمالي الأذكار |
+| `/reminder_on` | 🔔 تفعيل التذكيرات (للمشرفين فقط في المجموعات) |
+| `/reminder_off` | 🔕 إيقاف التذكيرات (للمشرفين فقط في المجموعات) |
+| `/help` | ❓ مساعدة وكيفية الاستخدام |
 
 ---
 
-## 📈 الحالة والإحصائيات (Stats & Status)
+## 🚀 طريقة التثبيت والتشغيل (Installation)
+
+إذا كنت ترغب في تشغيل نسختك الخاصة من البوت:
+
+1. **المتطلبات:**
+   - [Node.js](https://nodejs.org/) (إصدار 16 أو أحدث).
+   - توكن بوت من [@BotFather](https://t.me/BotFather).
+
+2. **التثبيت:**
+   ```bash
+   git clone https://github.com/your-username/Noorify_Bot.git
+   cd Noorify_Bot
+   npm install
+   ```
+
+3. **الإعداد:**
+   قم بإنشاء ملف `.env` في المجلد الرئيسي وأضف التوكن:
+   ```env
+   TELEGRAM_BOT_TOKEN=your_bot_token_here
+   ```
+
+4. **التشغيل:**
+   ```bash
+   node app.js
+   ```
+
+---
+
+## 📁 هيكلة الملفات (Project Structure)
+
+- `app.js`: الملف الأساسي والمحرك الرئيسي للبوت.
+- `*.pdf`: ملفات المكتبة الإسلامية (يجب أن تكون في المجلد الرئيسي).
+- `*.json`: ملفات تخزين البيانات المحلية (تنشأ تلقائياً).
+
+---
+
+## 🤝 المساهمة والتواصل
+
+نرحب بمساهماتكم لتطوير البوت وزيادة الأجر. 
+- **المطور:** [@vx_rq](https://t.me/vx_rq)
+- **رابط البوت:** [t.me/Noorify_bot](https://t.me/Noorify_bot)
+
+> "الدال على الخير كفاعله" — لا تنسوا مشاركة البوت ليكون صدقة جارية لنا ولكم.
 
 <div align="center">
-
-[![الإصدار](https://img.shields.io/badge/الإصدار-v2.0.0--Enhanced-blue?style=for-the-badge&logo=github)](https://github.com/rambos2003-lab/noorify-azkar-bot)
-[![الحالة](https://img.shields.io/badge/الحالة-متصل%2099.9%25-brightgreen?style=for-the-badge&logo=statuspage)](https://github.com/rambos2003-lab/noorify-azkar-bot)
-[![الترخيص](https://img.shields.io/badge/الترخيص-MIT-purple?style=for-the-badge&logo=opensource)](https://github.com/rambos2003-lab/noorify-azkar-bot/blob/main/LICENSE)
-[![سرعة الاستجابة](https://img.shields.io/badge/السرعة-120ms-yellow?style=for-the-badge&logo=speedtest)](https://github.com/rambos2003-lab/noorify-azkar-bot)
-
-</div>
-
----
-
-## ✉️ للتواصل والدعم (Contact)
-
-<div align="center">
-
-[![GitHub](https://img.shields.io/badge/GitHub-rambos2003--lab-181717?style=for-the-badge&logo=github)](https://github.com/rambos2003-lab)
-[![Email](https://img.shields.io/badge/Email-ramibitar.connct@gmail.com-D14836?style=for-the-badge&logo=gmail)](mailto:ramibitar.connct@gmail.com)
-[![Telegram](https://img.shields.io/badge/Telegram-@vx__rq-2AABEE?style=for-the-badge&logo=telegram)](https://t.me/vx_rq)
-
-<br>
-
-## Made with ♥ for the sake of Allah ##
+  <p>تم التطوير بكل ❤️ لخدمة الإسلام والمسلمين</p>
 </div>
