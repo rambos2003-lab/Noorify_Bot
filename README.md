@@ -1,26 +1,27 @@
 <div align="center">
-<img width="1536" height="1024" alt="noorify_banner" src="https://github.com/user-attachments/assets/9f261d7d-06f4-4f7e-82a8-1d6bb1d89813" />
 
+  <!-- Project Banner -->
+  <img src="noorify_banner.png" alt="Noorify Engine Banner" width="800">
+  
   <br>
   
-  <h1>🕌 Noorify Bot — بوت نورِفاي</h1>
+  <h1>🕌 Noorify Engine v6.0 — النسخة الأسطورية</h1>
   
   <p align="center">
-    <b>"أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ"</b><br>
-    <i>الرفيق التقني المؤمن.. لنورٍ يملأ حياتك بذكر الله</i>
+    <b>"نبرمج لخدمة الأمة، ونبني ليبقى الأثر"</b><br>
+    <i>النظام الأكثر تطوراً وهندسةً للمداومة على ذكر الله عبر تيليجرام</i>
   </p>
 
-  <!-- Professional Badges -->
+  <!-- Dynamic Badges -->
   <p align="center">
     <a href="https://github.com/rambos2003-lab/Noorify_Bot/releases">
-      <img src="https://img.shields.io/github/v/release/rambos2003-lab/Noorify_Bot?style=for-the-badge&color=0078D4&logo=github" alt="Latest Release">
+      <img src="https://img.shields.io/github/v/release/rambos2003-lab/Noorify_Bot?style=for-the-badge&color=0078D4&label=إصدار&logo=github" alt="Latest Release">
     </a>
     <img src="https://img.shields.io/badge/Node.js-v18.x-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js">
-    <img src="https://img.shields.io/badge/Platform-Telegram-0088cc?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram">
-    <img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge" alt="Status">
+    <img src="https://img.shields.io/badge/الحالة-مستقر-success?style=for-the-badge" alt="Status">
   </p>
 
-  <!-- Interactive Action Buttons -->
+  <!-- Call to Action -->
   <p align="center">
     <a href="https://t.me/Noorify_bot">
       <img src="https://img.shields.io/badge/جرب_البوت_الآن-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram">
@@ -35,48 +36,38 @@
 
 ---
 
-## 🚀 نظرة عامة (Overview)
+## 💎 لماذا Noorify v6.0؟ (The Legendary Edge)
 
-**بوت نورِفاي** هو محرك إيماني متطور يعتمد على خوارزميات ذكية لتقديم محتوى ديني غني ومنظم، مع واجهة مستخدم مهندسة بدقة لتناسب احتياجات الفرد والمجموعات والقنوات الإسلامية.
+تعتبر هذه النسخة إعادة ابتكار شاملة للبوت، حيث تم الانتقال من مجرد ردود نصية إلى نظام تفاعلي ذكي يوفر تجربة مستخدم فريدة.
 
 ---
 
-## ✨ المميزات الخارقة (Super Features)
+## 🔥 الميزات الحصرية (Exclusive Features)
 
 <div align="center">
 <table style="border: none; border-collapse: collapse;">
   <tr>
-    <td align="center" style="border: none; padding: 20px;">
-      <img src="https://img.icons8.com/fluent/64/000000/search.png"><br>
-      <b>البحث الذكي</b><br>
-      خوارزمية تجد ملفات الأذكار والكتب بذكاء حتى مع اختلاف المسميات.
+    <td align="center" style="border: none; padding: 25px;">
+      <img src="https://img.icons8.com/fluent/80/000000/visual-game-boy.png"><br>
+      <b>المسبحة المرئية (Visual UI)</b><br>
+      واجهة تفاعلية مع شريط تقدم (Progress Bar) يتحدث لحظياً عند كل تسبيحة.
     </td>
-    <td align="center" style="border: none; padding: 20px;">
-      <img src="https://img.icons8.com/fluent/64/000000/shield.png"><br>
-      <b>نظام الصلاحيات</b><br>
-      تحكم كامل للمشرفين فقط في إعدادات التذكير والمجموعات.
-    </td>
-    <td align="center" style="border: none; padding: 20px;">
-      <img src="https://img.icons8.com/fluent/64/000000/prayer-beads.png"><br>
-      <b>مسبحة تفاعلية</b><br>
-      عداد متطور مع Progress Bar ورسائل تحفيزية عند الإكمال.
+    <td align="center" style="border: none; padding: 25px;">
+      <img src="https://img.icons8.com/fluent/80/000000/radar.png"><br>
+      <b>البحث الجنائي (Deep Search)</b><br>
+      خوارزمية بحث عن الملفات تتخطى مشاكل التسمية العربية وتجد الملفات بذكاء.
     </td>
   </tr>
   <tr>
-    <td align="center" style="border: none; padding: 20px;">
-      <img src="https://img.icons8.com/fluent/64/000000/books.png"><br>
-      <b>مكتبة PDF شاملة</b><br>
-      تحميل مباشر لأهم الكتب (الداء والدواء، رياض الصالحين، حصن المسلم).
+    <td align="center" style="border: none; padding: 25px;">
+      <img src="https://img.icons8.com/fluent/80/000000/security-configuration.png"><br>
+      <b>درع المشرفين (Admin Shield)</b><br>
+      نظام حماية متطور يمنع غير المشرفين من تغيير إعدادات المجموعات.
     </td>
-    <td align="center" style="border: none; padding: 20px;">
-      <img src="https://img.icons8.com/fluent/64/000000/artificial-intelligence.png"><br>
-      <b>الذكر العشوائي</b><br>
-      أكثر من 100 ذكر ودعاء منتقى بعناية مع نظام عدم التكرار.
-    </td>
-    <td align="center" style="border: none; padding: 20px;">
-      <img src="https://img.icons8.com/fluent/64/000000/data-configuration.png"><br>
-      <b>إحصائيات دقيقة</b><br>
-      تتبع نشاطك الإيماني وإجمالي الأذكار بشكل دقيق.
+    <td align="center" style="border: none; padding: 25px;">
+      <img src="https://img.icons8.com/fluent/80/000000/database.png"><br>
+      <b>قاعدة بيانات موحدة</b><br>
+      نظام حفظ بيانات مركزي يضمن دقة الإحصائيات واستقرار التذكيرات.
     </td>
   </tr>
 </table>
@@ -84,33 +75,32 @@
 
 ---
 
-## 🛠️ الأوامر البرمجية (Terminal Commands)
+## 🛠️ دليل الأوامر (Command Reference)
 
-| الأمر | الوصف البصري | الوظيفة |
+| الأمر | الأيقونة | الوظيفة الأساسية |
 | :--- | :--- | :--- |
-| `/start` | 🕌 | بوابة الدخول والرسالة الترحيبية |
-| `/menu` | 📋 | لوحة التحكم الرئيسية والخدمات |
-| `/dhikr` | 📿 | طلب ذكر أو دعاء عشوائي فوري |
-| `/tasbih` | 🕋 | الدخول للمسبحة الإلكترونية التفاعلية |
-| `/library` | 📚 | تصفح وتحميل الكتب الإسلامية |
-| `/stats` | 📊 | عرض سجل نشاطك وإحصائياتك |
-| `/help` | ❓ | الدليل الكامل لكيفية الاستخدام |
+| `/start` | 🕌 | تشغيل النظام والرسالة الترحيبية المهندسة |
+| `/menu` | 📋 | فتح لوحة التحكم الرئيسية والخدمات |
+| `/dhikr` | 📿 | استدعاء ذكر أو دعاء عشوائي فوري |
+| `/tasbih` | 🕋 | الدخول لواجهة المسبحة المرئية المتطورة |
+| `/library` | 📚 | تصفح وتحميل المكتبة الإسلامية الشاملة |
+| `/stats` | 📊 | عرض سجل الإحصائيات الشخصية والعامة |
 
 ---
 
-## 📦 الإصدارات (Releases)
+## 📦 التوثيق والإصدارات (Releases)
 
-للاطلاع على سجل التغييرات الكامل والتحسينات التقنية في كل إصدار، يرجى زيارة صفحة الإصدارات الرسمية:
-👉 **[GitHub Releases](https://github.com/rambos2003-lab/Noorify_Bot/releases)**
+يتم توثيق كافة التحديثات التقنية وسجل التغييرات عبر نظام GitHub الرسمي لضمان الشفافية والمتابعة:
+👉 **[تصفح سجل الإصدارات](https://github.com/rambos2003-lab/Noorify_Bot/releases)**
 
 ---
 
-## 👨‍💻 المطور (Developer)
+## 👨‍💻 مطور النظام (Lead Developer)
 
 <div align="center">
-  <p>نبرمج لخدمة الأمة، ونبني ليبقى الأثر</p>
+  <p><i>"نبرمج لخدمة الأمة، ونبني ليبقى الأثر"</i></p>
   <a href="https://t.me/vx_rq">
-    <img src="https://img.icons8.com/fluent/48/000000/telegram-app.png" width="40">
+    <img src="https://img.icons8.com/fluent/64/000000/telegram-app.png" width="50">
   </a>
   <p><b>@vx_rq</b></p>
 </div>
