@@ -1,41 +1,28 @@
+# 🤝 المساهمة في Noorify
+
+> نبني هذا المشروع معاً — خطوة صغيرة منك = أثر كبير
 
 ---
 
-# 🚀 CONTRIBUTING.md — Noorify
+## 🧭 فكرة المشروع
 
-````markdown
-![header](https://capsule-render.vercel.app/api?type=waving&color=0:2CA5E0,100:0078D4&height=220&section=header&text=Contributing%20to%20Noorify&fontSize=38&fontColor=ffffff&animation=fadeIn)
+Noorify هو نظام ذكي لخدمة الذكر،  
+مو مجرد بوت عادي — لذلك نشتغل بعقلية:
 
-# 🤝 المساهمة في Noorify Engine
-
-> **"معاً نبني أثراً رقمياً يخدم الأمة"**  
-> نظام Noorify يعتمد على مجتمع قوي — ومساهمتك جزء أساسي من هذا النجاح.
-
----
-
-## 🧭 فلسفة المشروع
-
-نحن لا نبني مجرد بوت… بل نبني **نظام رقمي مستدام**.
-
-### المبادئ الأساسية:
-
-- 🧼 **Code Quality First**
-- ⚡ **Performance Matters**
-- 🧠 **Smart Simplicity**
-- 🔁 **Scalable Architecture**
-
-أي مساهمة لا تحترم هذه المبادئ سيتم رفضها.
+- جودة قبل السرعة
+- بساطة بدون تعقيد
+- كود قابل للتطوير
+- أداء ثابت
 
 ---
 
-## 🚀 البدء السريع
-
-### 1️⃣ Fork المشروع
+## 🚀 ابدأ خلال دقيقة
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/Noorify_Bot.git
 cd Noorify_Bot
-````
+npm install
+npm run dev
 
 ---
 
