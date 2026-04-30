@@ -1,47 +1,36 @@
 
-
 ---
 
+# 🚀 CONTRIBUTING.md — Noorify
+
 ````markdown
-<div align="center">
+![header](https://capsule-render.vercel.app/api?type=waving&color=0:2CA5E0,100:0078D4&height=220&section=header&text=Contributing%20to%20Noorify&fontSize=38&fontColor=ffffff&animation=fadeIn)
 
-<br>
+# 🤝 المساهمة في Noorify Engine
 
-<h1>🤝 المساهمة في Noorify Engine</h1>
-
-<p align="center">
-<b>"معاً نبني أثراً رقمياً يخدم الأمة"</b><br>
-<i>كل مساهمة — مهما كانت صغيرة — تصنع فرقاً</i>
-</p>
-
-<!-- Badges -->
-<p align="center">
-  <img src="https://img.shields.io/badge/Contributions-Welcome-2CA5E0?style=for-the-badge">
-  <img src="https://img.shields.io/badge/Code%20Quality-High-success?style=for-the-badge">
-  <img src="https://img.shields.io/badge/PRs-Reviewed-blueviolet?style=for-the-badge">
-</p>
-
-</div>
+> **"معاً نبني أثراً رقمياً يخدم الأمة"**  
+> نظام Noorify يعتمد على مجتمع قوي — ومساهمتك جزء أساسي من هذا النجاح.
 
 ---
 
 ## 🧭 فلسفة المشروع
 
-Noorify ليس مجرد بوت…  
-إنه **نظام رقمي لخدمة الذكر والدعوة**، لذلك نركز على:
+نحن لا نبني مجرد بوت… بل نبني **نظام رقمي مستدام**.
 
-- 🧼 **نظافة الكود**
-- ⚡ **الأداء العالي**
-- 🧠 **البساطة الذكية**
-- 🔁 **قابلية التوسّع**
+### المبادئ الأساسية:
 
-أي مساهمة يجب أن تحترم هذه المبادئ.
+- 🧼 **Code Quality First**
+- ⚡ **Performance Matters**
+- 🧠 **Smart Simplicity**
+- 🔁 **Scalable Architecture**
+
+أي مساهمة لا تحترم هذه المبادئ سيتم رفضها.
 
 ---
 
-## 🚀 البدء السريع (Getting Started)
+## 🚀 البدء السريع
 
-### 1️⃣ عمل Fork للمشروع
+### 1️⃣ Fork المشروع
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/Noorify_Bot.git
@@ -50,7 +39,7 @@ cd Noorify_Bot
 
 ---
 
-### 2️⃣ تثبيت الحزم
+### 2️⃣ تثبيت المتطلبات
 
 ```bash
 npm install
@@ -66,7 +55,7 @@ npm run dev
 
 ---
 
-## 🧱 أنواع المساهمات (Contribution Types)
+## 🧱 أنواع المساهمات
 
 | النوع         | الوصف            |
 | ------------- | ---------------- |
@@ -78,16 +67,16 @@ npm run dev
 
 ---
 
-## 🔀 نظام الفروع (Branching Strategy)
+## 🔀 نظام الفروع
 
-| الفرع       | الاستخدام       |
-| ----------- | --------------- |
-| `main`      | النسخة المستقرة |
-| `dev`       | التطوير         |
-| `feature/*` | ميزة جديدة      |
-| `fix/*`     | إصلاح           |
+| الفرع       | الاستخدام    |
+| ----------- | ------------ |
+| `main`      | نسخة الإنتاج |
+| `dev`       | التطوير      |
+| `feature/*` | ميزات        |
+| `fix/*`     | إصلاحات      |
 
-### مثال:
+### مثال عملي:
 
 ```bash
 git checkout -b feature/tasbih-ui
@@ -95,54 +84,42 @@ git checkout -b feature/tasbih-ui
 
 ---
 
-## 📥 خطوات إرسال مساهمة (Pull Request Flow)
+## 📥 Workflow المساهمة
 
-1. Fork المشروع
-2. إنشاء فرع جديد
-3. كتابة الكود
-4. اختبار التعديلات
-5. إرسال Pull Request
-
----
-
-## 🧾 معايير قبول المساهمة
-
-### ✅ يجب أن:
-
-* الكود نظيف ومفهوم
-* لا يكسر أي ميزة حالية
-* يحتوي وصف واضح في PR
-
-### ❌ سيتم رفض:
-
-* كود عشوائي
-* تعديلات بدون اختبار
-* Feature غير واضحة
+```mermaid
+graph TD
+A[Fork] --> B[Create Branch]
+B --> C[Write Code]
+C --> D[Test]
+D --> E[Pull Request]
+E --> F[Review]
+F --> G[Merge]
+```
 
 ---
 
-## 📌 قواعد كتابة الكود (Code Standards)
+## 📌 قواعد الكود (Code Standards)
 
-### 🧼 1. نظافة الكود
+### 🧼 النظافة
 
 * أسماء واضحة (camelCase)
-* دوال قصيرة
+* دوال صغيرة (Single Responsibility)
 * لا تكرار (DRY)
 
-### 🧠 2. تنظيم المشروع
+### 🧠 الهيكلة
 
-* فصل الـ Logic عن الـ Commands
+* فصل الـ Logic عن Commands
 * استخدام Modules
-* عدم وضع القيم مباشرة (Hardcoded)
+* عدم استخدام Hardcoded values
 
-### ⚡ 3. الأداء
+### ⚡ الأداء
 
-* تجنب العمليات الثقيلة داخل loops
+* تجنب loops الثقيلة
 * استخدم caching عند الحاجة
 
 ---
 
-## 🧪 الاختبار (Testing)
+## 🧪 الاختبار
 
 قبل إرسال PR:
 
@@ -150,33 +127,49 @@ git checkout -b feature/tasbih-ui
 npm run test
 ```
 
-إذا لا يوجد Tests:
+✔ إذا لا يوجد Tests:
 
 * اختبر يدوياً
 * تأكد عدم وجود Errors
 
 ---
 
-## 🧩 أسلوب الرسائل (Commit Style)
+## 🧩 أسلوب الرسائل (Commit Convention)
 
 ```bash
 feat: add tasbih progress system
-fix: resolve search bug
-refactor: improve database handler
+fix: resolve arabic search bug
+refactor: optimize database handler
 ```
+
+---
+
+## 📥 معايير قبول Pull Request
+
+### ✅ سيتم القبول إذا:
+
+* الكود نظيف ومفهوم
+* لا يكسر النظام
+* PR واضح ومشروح
+
+### ❌ سيتم الرفض إذا:
+
+* كود عشوائي
+* بدون اختبار
+* تغييرات ضخمة بدون شرح
 
 ---
 
 ## ⚠️ أخطاء شائعة
 
-* ❌ إرسال PR ضخم يحتوي عدة تغييرات
-* ❌ تجاهل هيكل المشروع
+* ❌ PR يحتوي أكثر من Feature
+* ❌ تجاهل Structure المشروع
 * ❌ عدم اختبار الكود
-* ❌ كتابة كود بدون شرح
+* ❌ نسخ كود بدون فهم
 
 ---
 
-## 💡 اقتراح ميزة (Feature Request)
+## 💡 Feature Request
 
 افتح Issue واكتب:
 
@@ -186,49 +179,42 @@ refactor: improve database handler
 
 ---
 
-## 🐞 الإبلاغ عن مشكلة (Bug Report)
+## 🐞 Bug Report
 
 يرجى تضمين:
 
 * وصف المشكلة
-* خطوات إعادة المشكلة
-* Logs إن وجدت
-* لقطات شاشة
+* خطوات إعادة الخطأ
+* Logs
+* Screenshots
 
 ---
 
-## 🛡️ الأمان (Security)
+## 🛡️ الأمان
 
-🚫 لا تقم برفع:
+🚫 يمنع رفع:
 
-* Tokens
 * API Keys
-* ملفات حساسة
+* Tokens
+* Secrets
+
+---
+
+## 🧠 نصائح للمساهمين (Pro Tips)
+
+* ابدأ بـ Issues صغيرة
+* اقرأ الكود قبل التعديل
+* اسأل قبل التغييرات الكبيرة
+* اكتب كود كأن شخص غيرك سيقرأه
 
 ---
 
 ## 👨‍💻 كلمة أخيرة
 
-<div align="center">
-
-<i>"نحن لا نكتب كود فقط… نحن نبني أثراً يمتد"</i>
-
-<br><br>
-
-<b>ابدأ بالمساهمة الآن 🚀</b>
-
-</div>
+> **"هذا المشروع صدقة جارية رقمية — فاجعل لك فيه أثراً"**
 
 ---
 
-<div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=2CA5E0&height=120&section=footer&text=ساهم%20في%20الأجر&fontSize=30&fontColor=ffffff" width="100%">
-</div>
-``` 
+![footer](https://capsule-render.vercel.app/api?type=waving\&color=0:0078D4,100:2CA5E0\&height=140\&section=footer)
 
----
-* automated checks
-* commit lint enforcement
-* semantic release
-
-
+````
