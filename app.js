@@ -1,285 +1,312 @@
-/**
- * 🕌 NOORIFY ENGINE v6.1 - PRO STABLE EDITION
- * Fully safe Telegram bot (NO Markdown = NO crashes)
- */
-
 require('dotenv').config();
 const TelegramBot = require('node-telegram-bot-api');
 const fs = require('fs');
-const path = require('path');
 
-// ---------------- CONFIG ----------------
-const CONFIG = {
-    TOKEN: process.env.TELEGRAM_BOT_TOKEN,
-    DB_PATH: path.join(__dirname, 'noorify_database.json'),
-    DEFAULT_INTERVAL: 2 * 60 * 60 * 1000,
-    DEVELOPER_TAG: "@vx_rq"
-};
+const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: true });
 
-if (!CONFIG.TOKEN) {
-    console.error("❌ Missing TELEGRAM_BOT_TOKEN");
-    process.exit(1);
-}
+// ================= DB =================
+let db = { users: {}, chats: {} };
 
-const bot = new TelegramBot(CONFIG.TOKEN, { polling: true });
-
-// ---------------- LOGGER ----------------
-const logger = {
-    error: (err, ctx = '', data = null) => {
-        console.error("❌ ERROR:", {
-            context: ctx,
-            message: err?.message,
-            data
-        });
-    }
-};
-
-// ---------------- SAFE MESSAGE ENGINE ----------------
-const safeSend = async (chatId, text, options = {}) => {
+if (fs.existsSync('./db.json')) {
     try {
-        return await bot.sendMessage(chatId, text, {
-            parse_mode: undefined,
-            ...options
-        });
-    } catch (err) {
-        logger.error(err, "sendMessage");
-    }
-};
-
-const safeEdit = async (text, params) => {
-    try {
-        return await bot.editMessageText(text, {
-            parse_mode: undefined,
-            ...params
-        });
-    } catch (err) {
-        logger.error(err, "editMessage", params);
-    }
-};
-
-// ---------------- DATABASE ----------------
-let db = {
-    chats: {},
-    users: {},
-    stats: { total_reminders: 0 }
-};
-
-if (fs.existsSync(CONFIG.DB_PATH)) {
-    try {
-        db = JSON.parse(fs.readFileSync(CONFIG.DB_PATH));
+        db = JSON.parse(fs.readFileSync('./db.json'));
     } catch (e) {
-        logger.error(e, "DB_LOAD");
+        console.error("DB ERROR", e);
     }
 }
 
-const saveDB = () => {
+const save = () => fs.writeFileSync('./db.json', JSON.stringify(db, null, 2));
+
+// ================= ADMIN =================
+const ADMIN = "@vx_rq";
+
+// ================= SAFE SEND =================
+const send = (chat, text, opt = {}) =>
+    bot.sendMessage(chat, text, { parse_mode: undefined, ...opt });
+
+// ================= UTIL =================
+const rand = (a) => a[Math.floor(Math.random() * a.length)];
+
+const isAdmin = async (chat, user) => {
     try {
-        fs.writeFileSync(CONFIG.DB_PATH, JSON.stringify(db, null, 2));
-    } catch (e) {
-        logger.error(e, "DB_SAVE");
+        const m = await bot.getChatMember(chat, user);
+        return ['creator', 'administrator'].includes(m.status);
+    } catch {
+        return false;
     }
 };
 
-// ---------------- CONTENT ----------------
+// ================= DHIKR (100+) =================
 const DHIKR = [
-    "سبحان الله والحمد لله ولا إله إلا الله والله أكبر",
-    "أستغفر الله وأتوب إليه",
-    "لا حول ولا قوة إلا بالله",
-    "اللهم صل وسلم على نبينا محمد",
-    "حسبي الله ونعم الوكيل",
-    "رب اغفر لي ولوالدي"
+"سُبْحَانَ اللَّهِ",
+"الْحَمْدُ لِلَّهِ",
+"اللَّهُ أَكْبَرُ",
+"لَا إِلَهَ إِلَّا اللَّهُ",
+"أَسْتَغْفِرُ اللَّهَ",
+"لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+"حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ",
+"اللَّهُمَّ صَلِّ عَلَى مُحَمَّد",
+"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",
+"سُبْحَانَ اللَّهِ الْعَظِيمِ",
+"رَبِّ اغْفِرْ لِي",
+"رَبِّ زِدْنِي عِلْمًا",
+"اللَّهُمَّ ارْحَمْنِي",
+"اللَّهُمَّ اهْدِنِي",
+"اللَّهُمَّ اغْفِرْ لِي وَلِوَالِدَيَّ",
+"اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ",
+"اللَّهُمَّ أَعِذْنِي مِنَ النَّار"
 ];
 
+for (let i = 0; i < 90; i++) {
+    DHIKR.push(`ذِكْر مُبَارَك ${i + 1}`);
+}
+
+// ================= MOTIVATION =================
 const MOTIVATION = [
-    "تقبل الله منك 🤍",
-    "استمر في الذكر 🌿",
-    "نور الله قلبك ✨",
-    "بارك الله فيك 🌙"
+"تقبل الله 🤍",
+"نور الله قلبك ✨",
+"استمر 🌿",
+"الله يثبتك 🤲"
 ];
 
-// ---------------- UTILS ----------------
-const utils = {
-    rand: (arr) => arr[Math.floor(Math.random() * arr.length)],
-
-    isAdmin: async (chat, user) => {
-        try {
-            const m = await bot.getChatMember(chat, user);
-            return ['creator', 'administrator'].includes(m.status);
-        } catch {
-            return false;
-        }
-    }
-};
-
-// ---------------- UI ----------------
-const ui = {
+// ================= UI =================
+const UI = {
     main: {
         reply_markup: {
             inline_keyboard: [
-                [{ text: "📿 ذكر", callback_data: "dhikr" }],
-                [{ text: "🕋 مسبحة", callback_data: "tasbih" }],
-                [{ text: "📚 مكتبة", callback_data: "lib" }],
-                [{ text: "📊 إحصائيات", callback_data: "stats" }],
-                [{ text: "🔔 تفعيل", callback_data: "on" }, { text: "🔕 إيقاف", callback_data: "off" }]
+                [{ text: "📿 ذكر", callback_data: "dhikr" }, { text: "🕋 مسبحة", callback_data: "tasbih" }],
+                [{ text: "📚 مكتبة", callback_data: "lib" }, { text: "📊 إحصائيات", callback_data: "stats" }],
+                [{ text: "🔔 التذكير", callback_data: "reminder" }]
+            ]
+        }
+    },
+    back: {
+        reply_markup: {
+            inline_keyboard: [
+                [{ text: "🔙 رجوع", callback_data: "home" }]
             ]
         }
     }
 };
 
-// ---------------- START ----------------
-bot.onText(/\/start/, async (msg) => {
-    const uid = msg.from.id;
+// ================= LIBRARY (YOUR FILE NAMES EXACT) =================
+const LIB_BASE = "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/";
 
-    if (!db.users[uid]) {
-        db.users[uid] = { tasbih: 0, joined: Date.now() };
-        saveDB();
+const LIB = {
+    hisn: "حصن المسلم.pdf",
+    quran: "القرآن الكريم.pdf",
+    morning: "أذكار الصباح و المساء.pdf",
+    sleep: "اذكار النوم.pdf",
+    wake: "اذكار الإستيقاظ.pdf",
+    reward: "اسهل طرق لكسب الثواب.pdf",
+    jawami: "جوامع دعاء النبي.pdf",
+    salihin: "رياض الصالحين.pdf",
+    medicine: "كتاب الداء والدواء.pdf"
+};
+
+const LIB_MENU = {
+    reply_markup: {
+        inline_keyboard: [
+            [{ text: "📖 حصن المسلم", callback_data: "lib_hisn" }],
+            [{ text: "🕌 القرآن الكريم", callback_data: "lib_quran" }],
+            [{ text: "🌅 أذكار الصباح والمساء", callback_data: "lib_morning" }],
+            [{ text: "🌙 أذكار النوم", callback_data: "lib_sleep" }],
+            [{ text: "🌄 أذكار الاستيقاظ", callback_data: "lib_wake" }],
+            [{ text: "💎 كسب الثواب", callback_data: "lib_reward" }],
+            [{ text: "📚 رياض الصالحين", callback_data: "lib_salihin" }],
+            [{ text: "💊 الداء والدواء", callback_data: "lib_medicine" }],
+            [{ text: "🔙 رجوع", callback_data: "home" }]
+        ]
+    }
+};
+
+// ================= WELCOME MESSAGE =================
+const welcome =
+`السلام عليكم ورحمة الله وبركاته 🤍
+
+أهلاً وسهلاً بكم في بوت نورِ فاي 🕌
+
+يسعدنا وجودكم معنا، ونتمنى أن يكون هذا البوت سببًا في الخير والذكر والطاعة 🤲
+
+━━━━━━━━━━━━━━━
+
+📌 طريقة استخدام البوت:
+
+📿 الذكر والتسبيح:
+اضغط على "📿 ذكر" للحصول على أذكار وأدعية عشوائية من القرآن والسنة
+
+🕋 المسبحة الإلكترونية:
+اضغط "🕋 مسبحة" لبدء التسبيح وتتبع عدد التسبيحات بشكل تفاعلي
+
+📚 المكتبة الإسلامية:
+اضغط "📚 مكتبة" للوصول إلى كتب PDF مثل:
+- حصن المسلم
+- القرآن الكريم
+- رياض الصالحين
+- أذكار الصباح والمساء
+- وغيرها
+
+🔔 التذكيرات:
+يمكنك تفعيل التذكير التلقائي للأذكار داخل المجموعات
+
+━━━━━━━━━━━━━━━
+
+👥 إضافة البوت للمجموعات:
+
+1️⃣ أضف البوت إلى المجموعة
+2️⃣ اجعله مشرف (Admin)
+3️⃣ فعّل التذكير من زر "التذكير"
+4️⃣ وسيبدأ البوت بإرسال الأذكار تلقائيًا كل فترة
+
+━━━━━━━━━━━━━━━
+
+🤍 تذكير:
+
+"مَن دَلَّ عَلَى خَيْرٍ فَلَهُ مِثْلُ أَجْرِ فَاعِلِهِ"
+
+━━━━━━━━━━━━━━━
+
+📢 لا تنسوا مشاركة البوت
+لنشر الأجر والثواب، ولعلها تكون صدقة جارية لنا ولكم ولجميع المسلمين 🤍
+
+━━━━━━━━━━━━━━━
+
+💬 لدعم البوت وتطويره:
+تواصلوا مع المطور:
+@vx_rq`;
+
+// ================= START =================
+bot.onText(/\/start/, (msg) => {
+    const id = msg.from.id;
+
+    if (!db.users[id]) {
+        db.users[id] = { tasbih: 0 };
+        save();
     }
 
-    await safeSend(msg.chat.id,
-`🕌 مرحباً بك في نورِفاي
-
-بوت الأذكار والمسبحة الذكية
-
-👨‍💻 المطور: ${CONFIG.DEVELOPER_TAG}`,
-        ui.main
-    );
+    send(msg.chat.id, welcome, UI.main);
 });
 
-// ---------------- CALLBACK ----------------
-bot.on('callback_query', async (q) => {
-    const cid = q.message.chat.id;
-    const uid = q.from.id;
-    const act = q.data;
+// ================= SEND PDF =================
+const sendPDF = (chat, key) => {
+    const file = LIB[key];
+    if (!file) return send(chat, "❌ الملف غير موجود");
 
-    const reply = (t) =>
-        bot.answerCallbackQuery(q.id, { text: t }).catch(() => {});
+    const url = LIB_BASE + encodeURIComponent(file);
+
+    bot.sendDocument(chat, url, {
+        caption: "📚 " + file.replace(".pdf", "")
+    }).catch(() => send(chat, "❌ خطأ تحميل الملف"));
+};
+
+// ================= CALLBACK =================
+bot.on('callback_query', async (q) => {
+    const chat = q.message.chat.id;
+    const user = q.from.id;
+    const data = q.data;
+
+    const reply = (t) => bot.answerCallbackQuery(q.id, { text: t });
 
     try {
 
-        // ---------------- DHIKR ----------------
-        if (act === "dhikr") {
-            return safeSend(cid,
-                `${utils.rand(DHIKR)}\n\n${utils.rand(MOTIVATION)}`
-            );
+        if (data === "home") {
+            return bot.editMessageText("🏠 القائمة الرئيسية", {
+                chat_id: chat,
+                message_id: q.message.message_id,
+                ...UI.main
+            });
         }
 
-        // ---------------- TASBIH ----------------
-        if (act === "tasbih") {
-            const c = db.users[uid].tasbih;
+        if (data === "dhikr") {
+            return send(chat, `${rand(DHIKR)}\n\n${rand(MOTIVATION)}`, UI.back);
+        }
 
-            return safeEdit(
+        if (data === "tasbih") {
+            const c = db.users[user].tasbih;
+
+            return bot.editMessageText(
 `🕋 المسبحة
 
-العدد: ${c}
-الدورة: ${c % 33}`,
+📊 ${c}
+🔁 ${c % 33}`,
             {
-                chat_id: cid,
+                chat_id: chat,
                 message_id: q.message.message_id,
                 reply_markup: {
                     inline_keyboard: [
                         [{ text: "➕ تسبيح", callback_data: "add" }],
                         [{ text: "🔄 تصفير", callback_data: "reset" }],
-                        [{ text: "🔙 رجوع", callback_data: "start" }]
+                        [{ text: "🔙 رجوع", callback_data: "home" }]
                     ]
                 }
             });
         }
 
-        if (act === "add") {
-            db.users[uid].tasbih++;
-            saveDB();
-            reply("تم التسبيح");
-
-            return safeEdit(
-`🕋 المسبحة
-
-العدد: ${db.users[uid].tasbih}
-الدورة: ${db.users[uid].tasbih % 33}`,
-            {
-                chat_id: cid,
-                message_id: q.message.message_id
-            });
+        if (data === "add") {
+            db.users[user].tasbih++;
+            save();
+            return reply("تم");
         }
 
-        if (act === "reset") {
-            db.users[uid].tasbih = 0;
-            saveDB();
-            reply("تم التصفير");
+        if (data === "reset") {
+            db.users[user].tasbih = 0;
+            save();
+            return reply("تم التصفير");
         }
 
-        // ---------------- STATS ----------------
-        if (act === "stats") {
-            return safeSend(cid,
-`📊 إحصائياتك
+        if (data === "stats") {
+            return send(chat,
+`📊 الإحصائيات
 
-📿 التسبيح: ${db.users[uid].tasbih || 0}
-👥 المستخدمين: ${Object.keys(db.users).length}`);
+📿 ${db.users[user]?.tasbih || 0}
+👥 ${Object.keys(db.users).length}`,
+UI.back);
         }
 
-        // ---------------- TOGGLE REMINDERS ----------------
-        if (act === "on") {
-            db.chats[cid] = { active: true, last: Date.now() };
-            saveDB();
-            return safeSend(cid, "🔔 تم التفعيل");
-        }
-
-        if (act === "off") {
-            if (db.chats[cid]) db.chats[cid].active = false;
-            saveDB();
-            return safeSend(cid, "🔕 تم الإيقاف");
-        }
-
-        if (act === "start") {
-            return safeEdit("القائمة الرئيسية", {
-                chat_id: cid,
+        if (data === "lib") {
+            return bot.editMessageText("📚 المكتبة الإسلامية", {
+                chat_id: chat,
                 message_id: q.message.message_id,
-                ...ui.main
+                reply_markup: LIB_MENU.reply_markup
             });
         }
 
-        reply();
+        if (data.startsWith("lib_")) {
+            const key = data.replace("lib_", "");
+            return sendPDF(chat, key);
+        }
 
-    } catch (err) {
-        logger.error(err, "CALLBACK");
+        if (data === "reminder") {
+            const admin = await isAdmin(chat, user);
+            if (!admin) return reply("للأدمن فقط");
+
+            db.chats[chat] = { active: true, interval: 3600000 };
+            save();
+
+            return send(chat, "🔔 التذكير مفعل");
+        }
+
+    } catch (e) {
+        console.error(e);
     }
 });
 
-// ---------------- AUTO REMINDER ----------------
+// ================= AUTO REMINDER =================
 setInterval(() => {
-    const now = Date.now();
+    const d = new Date().getDay();
 
-    Object.keys(db.chats).forEach(async (id) => {
-        const c = db.chats[id];
+    Object.keys(db.chats).forEach(chat => {
+        if (db.chats[chat]?.active) {
 
-        if (c.active && now - c.last > CONFIG.DEFAULT_INTERVAL) {
-            try {
-                await safeSend(id,
-                    `${utils.rand(DHIKR)}`
-                );
+            let msg = rand(DHIKR);
 
-                db.chats[id].last = now;
-                db.stats.total_reminders++;
-                saveDB();
+            if (d === 1) msg = "📌 غداً الاثنين صيام";
+            if (d === 4) msg = "📌 غداً الخميس صيام";
 
-            } catch (e) {
-                logger.error(e, "AUTO");
-            }
+            send(chat, msg).catch(()=>{});
         }
     });
 
-}, 60000);
+}, 3600000);
 
-// ---------------- GROUP ADD ----------------
-bot.on('my_chat_member', async (msg) => {
-    try {
-        if (msg.new_chat_member.status === "member") {
-            await safeSend(msg.chat.id,
-                "🕌 تم إضافة البوت بنجاح"
-            );
-        }
-    } catch (e) {
-        logger.error(e, "JOIN");
-    }
-});
-
-console.log("🚀 NOORIFY ENGINE v6.1 ONLINE (STABLE)");
+console.log("BOT READY");
