@@ -1,7 +1,9 @@
 /**
- * 🕌 Noorify Bot v5.3.0 - Final Integrated Version
- * Developed for: rambos2003-lab
- * Features: Smart Search, Admin Permissions, Dynamic Dhikr, Integrated Library.
+ * 🕌 NOORIFY ENGINE v6.0 - THE LEGENDARY EDITION
+ * --------------------------------------------------
+ * A high-performance, feature-rich Islamic Telegram Bot.
+ * Engineered with precision for: rambos2003-lab
+ * --------------------------------------------------
  */
 
 require('dotenv').config();
@@ -9,52 +11,35 @@ const TelegramBot = require('node-telegram-bot-api');
 const fs = require('fs');
 const path = require('path');
 
-// Prevent deprecation warnings
-process.noDeprecation = true;
+// --- SYSTEM CONFIGURATION ---
+const CONFIG = {
+    TOKEN: process.env.TELEGRAM_BOT_TOKEN,
+    DB_PATH: path.join(__dirname, 'noorify_database.json'),
+    DEFAULT_INTERVAL: 2 * 60 * 60 * 1000, // 2 Hours
+    DEVELOPER_TAG: "@vx_rq"
+};
 
-const token = process.env.TELEGRAM_BOT_TOKEN;
-if (!token) { 
-    console.error('❌ TELEGRAM_BOT_TOKEN missing in .env file'); 
-    process.exit(1); 
+if (!CONFIG.TOKEN) {
+    console.error('CRITICAL ERROR: TELEGRAM_BOT_TOKEN NOT FOUND');
+    process.exit(1);
 }
 
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(CONFIG.TOKEN, { polling: true });
 
-// ==================== 1. DATA PERSISTENCE ====================
-const DATA_FILE       = path.join(__dirname, 'reminders_data.json');
-const STATS_FILE      = path.join(__dirname, 'bot_stats.json');
-const USER_PREFS_FILE = path.join(__dirname, 'user_preferences.json');
-const TASBIH_FILE     = path.join(__dirname, 'tasbih_data.json');
-
-let activeChats     = [];
-let botStats        = { totalUsers: 0, totalReminders: 0, commandsUsed: {} };
-let userPreferences = {};
-let tasbihData      = {};
-
-const loadData = () => {
-    const load = (file, def) => { 
-        try { return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file)) : def; } 
-        catch { return def; } 
-    };
-    activeChats     = load(DATA_FILE, []);
-    botStats        = load(STATS_FILE, { totalUsers: 0, totalReminders: 0, commandsUsed: {} });
-    userPreferences = load(USER_PREFS_FILE, {});
-    tasbihData      = load(TASBIH_FILE, {});
+// --- DATA ENGINE ---
+let db = {
+    chats: {}, // { chatId: { active: bool, interval: ms, lastSent: ts } }
+    users: {}, // { userId: { tasbih: int, joined: ts } }
+    stats: { total_reminders: 0 }
 };
 
-const saveData = () => {
-    try {
-        fs.writeFileSync(DATA_FILE, JSON.stringify(activeChats, null, 2));
-        fs.writeFileSync(STATS_FILE, JSON.stringify(botStats, null, 2));
-        fs.writeFileSync(USER_PREFS_FILE, JSON.stringify(userPreferences, null, 2));
-        fs.writeFileSync(TASBIH_FILE, JSON.stringify(tasbihData, null, 2));
-    } catch (e) { console.error("Error saving data:", e); }
-};
+const persist = () => fs.writeFileSync(CONFIG.DB_PATH, JSON.stringify(db, null, 2));
+if (fs.existsSync(CONFIG.DB_PATH)) {
+    try { db = JSON.parse(fs.readFileSync(CONFIG.DB_PATH)); } catch (e) { console.error("DB Load Error"); }
+}
 
-loadData();
-
-// ==================== 2. CONTENT POOLS ====================
-const dhikrPool = [
+// --- CONTENT ARCHIVE ---
+const DHIKR_POOL = [
     "سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَٰهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ",
     "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَىٰ عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ",
     "اللَّهُمَّ اجْعَلْنِي مِنَ التَّوَّابِينَ وَاجْعَلْنِي مِنَ الْمُتَطَهِّرِينَ",
@@ -75,219 +60,194 @@ const dhikrPool = [
     "﴿قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ﴾"
 ];
 
-const acceptMessages = [
-    "اللهم تقبل منا ومنكم صالح الأعمال ✨",
-    "تقبل الله طاعتك وزادك نوراً 🌟",
-    "بارك الله في ذكرك، اللهم آمين 🤲",
-    "اللهم اجعلنا من الذاكرين الشاكرين 🕊️",
-    "جزاك الله خيراً، ضاعف الله أجرك 💎"
+const MOTIVATION = [
+    "تقبل الله منك طاعتك ✨", "زادك الله نوراً وهدى 🌟", "اللهم آمين، استمر 🤲", "هنيئاً لك الأجر 💎", "اللهم اجعلنا من الذاكرين 🕊️"
 ];
 
-const filesData = [
-    { id: 'hisn',     name: 'حصن المسلم', keywords: ['حصن', 'المسلم'] },
-    { id: 'quran',    name: 'القرآن الكريم', keywords: ['القرآن', 'الكريم'] },
-    { id: 'morning',  name: 'أذكار الصباح والمساء', keywords: ['الصباح', 'المساء'] },
-    { id: 'sleep',    name: 'أذكار النوم', keywords: ['النوم'] },
-    { id: 'wake',     name: 'أذكار الاستيقاظ', keywords: ['الاستيقاظ'] },
-    { id: 'reward',   name: 'أسهل طرق لكسب الثواب', keywords: ['الثواب'] },
-    { id: 'jawami',   name: 'جوامع دعاء النبي', keywords: ['جوامع', 'دعاء'] },
-    { id: 'salihin',  name: 'رياض الصالحين', keywords: ['رياض', 'الصالحين'] },
-    { id: 'medicine', name: 'كتاب الداء والدواء', keywords: ['الداء', 'الدواء'] }
+const LIBRARY = [
+    { id: 'hisn', name: 'حصن المسلم', keys: ['حصن', 'المسلم'] },
+    { id: 'quran', name: 'القرآن الكريم', keys: ['القرآن', 'الكريم'] },
+    { id: 'morning', name: 'أذكار الصباح والمساء', keys: ['الصباح', 'المساء'] },
+    { id: 'sleep', name: 'أذكار النوم', keys: ['النوم'] },
+    { id: 'wake', name: 'أذكار الاستيقاظ', keys: ['الاستيقاظ'] },
+    { id: 'reward', name: 'أسهل طرق لكسب الثواب', keys: ['الثواب'] },
+    { id: 'jawami', name: 'جوامع دعاء النبي', keys: ['جوامع', 'دعاء'] },
+    { id: 'salihin', name: 'رياض الصالحين', keys: ['رياض', 'الصالحين'] },
+    { id: 'medicine', name: 'كتاب الداء والدواء', keys: ['الداء', 'الدواء'] }
 ];
 
-const reminderIntervals = {
-    'every_30min':  30 * 60 * 1000,
-    'every_hour':   60 * 60 * 1000,
-    'every_2hours': 2 * 60 * 60 * 1000,
-    'every_3hours': 3 * 60 * 60 * 1000,
-    'every_6hours': 6 * 60 * 60 * 1000
-};
-
-// ==================== 3. HELPER FUNCTIONS ====================
-const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
-
-const isAdmin = async (chatId, userId) => {
-    try {
-        const chat = await bot.getChat(chatId);
-        if (chat.type === 'private') return true;
-        const member = await bot.getChatMember(chatId, userId);
-        return ['creator', 'administrator'].includes(member.status);
-    } catch { return false; }
-};
-
-const findFileSmartly = (keywords) => {
-    try {
-        const files = fs.readdirSync(__dirname);
-        return files.find(file => {
-            const fileName = file.toLowerCase();
-            return keywords.every(kw => fileName.includes(kw.toLowerCase()));
-        });
-    } catch { return null; }
-};
-
-const sendFile = async (chatId, fileId) => {
-    const config = filesData.find(f => f.id === fileId);
-    if (!config) return;
-    
-    await bot.sendChatAction(chatId, 'upload_document');
-    const foundFile = findFileSmartly(config.keywords);
-    
-    if (foundFile) {
-        const localPath = path.join(__dirname, foundFile);
+// --- CORE LOGIC ---
+const utils = {
+    rand: (a) => a[Math.floor(Math.random() * a.length)],
+    isAdmin: async (c, u) => {
         try {
-            await bot.sendDocument(chatId, localPath, {
-                caption: `*${config.name}*\n\nتم الإرسال بواسطة بوت نورِفاي 🕌`,
-                parse_mode: 'Markdown'
-            });
-        } catch (e) {
-            bot.sendMessage(chatId, `❌ خطأ أثناء إرسال الملف: ${e.message}`);
-        }
-    } else {
-        bot.sendMessage(chatId, `❌ عذراً، لم أتمكن من العثور على ملف *${config.name}*.\nيرجى التأكد من وجوده في المستودع.`, { parse_mode: 'Markdown' });
+            const chat = await bot.getChat(c);
+            if (chat.type === 'private') return true;
+            const m = await bot.getChatMember(c, u);
+            return ['creator', 'administrator'].includes(m.status);
+        } catch { return false; }
+    },
+    findFile: (keys) => {
+        try {
+            const files = fs.readdirSync(__dirname);
+            return files.find(f => keys.every(k => f.toLowerCase().includes(k.toLowerCase())));
+        } catch { return null; }
+    },
+    getTasbihVisual: (count) => {
+        const cycle = count % 33;
+        const progress = Math.floor((cycle / 33) * 10);
+        let bar = "▢".repeat(10).split("");
+        for(let i=0; i<progress; i++) bar[i] = "▣";
+        return `\n📊 [${bar.join("")}] ${Math.floor((cycle/33)*100)}%\n`;
     }
 };
 
-// ==================== 4. KEYBOARDS ====================
-const getMainKeyboard = () => ({
-    reply_markup: {
-        inline_keyboard: [
-            [{ text: "📿 ذكر عشوائي", callback_data: 'menu_dhikr' }, { text: "🕋 المسبحة الإلكترونية", callback_data: 'menu_tasbih' }],
-            [{ text: "📚 المكتبة الإسلامية", callback_data: 'menu_library' }, { text: "🤲 جوامع الدعاء", callback_data: 'menu_jawami' }],
-            [{ text: "🔔 تفعيل التذكيرات", callback_data: 'menu_reminder_on' }, { text: "🔕 إيقاف التذكيرات", callback_data: 'menu_reminder_off' }],
-            [{ text: "⚙️ إعدادات الفترة", callback_data: 'menu_settings' }, { text: "📊 إحصائياتي", callback_data: 'menu_stats' }],
-            [{ text: "❓ المساعدة", callback_data: 'menu_help' }]
-        ]
+// --- INTERFACE BUILDERS ---
+const ui = {
+    main: () => ({
+        reply_markup: {
+            inline_keyboard: [
+                [{ text: "📿 ذكر عشوائي", callback_data: 'cmd_dhikr' }, { text: "🕋 المسبحة الذكية", callback_data: 'cmd_tasbih_ui' }],
+                [{ text: "📚 المكتبة الشاملة", callback_data: 'cmd_lib' }, { text: "📊 إحصائياتي", callback_data: 'cmd_stats' }],
+                [{ text: "🔔 تفعيل التذكير", callback_data: 'adm_on' }, { text: "🔕 إيقاف التذكير", callback_data: 'adm_off' }],
+                [{ text: "⚙️ ضبط الفترة", callback_data: 'adm_set' }, { text: "❓ مساعدة", callback_data: 'cmd_help' }]
+            ]
+        }
+    }),
+    lib: () => ({
+        reply_markup: {
+            inline_keyboard: [
+                [{ text: '📖 حصن المسلم', callback_data: 'get_hisn' }, { text: '🕌 القرآن الكريم', callback_data: 'get_quran' }],
+                [{ text: '☀️ أذكار الصباح والمساء', callback_data: 'get_morning' }],
+                [{ text: '🌙 أذكار النوم', callback_data: 'get_sleep' }, { text: '🌅 أذكار الاستيقاظ', callback_data: 'get_wake' }],
+                [{ text: '📚 رياض الصالحين', callback_data: 'get_salihin' }, { text: '💊 الداء والدواء', callback_data: 'get_medicine' }],
+                [{ text: '🔙 العودة للقائمة', callback_data: 'cmd_start' }]
+            ]
+        }
+    }),
+    tasbih: (u) => {
+        const c = db.users[u]?.tasbih || 0;
+        return {
+            text: `🕋 *المسبحة الإلكترونية المتطورة*\n\nالعدد الإجمالي: \`${c}\`\nالدورة الحالية (33): \`${c % 33}\`\n${utils.getTasbihVisual(c)}\n_اضغط على الزر أدناه للتسبيح_ 👇`,
+            markup: {
+                inline_keyboard: [
+                    [{ text: "📿 سُبْحَانَ اللَّه", callback_data: 'act_tasbih' }],
+                    [{ text: "🔄 تصفير الدورة", callback_data: 'act_reset' }, { text: "🔙 رجوع", callback_data: 'cmd_start' }]
+                ]
+            }
+        };
     }
-});
+};
 
-const getLibraryKeyboard = () => ({
-    reply_markup: {
-        inline_keyboard: [
-            [{ text: '📖 حصن المسلم', callback_data: 'lib_hisn' }, { text: '🕌 القرآن الكريم', callback_data: 'lib_quran' }],
-            [{ text: '☀️ أذكار الصباح والمساء', callback_data: 'lib_morning' }],
-            [{ text: '🌙 أذكار النوم', callback_data: 'lib_sleep' }, { text: '🌅 أذكار الاستيقاظ', callback_data: 'lib_wake' }],
-            [{ text: '📚 رياض الصالحين', callback_data: 'lib_salihin' }, { text: '💊 الداء والدواء', callback_data: 'lib_medicine' }],
-            [{ text: '🔙 رجوع', callback_data: 'menu_back' }]
-        ]
-    }
-});
-
-const getSettingsKeyboard = () => ({
-    reply_markup: {
-        inline_keyboard: [
-            [{ text: '30 دقيقة', callback_data: 'set_30min' }, { text: 'ساعة', callback_data: 'set_hour' }],
-            [{ text: 'ساعتين', callback_data: 'set_2hours' }, { text: '3 ساعات', callback_data: 'set_3hours' }],
-            [{ text: '6 ساعات', callback_data: 'set_6hours' }],
-            [{ text: '🔙 رجوع', callback_data: 'menu_back' }]
-        ]
-    }
-});
-
-// ==================== 5. CORE LOGIC ====================
+// --- COMMAND HANDLERS ---
 bot.onText(/\/start/, (msg) => {
-    const chatId = msg.chat.id;
-    if (!userPreferences[msg.from.id]) {
-        botStats.totalUsers++;
-        userPreferences[msg.from.id] = { joined: new Date().toISOString() };
-        saveData();
+    const uid = msg.from.id;
+    if (!db.users[uid]) {
+        db.users[uid] = { tasbih: 0, joined: Date.now() };
+        persist();
     }
-    bot.sendMessage(chatId, `*السلام عليكم ورحمة الله وبركاته* 🌹\n\nيسعدنا تجربتكم لبوت *نورِفاي* 🕌\nرفيقك المؤمن للمداومة على ذكر الله.\n\nاستخدم الأزرار أدناه للتنقل 👇\n\n_لا تنسوا مشاركة البوت دعماً لنا وانتشار الخير والأجر والثواب._`, { parse_mode: 'Markdown', ...getMainKeyboard() });
+    bot.sendMessage(msg.chat.id, 
+        `*السلام عليكم ورحمة الله وبركاته* 🌹\n\nمرحباً بك في بوت *نورِفاي v6.0* 🕌\nالنظام الأكثر تطوراً للمداومة على ذكر الله.\n\n💡 *كيفية الاستخدام:*\n• للمجموعات: أضف البوت وارفع صلاحياته لمشرف.\n• للتفعيل: استخدم زر "تفعيل التذكير" (للمشرفين فقط).\n• للتفاعل: استكشف الأزرار أدناه للوصول للمكتبة والمسبحة.\n\n_ساهم معنا في نشر الخير والأجر والثواب_ 💎\n\n👨‍💻 *للدعم والتطوير:* ${CONFIG.DEVELOPER_TAG}`, 
+        { parse_mode: 'Markdown', ...ui.main() }
+    );
 });
 
-bot.on('callback_query', async (query) => {
-    const { id: queryId, message, from, data } = query;
-    const chatId = message.chat.id;
-    const userId = from.id;
-    const answer = (text) => bot.answerCallbackQuery(queryId, text ? { text } : {}).catch(() => {});
+bot.on('callback_query', async (q) => {
+    const cid = q.message.chat.id;
+    const uid = q.from.id;
+    const mid = q.message.message_id;
+    const act = q.data;
 
-    // Admin-Only Protection
-    if (['menu_reminder_on', 'menu_reminder_off', 'menu_settings', 'set_'].some(c => data.startsWith(c))) {
-        if (!(await isAdmin(chatId, userId))) return answer('عذراً، هذه الخاصية للمشرفين فقط ⚠️');
+    const notify = (t) => bot.answerCallbackQuery(q.id, { text: t }).catch(()=>{});
+
+    // Permission Guard
+    if (act.startsWith('adm_') && !(await utils.isAdmin(cid, uid))) {
+        return notify('⚠️ عذراً، هذه الصلاحية للمشرفين فقط');
     }
 
-    if (data === 'menu_back') {
-        answer();
-        bot.editMessageText(`*القائمة الرئيسية* 🕌`, { chat_id: chatId, message_id: message.message_id, parse_mode: 'Markdown', ...getMainKeyboard() });
-        return;
-    }
-
-    if (data === 'menu_dhikr') {
-        answer();
-        bot.sendMessage(chatId, `✨ *ذكرك الآن:*\n\n${getRandom(dhikrPool)}\n\n💎 _${getRandom(acceptMessages)}_`, { parse_mode: 'Markdown' });
-        return;
-    }
-
-    if (data === 'menu_library') {
-        answer();
-        bot.editMessageText('📚 *المكتبة الإسلامية*', { chat_id: chatId, message_id: message.message_id, parse_mode: 'Markdown', ...getLibraryKeyboard() });
-        return;
-    }
-
-    if (data.startsWith('lib_')) {
-        answer('⏳ جاري جلب الملف...');
-        sendFile(chatId, data.replace('lib_', ''));
-        return;
-    }
-
-    if (data === 'menu_reminder_on') {
-        if (!activeChats.includes(chatId)) activeChats.push(chatId);
-        saveData();
-        answer('✅ تم تفعيل التذكير');
-        bot.sendMessage(chatId, '🔔 *تم تفعيل التذكيرات التلقائية بنجاح.*\nسيقوم البوت بإرسال أذكار دورية للمجموعة.', { parse_mode: 'Markdown' });
-        return;
-    }
-
-    if (data === 'menu_reminder_off') {
-        activeChats = activeChats.filter(id => id !== chatId);
-        saveData();
-        answer('🔕 تم إيقاف التذكير');
-        bot.sendMessage(chatId, '🔕 *تم إيقاف التذكيرات التلقائية.*', { parse_mode: 'Markdown' });
-        return;
-    }
-
-    if (data === 'menu_settings') {
-        answer();
-        bot.editMessageText('⚙️ *إعدادات فترة التذكير*\nاختر المدة الزمنية بين كل ذكر والآخر:', { chat_id: chatId, message_id: message.message_id, parse_mode: 'Markdown', ...getSettingsKeyboard() });
-        return;
-    }
-
-    if (data === 'menu_stats') {
-        const userStats = tasbihData[userId] || 0;
-        answer();
-        bot.sendMessage(chatId, `📊 *إحصائياتك الإيمانية:*\n\n📿 عدد التسبيحات: ${userStats}\n👥 إجمالي مستخدمي البوت: ${botStats.totalUsers}\n\n_زادك الله طاعة ونوراً_ ✨`, { parse_mode: 'Markdown' });
-        return;
-    }
-
-    if (data === 'menu_tasbih') {
-        answer();
-        tasbihData[userId] = (tasbihData[userId] || 0) + 1;
-        saveData();
-        bot.sendMessage(chatId, `🕋 *المسبحة الإلكترونية*\n\nتم تسجيل تسبيحة جديدة ✅\nإجمالي تسبيحاتك: *${tasbihData[userId]}*\n\n_استمر، ولك الأجر بإذن الله_ 💎`, { parse_mode: 'Markdown' });
-        return;
-    }
-
-    if (data === 'menu_help') {
-        answer();
-        bot.sendMessage(chatId, `❓ *كيفية الاستخدام:*\n\n1. أضف البوت لمجموعتك أو قناتك.\n2. قم بترقيته لمشرف (Admin).\n3. استخدم زر "تفعيل التذكيرات" لبدء النشر التلقائي.\n4. المشرفون فقط يمكنهم التحكم بالإعدادات.\n\nللدعم: @vx_rq`, { parse_mode: 'Markdown' });
-        return;
-    }
-
-    answer();
+    try {
+        if (act === 'cmd_start') {
+            bot.editMessageText(`*القائمة الرئيسية للنظام* 🕌`, { chat_id: cid, message_id: mid, parse_mode: 'Markdown', ...ui.main() });
+        }
+        else if (act === 'cmd_dhikr') {
+            bot.sendMessage(cid, `✨ *الذكر الحكيم:*\n\n${utils.rand(DHIKR_POOL)}\n\n💎 _${utils.rand(MOTIVATION)}_`, { parse_mode: 'Markdown' });
+        }
+        else if (act === 'cmd_tasbih_ui') {
+            const t = ui.tasbih(uid);
+            bot.editMessageText(t.text, { chat_id: cid, message_id: mid, parse_mode: 'Markdown', reply_markup: t.markup });
+        }
+        else if (act === 'act_tasbih') {
+            db.users[uid].tasbih++;
+            persist();
+            const t = ui.tasbih(uid);
+            bot.editMessageText(t.text, { chat_id: cid, message_id: mid, parse_mode: 'Markdown', reply_markup: t.markup });
+            notify('✅ تم التسبيح');
+        }
+        else if (act === 'act_reset') {
+            const current = db.users[uid].tasbih;
+            db.users[uid].tasbih = current - (current % 33);
+            persist();
+            const t = ui.tasbih(uid);
+            bot.editMessageText(t.text, { chat_id: cid, message_id: mid, parse_mode: 'Markdown', reply_markup: t.markup });
+            notify('🔄 تم تصفير الدورة');
+        }
+        else if (act === 'cmd_lib') {
+            bot.editMessageText('📚 *المكتبة الإسلامية الشاملة*\nاختر الكتاب الذي ترغب في تحميله:', { chat_id: cid, message_id: mid, parse_mode: 'Markdown', ...ui.lib() });
+        }
+        else if (act.startsWith('get_')) {
+            const fileKey = act.split('_')[1];
+            const meta = LIBRARY.find(l => l.id === fileKey);
+            notify('⏳ جاري جلب الملف...');
+            const pathFile = utils.findFile(meta.keys);
+            if (pathFile) {
+                bot.sendDocument(cid, path.join(__dirname, pathFile), { caption: `📖 *${meta.name}*\nتم الإرسال عبر نورِفاي 🕌`, parse_mode: 'Markdown' });
+            } else {
+                bot.sendMessage(cid, `❌ الملف *${meta.name}* غير متاح حالياً في السيرفر.`, { parse_mode: 'Markdown' });
+            }
+        }
+        else if (act === 'adm_on') {
+            db.chats[cid] = { active: true, interval: CONFIG.DEFAULT_INTERVAL, lastSent: Date.now() };
+            persist();
+            bot.sendMessage(cid, `✅ *تم تفعيل التذكير التلقائي*\nسيقوم البوت بنشر الأذكار دورياً في هذه المجموعة.`, { parse_mode: 'Markdown' });
+        }
+        else if (act === 'adm_off') {
+            if (db.chats[cid]) db.chats[cid].active = false;
+            persist();
+            bot.sendMessage(cid, `🔕 *تم إيقاف التذكير التلقائي*`, { parse_mode: 'Markdown' });
+        }
+        else if (act === 'cmd_stats') {
+            const count = db.users[uid]?.tasbih || 0;
+            bot.sendMessage(cid, `📊 *إحصائياتك الشخصية*\n\n📿 إجمالي التسبيح: \`${count}\`\n🕌 إجمالي الذاكرين: \`${Object.keys(db.users).length}\`\n\n_بارك الله فيك وزادك حرصاً_ ✨`, { parse_mode: 'Markdown' });
+        }
+        else if (act === 'cmd_help') {
+            bot.sendMessage(cid, `❓ *دليل الاستخدام السريع*\n\n1️⃣ أضف البوت للمجموعة.\n2️⃣ ارفعه لرتبة مشرف.\n3️⃣ اضغط "تفعيل التذكير" لبدء النشر.\n\nلأي استفسار أو بلاغ عن عطل: ${CONFIG.DEVELOPER_TAG}`, { parse_mode: 'Markdown' });
+        }
+    } catch (e) { console.error(e); }
+    notify();
 });
 
-// ==================== 6. AUTO-REMINDER ENGINE ====================
+// --- AUTOMATION ENGINE ---
 setInterval(() => {
-    activeChats.forEach(chatId => {
-        bot.sendMessage(chatId, `🌟 *تذكير دوري:*\n\n${getRandom(dhikrPool)}\n\n_سبحان الله وبحمده، سبحان الله العظيم_`, { parse_mode: 'Markdown' })
-           .catch(e => console.log(`Reminder failed for ${chatId}: ${e.message}`));
+    const now = Date.now();
+    Object.keys(db.chats).forEach(chatId => {
+        const conf = db.chats[chatId];
+        if (conf.active && (now - conf.lastSent) >= conf.interval) {
+            bot.sendMessage(chatId, `🌟 *تذكير إيماني:*\n\n${utils.rand(DHIKR_POOL)}\n\n_لا تنسَ ذكر الله_ ✨`, { parse_mode: 'Markdown' })
+               .then(() => {
+                   db.chats[chatId].lastSent = now;
+                   db.stats.total_reminders++;
+                   persist();
+               })
+               .catch(() => { /* Silent fail for blocked/removed chats */ });
+        }
     });
-}, 2 * 60 * 60 * 1000); // Default: Every 2 hours
+}, 60000); // Check every minute
 
-// Handle added to group
+// Handle Group Add
 bot.on('my_chat_member', (msg) => {
     if (msg.new_chat_member.status === 'member') {
-        bot.sendMessage(msg.chat.id, `*أهلاً بكم في رحاب ذكر الله* 🕌\n\nشكراً لإضافتي للمجموعة. لتفعيل التذكيرات التلقائية، يرجى من أحد المشرفين الضغط على زر "تفعيل التذكيرات" من القائمة الرئيسية.\n\nاستخدم /start لفتح القائمة.`, { parse_mode: 'Markdown' });
+        bot.sendMessage(msg.chat.id, `🕌 *أهلاً بكم في رحاب نورِفاي*\n\nتمت إضافتي للمجموعة بنجاح. يرجى من أحد المشرفين تفعيل التذكيرات التلقائية عبر القائمة الرئيسية.\n\nاستخدم /start للبدء.`, { parse_mode: 'Markdown' });
     }
 });
 
-console.log("✅ Noorify Bot v5.3.0 — All Systems Operational");
+console.log("🚀 NOORIFY ENGINE v6.0 - ONLINE & SECURED");
