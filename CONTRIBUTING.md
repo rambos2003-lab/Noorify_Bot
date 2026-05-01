@@ -10,13 +10,11 @@
 ```
 
 
-### 💡 "هذا المشروع ليس مجرد كود — بل نظام خدمة مستمر"
-```
+### 💡 "هذا المشروع ليس مجرد كود — بل نظام خدمة مستمر
 [![GitHub contributors](https://img.shields.io/github/contributors/YOUR_USERNAME/Noorify_Bot?style=for-the-badge)](https://github.com/YOUR_USERNAME/Noorify_Bot/graphs/contributors)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 </div>
-```
 ---
 
 ## 🚀 رحلة المساهمة (أول خطواتك)
