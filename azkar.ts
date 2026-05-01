@@ -1,10 +1,15 @@
 export const DEVELOPER_USERNAME = "vx_rq";
 export const DEVELOPER_URL = `https://t.me/${DEVELOPER_USERNAME}`;
 
-// زخارف إسلامية فاخرة ومتناسقة
+// توحيد أسماء الزخارف لحل أخطاء التصدير
+export const DIVIDER = "─────────────────────";
 export const SEPARATOR = "━━━━━━━━━━━━━━━━━━━━";
 export const BORDER_TOP = "◈━━━━━━━ • ☪ • ━━━━━━━◈";
 export const BORDER_BOTTOM = "◈━━━━━━━━━━━━━━━━━━━━━◈";
+
+// إضافة الأسماء القديمة كبدائل لتجنب أخطاء format.ts
+export const FANCY_TOP = BORDER_TOP;
+export const FANCY_BOTTOM = BORDER_BOTTOM;
 
 export const TASBEEH_OPTIONS = [
   { id: "subhan", text: "سُبْحَانَ اللَّهِ", emoji: "📿" },
