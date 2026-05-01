@@ -1,7 +1,5 @@
 <div align="center">
 
-# 🕌 Noorify Bot | نوريفاي
-
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f2027,100:2c5364&height=180&section=header&text=Noorify%20Bot&fontSize=40&fontColor=ffffff" />
 
 ### ﴿ أَلَا بِذِكْرِ ٱللَّٰهِ تَطْمَئِنُّ ٱلْقُلُوبُ ﴾
