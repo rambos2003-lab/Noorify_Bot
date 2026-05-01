@@ -46,7 +46,7 @@
 ## ⚙️ دليل التشغيل
 
 ### 1. التثبيت
-``bash
+```bash
 
 git clone [https://github.com/your-username/noorify-bot.git](https://github.com/your-username/noorify-bot.git)
 cd noorify-bot
@@ -61,6 +61,7 @@ Kod snippet'i
 BOT_TOKEN=your_telegram_bot_token_here
 ADMIN_ID=your_id
 
+```
 
 
 
