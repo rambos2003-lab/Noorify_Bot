@@ -1,143 +1,235 @@
-# 🤝 المساهمة في Noorify
+تمام — هذا اللي أرسلته جيد من ناحية الشكل، لكن فيه مشكلة كبيرة:
+هو مكتوب كأنه مشروع **Python** بينما مشروعك الحالي واضح أنه **Node.js + TypeScript (Telegram Bot)**.
 
-> نبني هذا المشروع معاً — خطوة صغيرة منك = أثر كبير
+خليني أعطيك 👇
+
+# 🚀 دليل CONTRIBUTING احترافي (محدث لمشروعك الحقيقي)
+
+هذا جاهز تنسخه بدل القديم:
+
+---
+
+# 🤝 المساهمة في Noorify Bot (TypeScript Edition)
+
+> نظام ذكاء روحي لإدارة الأذكار والمحتوى الإسلامي — مبني بـ Node.js + TypeScript
 
 ---
 
 ## 🧭 فكرة المشروع
 
-هو نظام ذكي لخدمة الذكر،  
-مو مجرد بوت عادي — لذلك نشتغل بعقلية:
+Noorify Bot ليس مجرد بوت Telegram، بل نظام متكامل:
 
-- جودة قبل السرعة
-- بساطة بدون تعقيد
-- كود قابل للتطوير (Pythonic Way)
-- أداء ثابت ومستقر
+* 📿 أذكار يومية وتفاعلية
+* 🧠 نظام تسبيح ذكي
+* 📚 مكتبة كتب PDF
+* ⚙️ إعدادات متقدمة للمجموعات
+* 🔔 تذكيرات مجدولة
+
+هدفنا:
+
+> كود نظيف، أداء عالي، وتجربة مستخدم سلسة
 
 ---
 
-## 🚀 ابدأ خلال دقيقة
+# 🚀 بدء المساهمة خلال دقائق
 
-```bash
-# 1. استنساخ المستودع
+## 1. استنساخ المشروع
+
+```bash id="clone1"
 git clone https://github.com/YOUR_USERNAME/Noorify_Bot.git
 cd Noorify_Bot
-
-# 2. إنشاء بيئة افتراضية (اختياري ولكن موصى به)
-python -m venv venv
-source venv/bin/activate  # لنظام Linux/Mac
-# أو venv\Scripts\activate لنظام Windows
-
-# 3. تثبيت المتطلبات
-pip install -r requirements.txt
-
-# 4. تشغيل المشروع (تأكد من وضع التوكن في متغيرات البيئة)
-export BOT_TOKEN="your_token_here"
-python bot.py
 ```
 
 ---
 
-## 🧱 أنواع المساهمات
+## 2. تثبيت التبعيات
 
-| النوع         | الوصف            |
-| ------------- | ---------------- |
-| ✨ Feature     | إضافة ميزة جديدة |
-| 🐛 Bug Fix    | إصلاح مشكلة      |
-| ♻️ Refactor   | تحسين الكود      |
-| 📚 Docs       | تحسين التوثيق    |
-| ⚡ Performance | تحسين الأداء     |
-
----
-
-## 🔀 نظام الفروع
-
-| الفرع       | الاستخدام    |
-| ----------- | ------------ |
-| `main`      | نسخة الإنتاج |
-| `dev`       | التطوير      |
-| `feature/*` | ميزات جديدة  |
-| `fix/*`     | إصلاحات      |
-
-### مثال عملي:
-
-```bash
-git checkout -b feature/tasbih-ui-v2
+```bash id="install1"
+npm install
 ```
 
 ---
 
-## 📥 Workflow المساهمة
+## 3. إعداد البيئة
 
-```mermaid
-graph TD
-A[Fork] --> B[Create Branch]
-B --> C[Write Python Code]
-C --> D[Test Locally]
-D --> E[Pull Request]
-E --> F[Review]
-F --> G[Merge]
+أنشئ ملف `.env`:
+
+```env id="env1"
+TELEGRAM_BOT_TOKEN=your_token_here
+NODE_ENV=development
+```
+
+أو استخدم:
+
+```bash id="env2"
+cp env.example .env
 ```
 
 ---
 
-## 📌 قواعد الكود (Code Standards)
+## 4. تشغيل المشروع
 
-### 🧼 النظافة (Clean Code)
+```bash id="run1"
+npm run dev
+```
 
-* اتبع معايير **PEP 8** الخاصة بلغة Python.
-* أسماء واضحة للمتغيرات والدوال (snake_case).
-* دوال صغيرة تؤدي وظيفة واحدة (Single Responsibility).
+أو إنتاج:
 
-### 🧠 الهيكلة
-
-* فصل المنطق (Logic) في `bot.py` عن النصوص في `constants.py`.
-* استخدام الـ Async/Await بشكل صحيح لضمان عدم توقف البوت.
-* عدم وضع قيم ثابتة (Hardcoded) داخل الكود، استخدم `constants.py`.
-
-### ⚡ الأداء
-
-* تجنب الحلقات التكرارية (Loops) الثقيلة التي قد تعطل الـ Event Loop.
-* استخدم `JobQueue` للمهام المجدولة والتذكيرات.
-
----
-
-## 🧪 الاختبار
-
-قبل إرسال PR:
-
-* اختبر البوت يدوياً في محادثة خاصة وفي مجموعة.
-* تأكد من عدم وجود Errors في الـ Logs.
-* تأكد من أن جميع الأزرار (Inline Buttons) تعمل وتؤدي وظيفتها.
-
----
-
-## 🧩 أسلوب الرسائل (Commit Convention)
-
-```bash
-feat: add new dhikr category
-fix: resolve pdf download timeout
-refactor: optimize reminder scheduler
+```bash id="run2"
+npm run build
+npm start
 ```
 
 ---
 
-## 🛡️ الأمان
+# 🧱 هيكل المشروع
 
-🚫 **تحذير هام جداً:**
-يمنع منعاً باتاً رفع ملفات تحتوي على:
-* `BOT_TOKEN`
-* أي مفاتيح API خاصة.
-* استخدم دائماً متغيرات البيئة (Environment Variables).
+```txt id="structure1"
+src/
+ ├── index.ts        # نقطة تشغيل البوت
+ ├── bot/            # إنشاء البوت
+ ├── handlers/       # الأوامر والـ callbacks
+ ├── services/       # منطق التطبيق
+ ├── lib/            # أدوات مساعدة
+ ├── data/           # الأذكار والبيانات
+ └── config/         # الإعدادات
+```
 
 ---
 
-## 👨‍💻 كلمة أخيرة
+# 🔀 نظام الفروع
 
-> **"هذا المشروع صدقة جارية رقمية — فاجعل لك فيه أثراً"**
+| الفرع     | الاستخدام   |
+| --------- | ----------- |
+| main      | الإنتاج     |
+| dev       | التطوير     |
+| feature/* | ميزات جديدة |
+| fix/*     | إصلاح أخطاء |
+
+مثال:
+
+```bash id="branch1"
+git checkout -b feature/tasbeeh-improvements
+```
 
 ---
 
-<div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0078D4,100:2CA5E0&height=140&section=footer&text=نورِ%20فاي&fontSize=30&fontColor=ffffff" width="100%">
-</div>
+# 📌 قواعد الكود (Important)
+
+## 🧼 1. Clean Code
+
+* أسماء واضحة (camelCase)
+* دوال صغيرة (Single Responsibility)
+* بدون تكرار
+
+---
+
+## 🧠 2. TypeScript Rules
+
+* لا تستخدم `any` إلا للضرورة
+* عرّف Types دائماً
+* لا تترك imports غير مستخدمة
+
+---
+
+## ⚡ 3. الأداء
+
+* تجنب loops الثقيلة داخل handlers
+* استخدم async/await بشكل صحيح
+* لا تكرر استدعاء database بدون داعي
+
+---
+
+## 🧩 4. Structure
+
+✔ منطق في `services/`
+✔ واجهة المستخدم في `handlers/`
+✔ البيانات في `data/`
+
+---
+
+# 🧪 الاختبار قبل PR
+
+قبل إرسال أي Pull Request:
+
+```bash id="test1"
+npm run build
+```
+
+ثم:
+
+* جرب `/start`
+* جرب `/tasbeeh`
+* جرب الأزرار (Inline Buttons)
+* تأكد ما في أخطاء في console
+
+---
+
+# 🔀 Commit Convention
+
+```bash id="commit1"
+feat: add new dhikr system
+fix: resolve callback error in tasbeeh
+refactor: improve bot structure
+chore: update dependencies
+```
+
+---
+
+# 🔐 الأمان (مهم جداً)
+
+🚫 ممنوع تماماً رفع:
+
+* `.env`
+* `TELEGRAM_BOT_TOKEN`
+* أي API Keys
+
+✔ استخدم دائمًا:
+
+```env id="secure1"
+.env file
+```
+
+---
+
+# 🧠 Pull Request
+
+عند رفع PR:
+
+* اشرح التغيير
+* أرفق صور أو مثال
+* اذكر السبب وليس فقط ماذا فعلت
+
+---
+
+# ⚡ ملاحظات احترافية
+
+* لا تخلط منطق البوت داخل `index.ts`
+* خليه فقط “تشغيل”
+* كل شيء ثاني يكون modular
+
+---
+
+# 🏁 رسالة المشروع
+
+> هذا المشروع ليس مجرد كود — بل نظام خدمة مستمر قابل للتطوير
+
+---
+
+# 🚀 إذا بدك الخطوة القادمة
+
+أقدر أعمل لك:
+
+### 🔥 تحويل المشروع إلى:
+
+* Webhook (بدل polling)
+* Redis caching
+* Admin dashboard
+* CI/CD auto deploy على Railway
+* Anti-spam system
+
+بس قلّي:
+
+> "طور المشروع لمستوى شركات"
+
+وأبني لك نسخة production حقيقية 🔥
