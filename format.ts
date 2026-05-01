@@ -1,5 +1,5 @@
-import { DIVIDER, BORDER_TOP, BORDER_BOTTOM, RANDOM_AZKAR } from "./azkar";
-
+// format.ts - استبدل السطر الأول بهذا:
+import { DIVIDER, FANCY_TOP, FANCY_BOTTOM, TASBEEH_OPTIONS } from "./azkar";
 export function buildMainMenuMessage(firstName: string = "مستخدمنا"): string {
     return `${BORDER_TOP}\n🌙 <b>نُـــورِفَـــاي</b> 🌙\n${BORDER_BOTTOM}\n\nأهلاً بك يا <b>${firstName}</b>\nاختر من القائمة بالأسفل 👇`;
 }
