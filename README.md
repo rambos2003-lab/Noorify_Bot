@@ -46,7 +46,8 @@
 ## ⚙️ دليل التشغيل
 
 ### 1. التثبيت
-```bash
+``bash
+
 git clone [https://github.com/your-username/noorify-bot.git](https://github.com/your-username/noorify-bot.git)
 cd noorify-bot
 npm install
@@ -59,3 +60,45 @@ npm install
 Kod snippet'i
 BOT_TOKEN=your_telegram_bot_token_here
 ADMIN_ID=your_id
+
+
+
+
+
+
+
+
+
+---
+
+## 🤝 تواصل معي | Get in Touch
+
+يسعدني دائماً التواصل مع المطورين والمستخدمين. لا تتردد في مراسلتي لأي استفسار أو مقترح تطوير.
+
+<div align="center">
+
+<a href="https://t.me/vx_rq">
+  <img src="https://img.shields.io/badge/Telegram-@vx_rq-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram" />
+</a>
+
+<a href="https://linktr.ee/ramibitar.dev">
+  <img src="https://img.shields.io/badge/Portfolio-Linktree-39E09B?style=for-the-badge&logo=linktree&logoColor=white" alt="Linktree" />
+</a>
+
+<a href="mailto:ramibitar.connct@gmail.com">
+  <img src="https://img.shields.io/badge/Email-Send_Mail-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
+</a>
+
+</div>
+
+---
+
+<div align="center">
+
+<p>تم التطوير بكل ❤️ بواسطة <b>Rami Bitar</b></p>
+
+<h3>﴿ وَذَكِّرْ فَإِنَّ الذِّكْرَى تَنفَعُ الْمُؤْمِنِينَ ﴾</h3>
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f2027,100:2c5364&height=120&section=footer" />
+
+</div>
