@@ -2,32 +2,39 @@ import { InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup } from 
 import { DEVELOPER_URL } from "./azkar";
 import { PDF_LIBRARY } from "./pdfs";
 
-// لوحة المينو الرئيسية (المربعات بجانب الرسالة)
+// اللوحة الرئيسية المربعة (Reply Keyboard)
 export function mainMenuKeyboard(): ReplyKeyboardMarkup {
   return {
     keyboard: [
       [{ text: "🔵 المسبحة الإلكترونية" }, { text: "🟢 المكتبة الإسلامية" }],
       [{ text: "🟢 ذكر عشوائي" }, { text: "🟢 مشاركة البوت" }],
       [{ text: "📊 الإحصائيات" }, { text: "🔴 الإعدادات" }],
-      [{ text: "🔴 عن البوت" }, { text: "🔴 تواصل مع المطور" }]
+      [{ text: "🔴 تواصل مع المطور" }, { text: "❓ مساعدة" }]
     ],
     resize_keyboard: true,
-    one_time_keyboard: false
+    is_persistent: true // تظل موجودة بجانب حقل النص
   };
 }
 
+// مسبحة تفاعلية مع شريط تقدم
 export function tasbeehInlineKeyboard(count: number): InlineKeyboardMarkup {
-  // محاكاة شريط التقدم التفاعلي
-  const progress = "▓".repeat(Math.min(count % 10, 10)) + "░".repeat(10 - (count % 10));
+  const segment = count % 33;
+  const progress = "🟢".repeat(Math.floor(segment / 3)) + "⚪".repeat(11 - Math.floor(segment / 3));
+  
   return {
     inline_keyboard: [
-      [{ text: `[ ${progress} ]`, callback_data: "none" }],
-      [{ text: "✨ سـبـّح ✨", callback_data: "tasbeeh:tick" }],
-      [{ text: "🔄 تغيير الذكر", callback_data: "tasbeeh:change" }, { text: "🗑️ تصفير", callback_data: "tasbeeh:reset" }]
+      [{ text: `⚡ التقدم: [ ${progress} ]`, callback_data: "none" }],
+      [{ text: "✨ سـبـّح الآن ✨", callback_data: "tasbeeh:tick" }],
+      [
+        { text: "🔄 تغيير الذكر", callback_data: "tasbeeh:change" },
+        { text: "🗑️ تصفير", callback_data: "tasbeeh:reset" }
+      ],
+      [{ text: "🔊 صوت: (مفعل ✅)", callback_data: "settings:sound_toggle" }]
     ]
   };
 }
 
+// إعدادات التذكير (للمشرفين)
 export function intervalSettingsKeyboard(): InlineKeyboardMarkup {
   return {
     inline_keyboard: [
@@ -45,11 +52,12 @@ export function intervalSettingsKeyboard(): InlineKeyboardMarkup {
   };
 }
 
+// أزرار المكتبة
 export function libraryInlineKeyboard(): InlineKeyboardMarkup {
   const rows: InlineKeyboardButton[][] = [];
   for (let i = 0; i < PDF_LIBRARY.length; i += 2) {
-    const row = [{ text: `📖 ${PDF_LIBRARY[i].title}`, callback_data: `lib_file:${PDF_LIBRARY[i].id}` }];
-    if (PDF_LIBRARY[i+1]) row.push({ text: `📖 ${PDF_LIBRARY[i+1].title}`, callback_data: `lib_file:${PDF_LIBRARY[i+1].id}` });
+    const row = [{ text: `${PDF_LIBRARY[i].emoji} ${PDF_LIBRARY[i].title}`, callback_data: `lib_file:${PDF_LIBRARY[i].id}` }];
+    if (PDF_LIBRARY[i+1]) row.push({ text: `${PDF_LIBRARY[i+1].emoji} ${PDF_LIBRARY[i+1].title}`, callback_data: `lib_file:${PDF_LIBRARY[i+1].id}` });
     rows.push(row);
   }
   return { inline_keyboard: rows };
