@@ -1,23 +1,36 @@
+// index.ts - استبدل الاستيرادات القديمة بهذه:
 import TelegramBot from "node-telegram-bot-api";
 import { 
   WELCOME_MESSAGE, 
-  TASBEEH_OPTIONS,
-  DEVELOPER_USERNAME
-} from "./data/azkar";
+  TASBEEH_OPTIONS, 
+  DEVELOPER_USERNAME, 
+  EMOTIONAL_PHRASES, 
+  RANDOM_AZKAR, 
+  FASTING_RESOURCES 
+} from "./azkar"; // تم التعديل هنا (إزالة ./data)
+
 import { 
   mainMenuKeyboard, 
+  tasbeehKeyboard, 
   tasbeehChooserKeyboard, 
-  tasbeehActiveKeyboard,
-  libraryKeyboard,
-  intervalChooserKeyboard
-} from "./lib/keyboards";
-import { 
-  buildTasbeehDisplay,
-  buildStatsMessage,
-  buildLibraryMessage
-} from "./lib/format";
-import { PDF_LIBRARY } from "./data/pdfs";
+  libraryKeyboard, 
+  settingsKeyboard, 
+  intervalChooserKeyboard, 
+  dhikrNowKeyboard 
+} from "./keyboards"; // تم التعديل هنا (إزالة ./lib)
 
+import { 
+  buildRandomDhikrMessage, 
+  buildTasbeehMessage, 
+  buildLibraryMessage, 
+  buildAboutMessage, 
+  buildSettingsMessage, 
+  buildStatsMessage, 
+  buildMainMenuMessage, 
+  buildIntervalChooserMessage 
+} from "./format"; // تم التعديل هنا (إزالة ./lib)
+
+import { PDF_LIBRARY, getPdfUrl } from "./pdfs"; // تم التعديل هنا (إزالة ./data)
 // إعداد البوت
 const token = process.env.TELEGRAM_BOT_TOKEN || "";
 const bot = new TelegramBot(token, { polling: true });
