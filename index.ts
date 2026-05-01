@@ -906,24 +906,28 @@ async function editMessage(
       disable_web_page_preview: true,
       reply_markup,
     });
-  } catch (err: unknown) {
-    const e = err as { response?: { body?: { description?: string } } };
-    const desc = e.response?.body?.description ?? "";
-    if (desc.includes("message is not modified")) return;
+   } catch (err: unknown) {
+    const e = err as any;
+
+    const desc = e?.response?.body?.description ?? "";
+
     if (
       desc.includes("message can't be edited") ||
-      desc.includes("message to edit not found") ||
-      desc.includes("there is no text in the message to edit")
+      desc.includes("message is not modified")
     ) {
-      await bot
-        .sendMessage(chatId, text, {
-          parse_mode: "HTML",
-          disable_web_page_preview: true,
-          reply_markup,
-        })
-        .catch(() => {});
+      await bot.sendMessage(chatId, text, {
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+        reply_markup,
+      });
+
       return;
     }
+
     throw err;
   }
-startBot();
+}
+
+if (require.main === module) {
+  startBot();
+}
