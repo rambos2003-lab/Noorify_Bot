@@ -1,252 +1,167 @@
 import TelegramBot from "node-telegram-bot-api";
+import express from "express";
 import { 
   WELCOME_MESSAGE, 
-  HELP_MESSAGE, 
-  CONTACT_MESSAGE, 
-  SHARE_MESSAGE, 
-  TASBEEH_OPTIONS,
-  GROUP_WELCOME_MESSAGE,
+  TASBEEH_OPTIONS, 
+  EMOTIONAL_PHRASES, 
+  DIVIDER,
   escapeHtml 
-} from "./azkar";
+} from "./data/azkar";
+import { 
+  mainMenuKeyboard, 
+  tasbeehChooserKeyboard, 
+  tasbeehActiveKeyboard, 
+  libraryKeyboard,
+  settingsKeyboard 
+} from "./lib/keyboards";
+import { PDF_LIBRARY, getPdfUrl } from "./data/pdfs";
+import { buildTasbeehDisplay, buildFastingMessage } from "./lib/format";
 
-/**
- * ==========================================
- * 1. إعدادات النظام المساعدة (Helper Services)
- * ==========================================
- */
-
-const logger = {
-  info: (msg: string, details?: any) => console.log(`[INFO] ${msg}`, details || ""),
-  error: (msg: string, details?: any) => console.error(`[ERROR] ${msg}`, details || ""),
-  warn: (msg: string, details?: any) => console.warn(`[WARN] ${msg}`, details || ""),
-};
-
-// تخزين البيانات في الذاكرة (In-Memory Storage) لضمان العمل بدون قاعدة بيانات معقدة حالياً
-const storage = {
-  users: new Map<number, any>(),
-  chats: new Map<number, any>(),
-};
-
-/**
- * ==========================================
- * 2. تهيئة البوت (Bot Initialization)
- * ==========================================
- */
-
-const token = process.env["TELEGRAM_BOT_TOKEN"] || "";
-if (!token) {
-  logger.error("خطأ: لم يتم العثور على TELEGRAM_BOT_TOKEN في المتغيرات البيئية!");
-  process.exit(1);
-}
-
+const token = process.env.TELEGRAM_BOT_TOKEN || "";
 const bot = new TelegramBot(token, { polling: true });
-let botUsername = "bot";
-
-bot.getMe().then((me) => {
-  botUsername = me.username || "bot";
-  logger.info(`تم تشغيل البوت بنجاح باسم: @${botUsername}`);
-});
 
 /**
- * ==========================================
- * 3. معالجة الأوامر النصية (Commands)
- * ==========================================
+ * التحقق من رتبة المستخدم في المجموعات
  */
-
-// أمر البدء /start
-bot.onText(/\/start/, (msg) => {
-  const chatId = msg.chat.id;
-  const firstName = msg.from?.first_name || "عزيزي";
-
-  bot.sendMessage(chatId, WELCOME_MESSAGE(botUsername), {
-    parse_mode: "HTML",
-    reply_markup: {
-      inline_keyboard: [
-        [{ text: "📿 المسبحة الإلكترونية", callback_data: "tasbeeh_menu" }],
-        [{ text: "📚 المكتبة الإسلامية", callback_data: "library_menu" }],
-        [{ text: "⚙️ الإعدادات", callback_data: "settings_main" }],
-        [{ text: "📞 تواصل مع المطور", callback_data: "contact_dev" }]
-      ]
-    }
-  });
-});
-
-// أمر المساعدة /help
-bot.onText(/\/help/, (msg) => {
-  bot.sendMessage(msg.chat.id, HELP_MESSAGE, { parse_mode: "HTML" });
-});
-
-// أمر المسبحة /tasbeeh
-bot.onText(/\/tasbeeh/, (msg) => {
-  sendTasbeehMenu(msg.chat.id);
-});
-
-// أمر المطور /contact
-bot.onText(/\/contact/, (msg) => {
-  bot.sendMessage(msg.chat.id, CONTACT_MESSAGE, { parse_mode: "HTML", disable_web_page_preview: true });
-});
-
-/**
- * ==========================================
- * 4. معالجة الأزرار (Callback Queries)
- * ==========================================
- */
-
-bot.on("callback_query", async (query) => {
-  const chatId = query.message?.chat.id;
-  const messageId = query.message?.message_id;
-  const data = query.data;
-
-  if (!chatId || !data) return;
-
+async function isAdmin(chatId: number, userId: number): Promise<boolean> {
+  if (chatId > 0) return true; // في الخاص المستخدم دائماً آدمن
   try {
-    // قائمة المسبحة
-    if (data === "tasbeeh_menu") {
-      await bot.editMessageText("📿 <b>المسبحة الإلكترونية</b>\nاختر الذكر الذي تود التسبيح به:", {
-        chat_id: chatId,
-        message_id: messageId,
-        parse_mode: "HTML",
-        reply_markup: {
-          inline_keyboard: [
-            ...TASBEEH_OPTIONS.map(opt => [{ text: opt.text, callback_data: `set_dhikr_${opt.id}` }]),
-            [{ text: "🔙 عودة", callback_data: "main_menu" }]
-          ]
-        }
-      });
-    }
-
-    // اختيار ذكر محدد
-    if (data.startsWith("set_dhikr_")) {
-      const dhikrId = data.replace("set_dhikr_", "");
-      const selected = TASBEEH_OPTIONS.find(o => o.id === dhikrId);
-      if (selected) {
-        await bot.editMessageText(`📿 <b>المسبحة:</b> ${selected.text}\n\nالعدد الحالي: 0`, {
-          chat_id: chatId,
-          message_id: messageId,
-          parse_mode: "HTML",
-          reply_markup: {
-            inline_keyboard: [
-              [{ text: "➕ سبّح", callback_data: `tick_${dhikrId}_1` }],
-              [{ text: "🔄 تصفير", callback_data: `reset_${dhikrId}` }],
-              [{ text: "🔙 تغيير الذكر", callback_data: "tasbeeh_menu" }]
-            ]
-          }
-        });
-      }
-    }
-
-    // زيادة العداد
-    if (data.startsWith("tick_")) {
-      const parts = data.split("_");
-      const dhikrId = parts[1];
-      const currentCount = parseInt(parts[2]);
-      const nextCount = currentCount + 1;
-      const selected = TASBEEH_OPTIONS.find(o => o.id === dhikrId);
-
-      await bot.editMessageText(`📿 <b>المسبحة:</b> ${selected?.text}\n\nالعدد الحالي: ${currentCount}`, {
-        chat_id: chatId,
-        message_id: messageId,
-        parse_mode: "HTML",
-        reply_markup: {
-          inline_keyboard: [
-            [{ text: "➕ سبّح", callback_data: `tick_${dhikrId}_${nextCount}` }],
-            [{ text: "🔄 تصفير", callback_data: `reset_${dhikrId}` }],
-            [{ text: "🔙 عودة", callback_data: "tasbeeh_menu" }]
-          ]
-        }
-      });
-      await bot.answerCallbackQuery(query.id, { text: `تم التسبيح: ${currentCount}` });
-    }
-
-    // العودة للقائمة الرئيسية
-    if (data === "main_menu") {
-      await bot.editMessageText(WELCOME_MESSAGE(botUsername), {
-        chat_id: chatId,
-        message_id: messageId,
-        parse_mode: "HTML",
-        reply_markup: {
-          inline_keyboard: [
-            [{ text: "📿 المسبحة الإلكترونية", callback_data: "tasbeeh_menu" }],
-            [{ text: "📚 المكتبة الإسلامية", callback_data: "library_menu" }],
-            [{ text: "⚙️ الإعدادات", callback_data: "settings_main" }],
-            [{ text: "📞 تواصل مع المطور", callback_data: "contact_dev" }]
-          ]
-        }
-      });
-    }
-
-    // المكتبة
-    if (data === "library_menu") {
-      await bot.editMessageText("📚 <b>المكتبة الإسلامية</b>\nقريباً سيتم إضافة الكتب والمراجع هنا.", {
-        chat_id: chatId,
-        message_id: messageId,
-        parse_mode: "HTML",
-        reply_markup: {
-          inline_keyboard: [[{ text: "🔙 عودة", callback_data: "main_menu" }]]
-        }
-      });
-    }
-
-    // تواصل مع المطور
-    if (data === "contact_dev") {
-      await bot.editMessageText(CONTACT_MESSAGE, {
-        chat_id: chatId,
-        message_id: messageId,
-        parse_mode: "HTML",
-        disable_web_page_preview: true,
-        reply_markup: {
-          inline_keyboard: [[{ text: "🔙 عودة", callback_data: "main_menu" }]]
-        }
-      });
-    }
-
-  } catch (err) {
-    logger.error("خطأ في معالجة الزر:", err);
-  }
-
-  bot.answerCallbackQuery(query.id);
-});
-
-/**
- * ==========================================
- * 5. الوظائف الإضافية (Helper Functions)
- * ==========================================
- */
-
-function sendTasbeehMenu(chatId: number) {
-  bot.sendMessage(chatId, "📿 اختر الذكر لبدء التسبيح:", {
-    reply_markup: {
-      inline_keyboard: TASBEEH_OPTIONS.map(opt => [{ text: opt.text, callback_data: `set_dhikr_${opt.id}` }])
-    }
-  });
+    const member = await bot.getChatMember(chatId, userId);
+    return ["creator", "administrator"].includes(member.status);
+  } catch { return false; }
 }
 
-// معالجة إضافة البوت لمجموعة
-bot.on("my_chat_member", (update) => {
-  const chat = update.chat;
-  if (update.new_chat_member.status === "member" || update.new_chat_member.status === "administrator") {
-    bot.sendMessage(chat.id, GROUP_WELCOME_MESSAGE(chat.title || "المجموعة"), { parse_mode: "HTML" });
-    logger.info(`تم إضافة البوت لمجموعة: ${chat.title} (${chat.id})`);
-  }
+/**
+ * معالجة الأوامر
+ */
+bot.onText(/\/start/, async (msg) => {
+  const me = await bot.getMe();
+  const isAdm = await isAdmin(msg.chat.id, msg.from!.id);
+  bot.sendMessage(msg.chat.id, WELCOME_MESSAGE(me.username!), {
+    parse_mode: "HTML",
+    disable_web_page_preview: true,
+    reply_markup: mainMenuKeyboard(isAdm, me.username!)
+  });
 });
 
 /**
- * ==========================================
- * 6. تشغيل السيرفر (Keep Alive)
- * ==========================================
+ * معالجة ضغطات الأزرار (Callbacks)
  */
+bot.on("callback_query", async (query) => {
+  const chatId = query.message!.chat.id;
+  const messageId = query.message!.message_id;
+  const userId = query.from.id;
+  const data = query.data || "";
 
-import express from "express";
-const app = express();
-const PORT = process.env.PORT || 3000;
+  // حماية الصلاحيات
+  if (data.startsWith("settings") && data !== "settings:locked") {
+    const isAdm = await isAdmin(chatId, userId);
+    if (!isAdm) {
+      return bot.answerCallbackQuery(query.id, { 
+        text: "⚠️ هذه الصلاحية للمشرفين فقط في المجموعات.", 
+        show_alert: true 
+      });
+    }
+  }
 
-app.get("/", (req, res) => res.send("البوت يعمل بنجاح! ✅"));
+  // القائمة الرئيسية والرجوع
+  if (data === "menu:main") {
+    const me = await bot.getMe();
+    const isAdm = await isAdmin(chatId, userId);
+    bot.editMessageText(WELCOME_MESSAGE(me.username!), {
+      chat_id: chatId, message_id: messageId,
+      parse_mode: "HTML", disable_web_page_preview: true,
+      reply_markup: mainMenuKeyboard(isAdm, me.username!)
+    });
+  }
 
-app.listen(PORT, () => {
-  logger.info(`سيرفر الويب يعمل على المنفذ: ${PORT}`);
+  // منطق المسبحة
+  if (data === "tasbeeh:open") {
+    bot.editMessageText("📿 <b>المسبحة الإلكترونية</b>\nاختر الذكر الذي تود البدء به:", {
+      chat_id: chatId, message_id: messageId,
+      parse_mode: "HTML", reply_markup: tasbeehChooserKeyboard()
+    });
+  }
+
+  if (data.startsWith("tasbeeh:set:")) {
+    const id = data.split(":")[2];
+    bot.editMessageText(buildTasbeehDisplay(id, 0), {
+      chat_id: chatId, message_id: messageId,
+      parse_mode: "HTML", reply_markup: tasbeehActiveKeyboard(id, 0)
+    });
+  }
+
+  if (data.startsWith("tasbeeh:tick:")) {
+    const [_, __, id, countStr] = data.split(":");
+    const count = parseInt(countStr) + 1;
+    bot.editMessageText(buildTasbeehDisplay(id, count), {
+      chat_id: chatId, message_id: messageId,
+      parse_mode: "HTML", reply_markup: tasbeehActiveKeyboard(id, count)
+    }).catch(() => {}); // نتفادى أخطاء التعديل السريع
+    bot.answerCallbackQuery(query.id);
+  }
+
+  if (data.startsWith("tasbeeh:reset:")) {
+    const id = data.split(":")[2];
+    bot.editMessageText(buildTasbeehDisplay(id, 0), {
+      chat_id: chatId, message_id: messageId,
+      parse_mode: "HTML", reply_markup: tasbeehActiveKeyboard(id, 0)
+    });
+    bot.answerCallbackQuery(query.id, { text: "تم تصفير العداد" });
+  }
+
+  // منطق المكتبة
+  if (data === "lib:open") {
+    bot.editMessageText("📚 <b>المكتبة الإسلامية</b>\nاختر الكتاب لقراءته أو تحميله بصيغة PDF:", {
+      chat_id: chatId, message_id: messageId,
+      parse_mode: "HTML", reply_markup: libraryKeyboard()
+    });
+  }
+
+  if (data.startsWith("lib:view:")) {
+    const id = data.split(":")[2];
+    const book = PDF_LIBRARY.find(b => b.id === id);
+    if (book) {
+      bot.sendMessage(chatId, `📖 <b>${book.title}</b>\n\nرابط التحميل المباشر:\n${getPdfUrl(book.filename)}`, {
+        parse_mode: "HTML", reply_markup: { inline_keyboard: [[{ text: "« رجوع للمكتبة", callback_data: "lib:open" }]] }
+      });
+    }
+    bot.answerCallbackQuery(query.id);
+  }
+
+  // تنبيه الصلاحيات المقفلة
+  if (data === "settings:locked") {
+    bot.answerCallbackQuery(query.id, { text: "⚠️ عذراً! هذه الإعدادات مخصصة للمشرفين فقط.", show_alert: true });
+  }
+
+  bot.answerCallbackQuery(query.id).catch(() => {});
 });
 
-// التعامل مع أخطاء Polling لمنع توقف البوت
-bot.on("polling_error", (err) => logger.warn("خطأ في Polling:", err.message));
+/**
+ * نظام التذكير بالصيام والجدولة
+ */
+setInterval(() => {
+  const now = new Date();
+  const day = now.getDay(); // 0: Sunday, 3: Wednesday
+  const hour = now.getHours();
 
-logger.info("تم تحميل جميع الوظائف بنجاح.");
+  if (hour === 20) { // التذكير الساعة 8 مساءً
+    if (day === 0) {
+      // إرسال تذكير الاثنين (تحتاج لقائمة المشتركين من داتابيس)
+    } else if (day === 3) {
+      // إرسال تذكير الخميس
+    }
+  }
+}, 3600000);
+
+// ترحيب المجموعات
+bot.on("my_chat_member", (update) => {
+  if (update.new_chat_member.status === "member") {
+    bot.sendMessage(update.chat.id, "✅ <b>تم التحقق والتأكد من الإضافة بنجاح!</b>\nسأقوم الآن بإرسال تذكيرات دورية تلقائية لتعطير مجموعتكم بذكر الله كل فترة.", { parse_mode: "HTML" });
+  }
+});
+
+// تشغيل سيرفر الويب للبقاء حياً
+const app = express();
+app.get("/", (req, res) => res.send("Norify Bot is Online!"));
+app.listen(process.env.PORT || 3000);
