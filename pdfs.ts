@@ -8,8 +8,10 @@ export interface PdfBook {
   filename: string;
 }
 
-// تأكد من وضع رابط الـ Repository الصحيح هنا
-const GITHUB_BASE_URL = "https://raw.githubusercontent.com/YourRepo/main/pdfs/";
+/** * تم تحديث الرابط ليشير إلى مستودعك الخاص
+ * نستخدم raw.githubusercontent.com للوصول المباشر للملفات
+ */
+const GITHUB_BASE_URL = "https://raw.githubusercontent.com/rambos2003-lab/Noorify_Bot/main/pdfs/";
 
 export const PDF_LIBRARY: PdfBook[] = [
   { id: "dua", title: "جوامع الأدعية", filename: "جوامع_الادعيه.pdf" },
@@ -23,6 +25,16 @@ export const PDF_LIBRARY: PdfBook[] = [
   { id: "quran", title: "القرآن الكريم", filename: "القران_الكريم.pdf" },
 ];
 
+/**
+ * دالة لجلب الرابط المباشر لكل ملف PDF
+ */
 export function getPdfUrl(filename: string): string {
   return `${GITHUB_BASE_URL}${encodeURIComponent(filename)}`;
+}
+
+/**
+ * دالة للبحث عن كتاب بواسطة المعرف (ID)
+ */
+export function findBookById(id: string): PdfBook | undefined {
+  return PDF_LIBRARY.find((book) => book.id === id);
 }
