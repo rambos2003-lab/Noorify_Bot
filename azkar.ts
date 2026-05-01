@@ -1,10 +1,16 @@
-   // أضف اسم المتغير هنا (FASTING_HADITHS أو أي اسم تفضله)
 export const FASTING_HADITHS = [
   `🌿 صيام يوم في سبيل الله يُباعد الله به وجهه عن النار سبعين خريفًا.`,
 ];
 
+export const TASBEEH_OPTIONS = [
+  { id: "1", text: "سبحان الله" },
+  { id: "2", text: "الحمد لله" },
+  { id: "3", text: "الله أكبر" },
+  { id: "4", text: "لا إله إلا الله" },
+  { id: "5", text: "استغفر الله" }
+];
+
 export const DEVELOPER_USERNAME = "vx_rq";
-// ... باقي الكود
 export const DEVELOPER_URL = `https://t.me/${DEVELOPER_USERNAME}`;
 
 const DIVIDER = "─────────────────────";
