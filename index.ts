@@ -1,138 +1,163 @@
 import TelegramBot from "node-telegram-bot-api";
 import express from "express";
 import { WELCOME_TEXT, BORDER_TOP, BORDER_BOTTOM, SEPARATOR, TASBEEH_OPTIONS, RANDOM_AZKAR } from "./azkar";
-import { mainMenuKeyboard, tasbeehInlineKeyboard, intervalSettingsKeyboard, libraryInlineKeyboard } from "./keyboards";
+import { 
+  mainMenuKeyboard, 
+  tasbeehKeyboard, 
+  tasbeehSelectionKeyboard, 
+  libraryKeyboard, 
+  settingsKeyboard, 
+  helpKeyboard 
+} from "./keyboards";
 import { PDF_LIBRARY } from "./pdfs";
-import { buildTasbeehMessage } from "./format";
 
 const token = process.env.TELEGRAM_BOT_TOKEN || "";
 const bot = new TelegramBot(token, { polling: true });
 
-// مخازن البيانات الحقيقية
-const globalStats = { totalTasbeeh: 0, totalUsers: new Set(), totalGroups: new Set() };
-const userSession = new Map<number, { count: number, total: number, dhikr: string }>();
+// مخزن بيانات المستخدمين (يمكنك لاحقاً ترقيته لقاعدة بيانات)
+const userState = new Map<number, { count: number, total: number, dhikr: string, sound: boolean }>();
 
-// وظيفة التحقق من المشرفين
-async function canChangeSettings(chatId: number, userId: number): Promise<boolean> {
-  if (chatId > 0) return true; // في الخاص مسموح دائماً
-  try {
-    const member = await bot.getChatMember(chatId, userId);
-    return ["creator", "administrator"].includes(member.status);
-  } catch { return false; }
+const getSession = (id: number) => {
+    if (!userState.has(id)) {
+        userState.set(id, { count: 0, total: 0, dhikr: "سُبْحَانَ اللَّهِ", sound: true });
+    }
+    return userState.get(id)!;
+};
+
+// وظيفة فحص الصلاحيات (الخاص مفتوح / المجموعات للمشرفين)
+async function hasSettingsAccess(msg: TelegramBot.Message): Promise<boolean> {
+    if (msg.chat.type === 'private') return true;
+    if (!msg.from) return false;
+    try {
+        const member = await bot.getChatMember(msg.chat.id, msg.from.id);
+        return ["creator", "administrator"].includes(member.status);
+    } catch {
+        return false;
+    }
 }
 
+// معالجة الأوامر المباشرة (Commands)
 bot.onText(/\/start/, (msg) => {
-  globalStats.totalUsers.add(msg.from?.id);
-  bot.sendMessage(msg.chat.id, WELCOME_TEXT, {
-    parse_mode: "HTML",
-    reply_markup: mainMenuKeyboard()
-  });
+    bot.sendMessage(msg.chat.id, WELCOME_TEXT, { parse_mode: "HTML", reply_markup: mainMenuKeyboard() });
 });
 
-bot.on("message", async (msg) => {
-  if (!msg.text) return;
-  const text = msg.text;
-  const chatId = msg.chat.id;
-  const userId = msg.from!.id;
-
-  if (chatId < 0) globalStats.totalGroups.add(chatId);
-  else globalStats.totalUsers.add(userId);
-
-  // منطق المربعات الرئيسية
-  if (text.includes("المسبحة")) {
-    const session = userSession.get(userId) || { count: 0, total: 0, dhikr: "سُبْحَانَ اللَّهِ" };
-    bot.sendMessage(chatId, buildTasbeehMessage(session), {
-      parse_mode: "HTML", reply_markup: tasbeehInlineKeyboard(session.count)
+bot.onText(/\/tasbeeh/, (msg) => {
+    const s = getSession(msg.from!.id);
+    bot.sendMessage(msg.chat.id, `${BORDER_TOP}\n📿 <b>المسبحة الإلكترونية</b>\n${SEPARATOR}\nالعدد الحالي: <code>${s.count}</code>\nإجمالي تسبيحاتك: <code>${s.total}</code>\n${BORDER_BOTTOM}`, {
+        parse_mode: "HTML", reply_markup: tasbeehKeyboard(s.count, s.dhikr, s.sound)
     });
-  }
-
-  else if (text.includes("المكتبة")) {
-    bot.sendMessage(chatId, `📚 <b>المكتبة الإسلامية الشاملة</b>\n${SEPARATOR}\nاختر الكتاب الذي تود تحميله مباشرة:`, {
-      parse_mode: "HTML", reply_markup: libraryInlineKeyboard()
-    });
-  }
-
-  else if (text.includes("الإحصائيات")) {
-    const user = userSession.get(userId);
-    const statsMsg = `📊 <b>لوحة الإحصائيات التفاعلية</b>\n${SEPARATOR}\n` +
-      `👤 <b>نشاطك الشخصي:</b>\n` +
-      `• إجمالي تسبيحاتك: <code>${user?.total || 0}</code>\n` +
-      `• جلستك الحالية: <code>${user?.count || 0}</code>\n\n` +
-      `🌍 <b>نشاط مجتمع نورفاي:</b>\n` +
-      `• إجمالي التسبيح العالمي: <code>${globalStats.totalTasbeeh}</code>\n` +
-      `• عدد المستفيدين: <code>${globalStats.totalUsers.size}</code>\n` +
-      `• المجموعات النشطة: <code>${globalStats.totalGroups.size}</code>\n${BORDER_BOTTOM}`;
-    bot.sendMessage(chatId, statsMsg, { parse_mode: "HTML" });
-  }
-
-  else if (text.includes("الإعدادات")) {
-    const admin = await canChangeSettings(chatId, userId);
-    if (!admin) {
-      return bot.sendMessage(chatId, `⚠️ <b>تنبيه أمني:</b>\nعذراً، هذا القسم مخصص لـ <b>مشرفي المجموعة</b> فقط لإدارة أوقات التذكير.`);
-    }
-    bot.sendMessage(chatId, `⚙️ <b>إعدادات التذكير الآلي</b>\n${SEPARATOR}\nاختر الفترة الزمنية التي تود أن يرسل فيها البوت الأذكار للمجموعة:`, {
-      parse_mode: "HTML", reply_markup: intervalSettingsKeyboard()
-    });
-  }
-
-  else if (text.includes("ذكر عشوائي")) {
-    const dhikr = RANDOM_AZKAR[Math.floor(Math.random() * RANDOM_AZKAR.length)];
-    bot.sendMessage(chatId, `✨ <b>ذكر الله:</b>\n\n<code>${dhikr}</code>\n\n${SEPARATOR}`, { parse_mode: "HTML" });
-  }
-
-  else if (text.includes("تواصل")) {
-    bot.sendMessage(chatId, `👤 <b>المطور:</b> @vx_rq\nيسعدنا تواصلكم لأي اقتراح أو بلاغ عن مشكلة.`);
-  }
 });
 
-bot.on("callback_query", async (query) => {
-  const data = query.data || "";
-  const chatId = query.message!.chat.id;
-  const userId = query.from.id;
+bot.onText(/\/library/, (msg) => {
+    bot.sendMessage(msg.chat.id, `📚 <b>المكتبة الإسلامية</b>\n${SEPARATOR}\nاختر الكتاب للتحميل المباشر:`, {
+        parse_mode: "HTML", reply_markup: libraryKeyboard()
+    });
+});
 
-  // معالجة المسبحة
-  if (data === "tasbeeh:tick") {
-    const session = userSession.get(userId) || { count: 0, total: 0, dhikr: "سُبْحَانَ اللَّهِ" };
-    session.count++;
-    session.total++;
-    globalStats.totalTasbeeh++;
-    userSession.set(userId, session);
-    bot.editMessageText(buildTasbeehMessage(session), {
-      chat_id: chatId, message_id: query.message!.message_id, parse_mode: "HTML",
-      reply_markup: tasbeehInlineKeyboard(session.count)
-    }).catch(() => {});
-  }
+bot.onText(/\/azkar/, (msg) => {
+    const d = RANDOM_AZKAR[Math.floor(Math.random() * RANDOM_AZKAR.length)];
+    bot.sendMessage(msg.chat.id, `${BORDER_TOP}\n✨ <b>ذكر الله:</b>\n\n<code>${d}</code>\n\n${BORDER_BOTTOM}`, { parse_mode: "HTML" });
+});
 
-  // معالجة المكتبة
-  else if (data.startsWith("lib_file:")) {
-    const bookId = data.split(":")[1];
-    const book = PDF_LIBRARY.find(b => b.id === bookId);
-    if (book) {
-      bot.answerCallbackQuery(query.id, { text: "⏳ جاري جلب الكتاب من المكتبة..." });
-      bot.sendDocument(chatId, book.url, { 
-        caption: `📖 <b>تم تحميل: ${book.title}</b>\n${SEPARATOR}\nنسأل الله أن ينفعكم بها.`,
-        parse_mode: "HTML" 
-      }).catch(err => {
-        bot.sendMessage(chatId, `❌ عذراً، حدث خطأ أثناء تحميل الملف. تأكد من وجوده في GitHub.`);
-      });
-    }
-  }
+bot.onText(/\/stats/, (msg) => {
+    const s = getSession(msg.from!.id);
+    bot.sendMessage(msg.chat.id, `📊 <b>إحصائياتك الشخصية</b>\n${SEPARATOR}\n• تسبيحك اليوم: <code>${s.count}</code>\n• إجمالي الحسنات: <code>${s.total * 10}</code>\n${BORDER_BOTTOM}`, { parse_mode: "HTML" });
+});
 
-  // معالجة الإعدادات
-  else if (data.startsWith("set_timer:")) {
-    if (await canChangeSettings(chatId, userId)) {
-      const time = data.split(":")[1];
-      bot.editMessageText(`✅ <b>تم التحديث:</b>\nسيقوم البوت الآن بإرسال الأذكار كل <code>${time === 'off' ? 'تعطيل' : time + ' دقيقة'}</code> لهذه المجموعة.`, {
-        chat_id: chatId, message_id: query.message!.message_id, parse_mode: "HTML"
-      });
+bot.onText(/\/settings/, async (msg) => {
+    if (await hasSettingsAccess(msg)) {
+        bot.sendMessage(msg.chat.id, `⚙️ <b>إعدادات التذكير</b>\n${SEPARATOR}\nاختر المدة المطلوبة للتذكير:`, {
+            parse_mode: "HTML", reply_markup: settingsKeyboard()
+        });
     } else {
-      bot.answerCallbackQuery(query.id, { text: "⚠️ هذا الخيار للمشرفين فقط!", show_alert: true });
+        bot.sendMessage(msg.chat.id, `⚠️ <b>تنبيه:</b> الإعدادات في المجموعات متاحة للمشرفين فقط.`);
     }
-  }
+});
 
-  bot.answerCallbackQuery(query.id).catch(() => {});
+bot.onText(/\/help/, (msg) => {
+    bot.sendMessage(msg.chat.id, `❓ <b>مركز المساعدة</b>\n${SEPARATOR}\nتواصل مع المطور لأي استفسار:`, {
+        parse_mode: "HTML", reply_markup: helpKeyboard()
+    });
+});
+
+// معالجة الضغط على أزرار القائمة السفلية (Text Buttons)
+bot.on("message", async (msg) => {
+    if (!msg.text || msg.text.startsWith("/")) return;
+    const text = msg.text;
+    const userId = msg.from!.id;
+
+    if (text.includes("المسبحة")) bot.emit("text_command", msg, "/tasbeeh");
+    else if (text.includes("المكتبة")) bot.emit("text_command", msg, "/library");
+    else if (text.includes("ذكر عشوائي")) bot.emit("text_command", msg, "/azkar");
+    else if (text.includes("إحصائياتي")) bot.emit("text_command", msg, "/stats");
+    else if (text.includes("الإعدادات")) bot.emit("text_command", msg, "/settings");
+    else if (text.includes("المساعدة")) bot.emit("text_command", msg, "/help");
+});
+
+// وسيط لتوجيه نصوص القائمة إلى الأوامر
+bot.on("text_command", (msg, cmd) => {
+    if (cmd === "/tasbeeh") bot.processUpdate({ message: { ...msg, text: "/tasbeeh" } } as any);
+    if (cmd === "/library") bot.processUpdate({ message: { ...msg, text: "/library" } } as any);
+    if (cmd === "/azkar") bot.processUpdate({ message: { ...msg, text: "/azkar" } } as any);
+    if (cmd === "/stats") bot.processUpdate({ message: { ...msg, text: "/stats" } } as any);
+    if (cmd === "/settings") bot.processUpdate({ message: { ...msg, text: "/settings" } } as any);
+    if (cmd === "/help") bot.processUpdate({ message: { ...msg, text: "/help" } } as any);
+});
+
+// معالجة الأزرار الداخلية (Inline Buttons)
+bot.on("callback_query", async (query) => {
+    const data = query.data || "";
+    const chatId = query.message!.chat.id;
+    const msgId = query.message!.message_id;
+    const userId = query.from.id;
+    const s = getSession(userId);
+
+    if (data === "tasbeeh:tick") {
+        s.count++; s.total++;
+        if (s.sound) bot.answerCallbackQuery(query.id, { text: "💎 تِك 💎" });
+        bot.editMessageText(`${BORDER_TOP}\n📿 <b>المسبحة الإلكترونية</b>\n${SEPARATOR}\nالعدد الحالي: <code>${s.count}</code>\nإجمالي تسبيحاتك: <code>${s.total}</code>\n${BORDER_BOTTOM}`, {
+            chat_id: chatId, message_id: msgId, parse_mode: "HTML",
+            reply_markup: tasbeehKeyboard(s.count, s.dhikr, s.sound)
+        }).catch(() => {});
+    }
+    else if (data === "tasbeeh:reset") {
+        s.count = 0;
+        bot.editMessageText(`${BORDER_TOP}\n📿 <b>المسبحة الإلكترونية</b>\n${SEPARATOR}\n(تم التصفير ✅)\nالعدد: 0\n${BORDER_BOTTOM}`, {
+            chat_id: chatId, message_id: msgId, parse_mode: "HTML",
+            reply_markup: tasbeehKeyboard(0, s.dhikr, s.sound)
+        });
+    }
+    else if (data === "tasbeeh:change") {
+        bot.editMessageText(`📜 <b>اختر الذكر المطلوب للمسبحة:</b>`, {
+            chat_id: chatId, message_id: msgId, parse_mode: "HTML", reply_markup: tasbeehSelectionKeyboard()
+        });
+    }
+    else if (data.startsWith("tasbeeh:set:")) {
+        const id = data.split(":")[2];
+        const opt = TASBEEH_OPTIONS.find(o => o.id === id);
+        s.dhikr = opt?.text || s.dhikr;
+        s.count = 0;
+        bot.editMessageText(`✅ تم تغيير الذكر إلى: <b>${s.dhikr}</b>\nسيتم البدء من الصفر.`, {
+            chat_id: chatId, message_id: msgId, parse_mode: "HTML",
+            reply_markup: tasbeehKeyboard(0, s.dhikr, s.sound)
+        });
+    }
+    else if (data === "tasbeeh:toggle_sound") {
+        s.sound = !s.sound;
+        bot.editMessageReplyMarkup(tasbeehKeyboard(s.count, s.dhikr, s.sound), { chat_id: chatId, message_id: msgId });
+        bot.answerCallbackQuery(query.id, { text: s.sound ? "🔔 تم تفعيل الصوت" : "🔕 تم إيقاف الصوت" });
+    }
+    else if (data === "menu:main") {
+        bot.editMessageText(WELCOME_TEXT, { chat_id: chatId, message_id: msgId, parse_mode: "HTML" });
+    }
+    else if (data.startsWith("lib_file:")) {
+        const book = PDF_LIBRARY.find(b => b.id === data.split(":")[1]);
+        if (book) bot.sendDocument(chatId, book.url, { caption: `📖 تم تحميل: <b>${book.title}</b>`, parse_mode: "HTML" });
+    }
+
+    bot.answerCallbackQuery(query.id).catch(() => {});
 });
 
 const app = express();
-app.get("/", (req, res) => res.send("Noorify is Live 🌙"));
+app.get("/", (req, res) => res.send("Noorify Running 🌙"));
 app.listen(process.env.PORT || 10000);
