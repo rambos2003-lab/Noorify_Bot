@@ -1,40 +1,35 @@
 /**
- * إدارة روابط المكتبة من GitHub
+ * إدارة روابط المكتبة من مستودع GitHub الخاص بك
  */
 
 export interface PdfBook {
   id: string;
   title: string;
   filename: string;
+  emoji: string;
 }
 
-/** * تم تحديث الرابط ليشير إلى مستودعك الخاص
- * نستخدم raw.githubusercontent.com للوصول المباشر للملفات
+/**
+ * تم تحديث الرابط ليشير إلى الفرع الرئيسي (main) في مستودعك
  */
-const GITHUB_BASE_URL = "https://raw.githubusercontent.com/rambos2003-lab/Noorify_Bot/main/pdfs/";
+const GITHUB_BASE_URL = "https://raw.githubusercontent.com/rambos2003-lab/Noorify_Bot/main/";
 
 export const PDF_LIBRARY: PdfBook[] = [
-  { id: "dua", title: "جوامع الأدعية", filename: "جوامع_الادعيه.pdf" },
-  { id: "reward", title: "كسب الثواب", filename: "كسب_الثواب.pdf" },
-  { id: "morning", title: "أذكار الصباح والمساء", filename: "اذكار_الصباح_والمساء.pdf" },
-  { id: "salihin", title: "رياض الصالحين", filename: "رياض_الصالحين.pdf" },
-  { id: "disease", title: "الداء والدواء", filename: "الداء_والدواء.pdf" },
-  { id: "sleep", title: "أذكار النوم", filename: "اذكار_النوم.pdf" },
-  { id: "wake", title: "أذكار الاستيقاظ", filename: "اذكار_الاستيقاظ.pdf" },
-  { id: "hisn", title: "حصن المسلم", filename: "حصن_مسلم.pdf" },
-  { id: "quran", title: "القرآن الكريم", filename: "القران_الكريم.pdf" },
+  { id: "quran", title: "القرآن الكريم", filename: "القرآن الكريم.pdf", emoji: "📖" },
+  { id: "morning", title: "أذكار الصباح والمساء", filename: "أذكار الصباح والمساء.pdf", emoji: "☀️" },
+  { id: "hisn", title: "حصن المسلم", filename: "حصن المسلم.pdf", emoji: "🏰" },
+  { id: "salihin", title: "رياض الصالحين", filename: "رياض الصالحين.pdf", emoji: "🌸" },
+  { id: "reward", title: "أسهل طرق لكسب الثواب", filename: "اسهل طرق لكسب الثواب.pdf", emoji: "💰" },
+  { id: "disease", title: "كتاب الداء والدواء", filename: "كتاب الداء والدواء.pdf", emoji: "💊" },
+  { id: "dua", title: "جوامع دعاء النبي", filename: "جوامع دعاء النبي.pdf", emoji: "🤲" },
+  { id: "sleep", title: "أذكار النوم", filename: "اذكار النوم.pdf", emoji: "🌙" },
+  { id: "wake", title: "أذكار الاستيقاظ", filename: "اذكار الإستيقاظ.pdf", emoji: "🌅" },
 ];
 
 /**
- * دالة لجلب الرابط المباشر لكل ملف PDF
+ * توليد الرابط المباشر للملف
  */
 export function getPdfUrl(filename: string): string {
+  // نقوم بترميز الاسم للتعامل مع المسافات واللغة العربية في الروابط
   return `${GITHUB_BASE_URL}${encodeURIComponent(filename)}`;
-}
-
-/**
- * دالة للبحث عن كتاب بواسطة المعرف (ID)
- */
-export function findBookById(id: string): PdfBook | undefined {
-  return PDF_LIBRARY.find((book) => book.id === id);
 }
