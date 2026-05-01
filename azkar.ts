@@ -19,5 +19,11 @@ export const RANDOM_AZKAR = [
   "أَسْتَغْفِرُ اللَّهَ الَّذِي لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ"
 ];
 
-export const FASTING_RESOURCES = "https://t.me/Noorify_Bot"; // رابط توضيحي
+export const EMOTIONAL_PHRASES = [
+  "الله يسمع مناجاتك دائماً..",
+  "اجعل لسانك رطباً بذكر الله.",
+  "ما طابت الدنيا إلا بذكره."
+];
+
+export const FASTING_RESOURCES = "https://t.me/Noorify_Bot";
 export const WELCOME_MESSAGE = "أهلاً بك في نورفاي";
