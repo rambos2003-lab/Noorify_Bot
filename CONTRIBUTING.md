@@ -1,4 +1,4 @@
-
+<div align="center">
 # 🤝 دليل المساهمة في Noorify Bot
 
 
