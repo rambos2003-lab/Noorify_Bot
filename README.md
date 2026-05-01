@@ -55,7 +55,6 @@
 
 ## ⚙️ تشغيل المشروع
 
-```bash
 # تثبيت الحزم
 npm install
 
@@ -85,8 +84,10 @@ index.ts
 مشروع نوريفاي ليس مجرد بوت…
 بل أثر مستمر + صدقة جارية رقمية 🤍
 
+
 👨‍💻 المطور
 <div align="center">
+
 🧑‍💻 Rami Bitar
 <a href="https://t.me/vx_rq"> <img src="https://img.shields.io/badge/Telegram-Contact-blue?style=for-the-badge&logo=telegram"> </a> <a href="mailto:ramibitar.connct@gmail.com"> <img src="https://img.shields.io/badge/Email-Send-red?style=for-the-badge&logo=gmail"> </a> </div>
 🤝 المساهمة
@@ -103,6 +104,7 @@ index.ts
 المشروع مفتوح للتطوير فقط للأغراض المفيدة
 🌙 ختام
 <div align="center">
+
 
 "وَذَكِّرْ فَإِنَّ ٱلذِّكْرَىٰ تَنفَعُ ٱلْمُؤْمِنِينَ"
 
