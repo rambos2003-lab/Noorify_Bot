@@ -1,50 +1,43 @@
 import { DIVIDER, FANCY_TOP, FANCY_BOTTOM, RANDOM_AZKAR } from "./azkar";
 
-export function buildMainMenuMessage(firstName: string = "أخي الغالي"): string {
-  return `${FANCY_TOP}\n   🌙 <b>بُــوت نُـــورِفَـــاي</b> 🌙\n${FANCY_BOTTOM}\n\n` +
-         `أهلاً بك يا <b>${firstName}</b> في بيتك الإيماني.\n\n` +
-         `اختر من القائمة أدناه ما يعينك على ذكر الله.`;
+export function buildMainMenuMessage(firstName: string = "مستخدمنا العزيز"): string {
+  return `${FANCY_TOP}\n   🌙 <b>نُـــورِفَـــاي</b> 🌙\n${FANCY_BOTTOM}\n\n` +
+         `أهلاً بك <b>${firstName}</b>.\n\n` +
+         `بوابتك اليومية للذكر والطاعة.`;
 }
 
 export function buildRandomDhikrMessage(): string {
   const dhikr = RANDOM_AZKAR[Math.floor(Math.random() * RANDOM_AZKAR.length)];
-  return `${FANCY_TOP}\n   ✨ <b>ذِكْــرٌ نَــافِــع</b> ✨\n${FANCY_BOTTOM}\n\n` +
-         `<pre>${dhikr}</pre>\n\n${DIVIDER}\n` +
-         `<i>"ألا بذكر الله تطمئن القلوب"</i>`;
+  return `${FANCY_TOP}\n   ✨ <b>ذكر الله</b> ✨\n${FANCY_BOTTOM}\n\n` +
+         `<code>${dhikr}</code>\n\n${DIVIDER}`;
 }
 
 export function buildTasbeehMessage(data: any): string {
-  return `${FANCY_TOP}\n   📿 <b>الـمـسـبـحـة</b>\n${FANCY_BOTTOM}\n\n` +
+  return `${FANCY_TOP}\n   📿 <b>المسبحة</b>\n${FANCY_BOTTOM}\n\n` +
          `الذكر: <b>${data.dhikr}</b>\n` +
-         `العدد الحالي: <code>[ ${data.count} ]</code>\n` +
-         `الإجمالي: <code>[ ${data.totalCount} ]</code>\n\n${DIVIDER}\n` +
-         `<i>تقبل الله طاعتك يا ${data.firstName}</i>`;
+         `العدد: <code>[ ${data.count} ]</code>\n` +
+         `الإجمالي: <code>[ ${data.totalCount} ]</code>`;
 }
 
 export function buildLibraryMessage(): string {
-  return `📚 <b>المكتبة الإسلامية الشاملة</b>\n${DIVIDER}\n\n` +
-         `تحتوي المكتبة على أمهات الكتب والكتيبات بصيغة PDF.\n` +
+  return `📚 <b>المكتبة الإسلامية</b>\n${DIVIDER}\n` +
          `اختر الكتاب الذي تود تحميله:`;
 }
 
 export function buildAboutMessage(): string {
-  return `🌙 <b>عن نُــورِفَـــاي</b>\n${DIVIDER}\n\n` +
-         `بوت صدقة جارية يهدف لنشر ذكر الله وتسهيل الوصول للكتب الإسلامية.\n\n` +
-         `نسألكم الدعاء لمن صممه وساهم في نشره.`;
+  return `🌙 <b>عن البوت</b>\n${DIVIDER}\n` +
+         `نورفاي هو صدقة جارية لنشر ذكر الله.`;
 }
 
 export function buildStatsMessage(s: any): string {
-  return `📊 <b>إحصائياتك الإيمانية</b>\n${DIVIDER}\n\n` +
-         `• تسبيحاتك الإجمالية: <code>${s.totalTasbeeh}</code>\n` +
-         `• عدد المستخدمين: <code>${s.totalUsers}</code>\n\n` +
-         `<i>"وما تقدموا لأنفسكم من خير تجدوه عند الله"</i>`;
+  return `📊 <b>الإحصائيات</b>\n${DIVIDER}\n` +
+         `تسبيحاتك: ${s.totalTasbeeh}`;
 }
 
-export function buildSettingsMessage(isPrivate: boolean): string {
-  return `⚙️ <b>إعدادات التذكير</b>\n${DIVIDER}\n\n` +
-         `يمكنك ضبط وقت إرسال الأذكار التلقائية للمجموعة أو الخاص هنا.`;
+export function buildSettingsMessage(): string {
+  return `⚙️ <b>الإعدادات</b>\n${DIVIDER}\nتحكم في التذكيرات التلقائية.`;
 }
 
 export function buildIntervalChooserMessage(current: number): string {
-  return `⏳ <b>ضبط وقت التذكير</b>\n\nالوقت الحالي: كل ${current} دقيقة.\nاختر مدة جديدة:`;
+  return `⏳ اختيار مدة التذكير (الحالية: ${current} د)`;
 }
