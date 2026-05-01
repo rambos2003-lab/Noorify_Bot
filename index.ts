@@ -926,4 +926,4 @@ async function editMessage(
     }
     throw err;
   }
-}
+startBot();
