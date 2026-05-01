@@ -2,21 +2,28 @@ import { InlineKeyboardMarkup } from "node-telegram-bot-api";
 import { TASBEEH_OPTIONS, DEVELOPER_URL } from "../data/azkar";
 import { PDF_LIBRARY } from "../data/pdfs";
 
-export const BACK_BUTTON = { text: "« رجوع للقائمة", callback_data: "menu:main" };
+export const BACK_BUTTON = { text: "« العودة للرئيسية", callback_data: "menu:main" };
 
-export function mainMenuKeyboard(isAdmin: boolean, botUsername: string): InlineKeyboardMarkup {
-  const rows = [
-    [{ text: "📿 المسبحة الإلكترونية التفاعلية", callback_data: "tasbeeh:open" }],
+export function mainMenuKeyboard(points: number, level: number, isAdmin: boolean, botUsername: string): InlineKeyboardMarkup {
+  const rows: InlineKeyboardMarkup["inline_keyboard"] = [
+    [{ text: `🏆 المستوى: ${level} | ✨ النقاط: ${points}`, callback_data: "stats:open" }],
     [
-      { text: "📚 المكتبة الشاملة", callback_data: "lib:open" },
-      { text: "📊 الإحصائيات", callback_data: "stats:open" }
-    ]
+      { text: "📖 القرآن الكريم", callback_data: "quran:random" },
+      { text: "📜 حديث نبوي", callback_data: "hadith:random" }
+    ],
+    [
+      { text: "📿 المسبحة والأذكار", callback_data: "tasbeeh:open" },
+      { text: "🕌 مواقيت الصلاة", callback_data: "prayer:ask_loc" }
+    ],
+    [
+      { text: "📚 المكتبة الإسلامية", callback_data: "lib:open" },
+      { text: "⭐ مفضلتي", callback_data: "fav:list" }
+    ],
+    [{ text: "📊 إحصائياتي وتقدمي", callback_data: "stats:open" }]
   ];
 
   if (isAdmin) {
-    rows.push([{ text: "⚙️ إعدادات التذكير (للمشرفين)", callback_data: "settings:open" }]);
-  } else {
-    rows.push([{ text: "🔒 الإعدادات (مخصصة للمشرفين)", callback_data: "settings:locked" }]);
+    rows.push([{ text: "👨‍💻 لوحة تحكم الإدارة", callback_data: "admin:dashboard" }]);
   }
 
   rows.push([
@@ -39,11 +46,30 @@ export function tasbeehChooserKeyboard(): InlineKeyboardMarkup {
 export function tasbeehActiveKeyboard(dhikrId: string, count: number): InlineKeyboardMarkup {
   return {
     inline_keyboard: [
-      [{ text: `✨ نُـورِفَـاي: [ ${count} ] ✨`, callback_data: `tasbeeh:tick:${dhikrId}:${count}` }],
+      [{ text: `✨ سَبِّح ( ${count} ) ✨`, callback_data: `tasbeeh:tick:${dhikrId}:${count}` }],
       [
-        { text: "🔄 إعادة العداد", callback_data: `tasbeeh:reset:${dhikrId}` },
+        { text: "🔄 تصفير العداد", callback_data: `tasbeeh:reset:${dhikrId}` },
         { text: "🔙 تغيير الذكر", callback_data: "tasbeeh:open" }
       ],
+      [BACK_BUTTON]
+    ]
+  };
+}
+
+export function quranKeyboard(ayahNumber: number): InlineKeyboardMarkup {
+  return {
+    inline_keyboard: [
+      [{ text: "🔄 آية أخرى", callback_data: "quran:random" }],
+      [{ text: "⭐ حفظ في المفضلة", callback_data: `fav:add:ayah:${ayahNumber}` }],
+      [BACK_BUTTON]
+    ]
+  };
+}
+
+export function hadithKeyboard(): InlineKeyboardMarkup {
+  return {
+    inline_keyboard: [
+      [{ text: "🔄 حديث آخر", callback_data: "hadith:random" }],
       [BACK_BUTTON]
     ]
   };
@@ -63,11 +89,10 @@ export function libraryKeyboard(): InlineKeyboardMarkup {
   return { inline_keyboard: rows };
 }
 
-export function settingsKeyboard(): InlineKeyboardMarkup {
+export function adminKeyboard(): InlineKeyboardMarkup {
   return {
     inline_keyboard: [
-      [{ text: "⏰ تغيير فترة التذكير", callback_data: "settings:interval" }],
-      [{ text: "🔔 تفعيل/تعطيل التنبيهات", callback_data: "settings:toggle" }],
+      [{ text: "📢 إرسال إشعار جماعي للكل", callback_data: "admin:broadcast" }],
       [BACK_BUTTON]
     ]
   };
