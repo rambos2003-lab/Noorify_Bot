@@ -1,11 +1,10 @@
 import { InlineKeyboardMarkup } from "node-telegram-bot-api";
-import { TASBEEH_OPTIONS, DEVELOPER_URL } from "./azkar"; // تأكد من المسار
-import { PDF_LIBRARY } from "./pdfs"; // تأكد من المسار
+import { TASBEEH_OPTIONS, DEVELOPER_URL } from "./azkar";
+import { PDF_LIBRARY } from "./pdfs";
 
-// زر الرجوع الموحد
 export const BACK_BUTTON = { text: "« رجوع للقائمة", callback_data: "menu:main" };
 
-// القائمة الرئيسية (مع إيموجي الألوان)
+// القائمة الرئيسية
 export function mainMenuKeyboard(isAdmin: boolean, botUsername: string): InlineKeyboardMarkup {
     const rows: any[][] = [
         [
@@ -13,7 +12,8 @@ export function mainMenuKeyboard(isAdmin: boolean, botUsername: string): InlineK
             { text: "📚 المكتبة الشاملة", callback_data: "lib:open" }
         ],
         [
-            { text: "📊 الإحصائيات", callback_data: "stats:open" }
+            { text: "📊 إحصائياتي", callback_data: "stats:open" },
+            { text: "✨ ذكر عشوائي", callback_data: "dhikr:random" }
         ]
     ];
 
@@ -31,7 +31,7 @@ export function mainMenuKeyboard(isAdmin: boolean, botUsername: string): InlineK
     return { inline_keyboard: rows };
 }
 
-// قائمة اختيار الذكر
+// قائمة المسبحة
 export function tasbeehChooserKeyboard(): InlineKeyboardMarkup {
     return {
         inline_keyboard: [
@@ -44,7 +44,7 @@ export function tasbeehChooserKeyboard(): InlineKeyboardMarkup {
     };
 }
 
-// المسبحة التفاعلية أثناء التسبيح
+// المسبحة التفاعلية (أثناء العد)
 export function tasbeehActiveKeyboard(dhikrId: string, count: number): InlineKeyboardMarkup {
     return {
         inline_keyboard: [
@@ -73,7 +73,7 @@ export function libraryKeyboard(): InlineKeyboardMarkup {
     return { inline_keyboard: rows };
 }
 
-// قائمة فترات التذكير
+// قائمة إعدادات التذكير
 export function intervalChooserKeyboard(): InlineKeyboardMarkup {
     return {
         inline_keyboard: [
@@ -86,7 +86,8 @@ export function intervalChooserKeyboard(): InlineKeyboardMarkup {
                 { text: "4 س", callback_data: "settings:set:240" }
             ],
             [
-                { text: "6 س", callback_data: "settings:set:360" }
+                { text: "6 س", callback_data: "settings:set:360" },
+                { text: "🚫 إيقاف التذكير", callback_data: "settings:set:0" }
             ],
             [BACK_BUTTON]
         ]
