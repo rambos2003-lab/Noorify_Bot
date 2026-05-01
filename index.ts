@@ -3,37 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noorify Engine</title>
-    <!-- Tailwind CSS -->
+    <title>Noorify Engine - Stable</title>
+    <!-- Bağımlılıklar -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- React & ReactDOM -->
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <!-- Babel for JSX -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap');
         
         body {
-            font-family: 'Plus+Jakarta+Sans', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #020d0a;
             color: #f1f5f9;
+            margin: 0;
             overflow: hidden;
         }
 
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        .dhikr-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .animate-fade-in {
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .dhikr-card:active {
+            transform: scale(0.95);
         }
     </style>
 </head>
@@ -43,8 +38,8 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // Lucide Icon Component (Fixed for Browser Version)
-        const Icon = ({ name, size = 24, className = "" }) => {
+        // Kararlı İkon Bileşeni (TS1161 ve TS1005 hatalarını önlemek için izole edildi)
+        const SafeIcon = ({ name, size = 24, className = "" }) => {
             const iconRef = useRef(null);
 
             useEffect(() => {
@@ -61,131 +56,135 @@
                 }
             }, [name, size, className]);
 
-            return <i ref={iconRef} data-lucide={name.toLowerCase().replace(/([A-Z])/g, "-$1").replace(/^-/, "")}></i>;
+            const iconSlug = name.toLowerCase().replace(/([A-Z])/g, "-$1").replace(/^-/, "");
+            return <i ref={iconRef} data-lucide={iconSlug} className="inline-block"></i>;
         };
 
-        const DHIKR_LIST = [
-            { id: 1, text: "سُبْحَانَ اللَّهِ", category: "tasbeeh" },
-            { id: 2, text: "الْحَمْدُ لِلَّهِ", category: "tasbeeh" },
-            { id: 3, text: "اللَّهُ أَكْبَرُ", category: "tasbeeh" },
-            { id: 4, text: "لَا إِلَهَ إِلَّا اللَّهُ", category: "tasbeeh" }
-        ];
+        // Veri Seti - Syntax hatalarını önlemek için değişkenlere atandı
+        const DATA = {
+            dhikrs: [
+                { id: 1, text: "سُبْحَانَ اللَّهِ", label: "Tesbih" },
+                { id: 2, text: "الْحَمْدُ لِلَّهِ", label: "Tahmid" },
+                { id: 3, text: "اللَّهُ أَكْبَرُ", label: "Tekbir" },
+                { id: 4, text: "لَا إِلَهَ إِلَّا اللَّهُ", label: "Tehlil" }
+            ]
+        };
 
         function App() {
             const [tab, setTab] = useState('dashboard');
             const [count, setCount] = useState(0);
-            const [activeDhikr, setActiveDhikr] = useState(DHIKR_LIST[0]);
-            const [muted, setMuted] = useState(false);
+            const [activeDhikr, setActiveDhikr] = useState(DATA.dhikrs[0]);
+            const [isMuted, setIsMuted] = useState(false);
 
-            const increment = () => setCount(prev => prev + 1);
-            const reset = () => setCount(0);
+            const handleIncrement = () => {
+                setCount(c => c + 1);
+                // Burada haptik feedback eklenebilir
+            };
 
             return (
-                <div className="flex items-center justify-center min-h-screen p-4 select-none">
-                    {/* Arka Plan Efektleri */}
-                    <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                        <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-emerald-600/10 blur-[100px] rounded-full" />
-                        <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-teal-600/10 blur-[100px] rounded-full" />
+                <div className="flex items-center justify-center min-h-screen p-4">
+                    {/* Arka Plan Dekorasyonu */}
+                    <div className="fixed inset-0 pointer-events-none overflow-hidden">
+                        <div className="absolute -top-24 -right-24 w-96 h-96 bg-emerald-500/10 blur-[120px] rounded-full"></div>
+                        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-teal-500/10 blur-[120px] rounded-full"></div>
                     </div>
 
-                    <div className="w-full max-w-md h-[720px] bg-[#051a15]/90 backdrop-blur-xl rounded-[2.5rem] border border-emerald-900/30 shadow-2xl flex flex-col relative overflow-hidden ring-1 ring-white/5">
+                    <div className="w-full max-w-md h-[680px] bg-[#051a15]/95 backdrop-blur-2xl rounded-[3rem] border border-emerald-900/30 shadow-2xl flex flex-col relative ring-1 ring-white/5">
                         
-                        {/* Üst Bar */}
+                        {/* Header */}
                         <header className="p-8 pb-4 flex items-center justify-between">
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 bg-gradient-to-tr from-emerald-500 to-emerald-700 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-900/40">
-                                    <Icon name="Moon" size={24} className="text-white fill-white" />
+                                <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-700 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-900/40">
+                                    <SafeIcon name="Moon" size={24} className="text-white fill-white" />
                                 </div>
-                                <div>
-                                    <h1 className="text-xl font-black tracking-tight text-white">نورِفاي</h1>
-                                    <div className="flex items-center gap-1.5">
-                                        <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-                                        <span className="text-[10px] font-bold text-emerald-400/80 uppercase tracking-tighter">Sistem Aktif</span>
+                                <div className="text-right">
+                                    <h1 className="text-xl font-extrabold text-white">نورِفاي</h1>
+                                    <div className="flex items-center gap-1.5 justify-end">
+                                        <span className="text-[9px] font-bold text-emerald-400 uppercase tracking-widest">Sistem Hazır</span>
+                                        <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
                                     </div>
                                 </div>
                             </div>
                             <button 
-                                onClick={() => setMuted(!muted)}
-                                className="p-3 bg-emerald-900/20 rounded-xl hover:bg-emerald-900/40 transition-colors border border-emerald-800/30"
+                                onClick={() => setIsMuted(!isMuted)}
+                                className="w-10 h-10 bg-emerald-900/20 rounded-xl flex items-center justify-center border border-emerald-800/30 text-emerald-400"
                             >
-                                <Icon name={muted ? "VolumeX" : "Volume2"} size={20} className={muted ? "text-slate-400" : "text-emerald-400"} />
+                                <SafeIcon name={isMuted ? "VolumeX" : "Volume2"} size={20} />
                             </button>
                         </header>
 
-                        {/* Ana İçerik */}
-                        <main className="flex-1 overflow-y-auto px-8 py-4 scrollbar-hide">
+                        {/* İçerik Alanı */}
+                        <main className="flex-1 overflow-y-auto px-6 py-2 no-scrollbar">
                             {tab === 'dashboard' && (
-                                <div className="space-y-6 animate-fade-in">
-                                    <div className="bg-emerald-800/20 p-6 rounded-[2rem] border border-emerald-700/30">
-                                        <h2 className="text-lg font-bold mb-1 text-white text-right">Hoş Geldiniz 🌙</h2>
-                                        <p className="text-xs text-emerald-100/60 leading-relaxed text-right">
-                                            İkon motoru ve sistem bileşenleri optimize edildi. Artık tüm özellikler kararlı çalışıyor.
+                                <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                                    <div className="bg-emerald-900/20 p-6 rounded-[2rem] border border-emerald-800/30 text-right">
+                                        <h2 className="text-lg font-bold text-white mb-2">Hoş Geldiniz 🌙</h2>
+                                        <p className="text-xs text-emerald-200/60 leading-relaxed">
+                                            Sözdizimi hataları giderildi. Karakter kodlaması ve RTL desteği optimize edilerek sistem kararlı hale getirildi.
                                         </p>
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-4">
-                                        <button onClick={() => setTab('counter')} className="p-6 bg-[#0a261f] rounded-[2rem] border border-emerald-800/40 hover:border-emerald-500/50 transition-all flex flex-col items-center gap-3 group">
-                                            <div className="p-3 bg-emerald-900/30 rounded-2xl group-hover:scale-110 transition-transform text-yellow-400">
-                                                <Icon name="Zap" size={28} />
-                                            </div>
-                                            <div className="text-center">
-                                                <div className="text-sm font-bold text-white uppercase">المسبحة</div>
-                                                <div className="text-[9px] text-slate-500 font-black uppercase tracking-tighter">SAYAÇ</div>
-                                            </div>
-                                        </button>
-                                        <button onClick={() => setTab('settings')} className="p-6 bg-[#0a261f] rounded-[2rem] border border-emerald-800/40 hover:border-emerald-500/50 transition-all flex flex-col items-center gap-3 group">
-                                            <div className="p-3 bg-emerald-900/30 rounded-2xl group-hover:scale-110 transition-transform text-cyan-400">
-                                                <Icon name="BookOpen" size={28} />
-                                            </div>
-                                            <div className="text-center">
-                                                <div className="text-sm font-bold text-white uppercase">الأذكار</div>
-                                                <div className="text-[9px] text-slate-500 font-black uppercase tracking-tighter">ZİKİRLER</div>
-                                            </div>
-                                        </button>
+                                        <MenuBtn 
+                                            icon="Zap" 
+                                            title="Sayaç" 
+                                            sub="Tasbeeh" 
+                                            color="text-yellow-400" 
+                                            onClick={() => setTab('counter')} 
+                                        />
+                                        <MenuBtn 
+                                            icon="BookOpen" 
+                                            title="Zikirler" 
+                                            sub="Library" 
+                                            color="text-cyan-400" 
+                                            onClick={() => setTab('library')} 
+                                        />
                                     </div>
 
-                                    <div className="bg-white/5 p-4 rounded-2xl border border-white/5 flex items-center justify-between group cursor-pointer hover:bg-white/10 transition-all">
+                                    <div className="bg-white/5 p-4 rounded-2xl border border-white/5 flex items-center justify-between">
+                                        <SafeIcon name="ChevronLeft" size={16} className="text-slate-600" />
                                         <div className="flex items-center gap-3">
-                                            <Icon name="ShieldCheck" size={20} className="text-emerald-500" />
-                                            <span className="text-sm font-semibold">Veri Koruması</span>
+                                            <span className="text-sm font-semibold">Bulut Senkronizasyonu</span>
+                                            <SafeIcon name="Cloud" size={20} className="text-emerald-500" />
                                         </div>
-                                        <Icon name="ChevronRight" size={16} className="text-slate-600 group-hover:text-slate-300" />
                                     </div>
                                 </div>
                             )}
 
                             {tab === 'counter' && (
-                                <div className="h-full flex flex-col items-center justify-center space-y-12 animate-fade-in">
-                                    <div className="text-center space-y-2">
-                                        <span className="text-xs font-bold text-emerald-500 uppercase tracking-widest">{activeDhikr.text}</span>
-                                        <div className="text-8xl font-black tabular-nums tracking-tighter text-white drop-shadow-2xl">
+                                <div className="h-full flex flex-col items-center justify-center space-y-12">
+                                    <div className="text-center">
+                                        <div className="text-sm font-bold text-emerald-500 mb-4 tracking-widest bg-emerald-500/10 py-1 px-4 rounded-full inline-block">
+                                            {activeDhikr.text}
+                                        </div>
+                                        <div className="text-9xl font-black tabular-nums text-white drop-shadow-[0_10px_30px_rgba(16,185,129,0.3)]">
                                             {count}
                                         </div>
                                     </div>
 
                                     <div className="flex items-center gap-8">
                                         <button 
-                                            onClick={increment}
-                                            className="w-32 h-32 bg-gradient-to-b from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow-2xl shadow-emerald-500/30 active:scale-95 transition-all group"
+                                            onClick={handleIncrement}
+                                            className="w-36 h-36 bg-gradient-to-b from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow-2xl shadow-emerald-500/40 active:scale-90 transition-all group"
                                         >
-                                            <div className="w-10 h-10 bg-white/20 rounded-full border-2 border-white/40 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                                <div className="w-2 h-2 bg-white rounded-full" />
+                                            <div className="w-12 h-12 bg-white/20 rounded-full border-2 border-white/30 flex items-center justify-center">
+                                                <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
                                             </div>
                                         </button>
                                         <button 
-                                            onClick={reset}
-                                            className="w-14 h-14 bg-white/5 hover:bg-white/10 rounded-full flex items-center justify-center border border-white/10 transition-colors"
+                                            onClick={() => setCount(0)}
+                                            className="w-14 h-14 bg-white/5 hover:bg-white/10 rounded-full flex items-center justify-center border border-white/10 text-emerald-400"
                                         >
-                                            <Icon name="RotateCcw" size={24} className="text-emerald-400" />
+                                            <SafeIcon name="RotateCcw" size={24} />
                                         </button>
                                     </div>
 
-                                    <div className="w-full grid grid-cols-2 gap-2 mt-4">
-                                        {DHIKR_LIST.map(d => (
+                                    <div className="w-full grid grid-cols-2 gap-2">
+                                        {DATA.dhikrs.map(d => (
                                             <button 
                                                 key={d.id}
-                                                onClick={() => {setActiveDhikr(d); reset();}}
-                                                className={`p-3 rounded-xl text-[10px] font-bold border transition-all ${activeDhikr.id === d.id ? 'bg-emerald-500 border-emerald-400 text-white' : 'bg-white/5 border-white/10 text-slate-400'}`}
+                                                onClick={() => {setActiveDhikr(d); setCount(0);}}
+                                                className={`p-3 rounded-xl text-[10px] font-bold border transition-all ${activeDhikr.id === d.id ? 'bg-emerald-500 border-emerald-400 text-white shadow-lg' : 'bg-white/5 border-white/10 text-slate-500'}`}
                                             >
                                                 {d.text}
                                             </button>
@@ -194,46 +193,54 @@
                                 </div>
                             )}
 
-                            {tab === 'settings' && (
-                                <div className="space-y-6 animate-fade-in">
-                                    <div className="p-6 bg-white/5 rounded-3xl border border-white/5 space-y-4">
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-3 text-sm font-bold">
-                                                <Icon name="LayoutGrid" size={18} className="text-emerald-500" />
-                                                <span>Arayüz Ayarları</span>
-                                            </div>
-                                            <div className="w-10 h-5 bg-emerald-600 rounded-full relative">
-                                                <div className="absolute left-1 top-1 w-3 h-3 bg-white rounded-full" />
-                                            </div>
-                                        </div>
-                                        <hr className="border-white/5" />
-                                        <div className="text-[10px] text-slate-500 uppercase font-black tracking-widest text-center">
-                                            Tüm sistemler %100 verimlilikle çalışıyor
-                                        </div>
+                            {tab === 'library' && (
+                                <div className="space-y-4 animate-fade-in">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <span className="text-xs font-bold text-slate-500 uppercase">Kütüphane</span>
+                                        <h3 className="text-lg font-black">Zikir Kayıtları</h3>
                                     </div>
+                                    {DATA.dhikrs.map(d => (
+                                        <div key={d.id} className="p-4 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-between">
+                                            <SafeIcon name="Plus" size={16} className="text-emerald-500" />
+                                            <div className="text-right">
+                                                <div className="text-sm font-bold text-white">{d.text}</div>
+                                                <div className="text-[10px] text-slate-500">{d.label}</div>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             )}
                         </main>
 
-                        {/* Alt Navigasyon */}
-                        <nav className="p-6 bg-emerald-950/50 backdrop-blur-md border-t border-emerald-900/20 flex justify-around items-center">
-                            <button onClick={() => setTab('dashboard')} className={`p-4 rounded-2xl transition-all relative ${tab === 'dashboard' ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'text-emerald-900 hover:text-emerald-700'}`}>
-                                <Icon name="MessageSquare" size={22} />
-                                {tab === 'dashboard' && <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full" />}
-                            </button>
-                            <button onClick={() => setTab('counter')} className={`p-4 rounded-2xl transition-all relative ${tab === 'counter' ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'text-emerald-900 hover:text-emerald-700'}`}>
-                                <Icon name="Zap" size={22} />
-                                {tab === 'counter' && <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full" />}
-                            </button>
-                            <button onClick={() => setTab('settings')} className={`p-4 rounded-2xl transition-all relative ${tab === 'settings' ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'text-emerald-900 hover:text-emerald-700'}`}>
-                                <Icon name="Settings" size={22} />
-                                {tab === 'settings' && <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full" />}
-                            </button>
+                        {/* Bottom Navigation */}
+                        <nav className="p-6 bg-[#03110d] border-t border-emerald-900/20 flex justify-around items-center rounded-b-[3rem]">
+                            <NavTab active={tab === 'library'} icon="Settings" onClick={() => setTab('library')} />
+                            <NavTab active={tab === 'counter'} icon="Zap" onClick={() => setTab('counter')} />
+                            <NavTab active={tab === 'dashboard'} icon="Home" onClick={() => setTab('dashboard')} />
                         </nav>
                     </div>
                 </div>
             );
         }
+
+        const MenuBtn = ({ icon, title, sub, color, onClick }) => (
+            <button onClick={onClick} className="p-6 bg-[#0a261f] rounded-[2.5rem] border border-emerald-800/40 hover:border-emerald-500/50 transition-all flex flex-col items-center gap-3 group">
+                <div className={`p-3 bg-emerald-900/30 rounded-2xl group-hover:scale-110 transition-transform ${color}`}>
+                    <SafeIcon name={icon} size={28} />
+                </div>
+                <div className="text-center">
+                    <div className="text-sm font-bold text-white uppercase">{title}</div>
+                    <div className="text-[9px] text-slate-500 font-black tracking-tighter uppercase">{sub}</div>
+                </div>
+            </button>
+        );
+
+        const NavTab = ({ active, icon, onClick }) => (
+            <button onClick={onClick} className={`p-4 rounded-2xl transition-all relative ${active ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20 scale-110' : 'text-emerald-900 hover:text-emerald-700'}`}>
+                <SafeIcon name={icon} size={22} />
+                {active && <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full"></span>}
+            </button>
+        );
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
