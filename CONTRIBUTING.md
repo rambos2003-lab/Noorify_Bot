@@ -1,203 +1,127 @@
 
-# 🤝 المساهمة في Noorify Bot
+***
 
-> نظام ذكاء روحي لإدارة الأذكار والمحتوى الإسلامي — مبني بـ Node.js + TypeScript
+```markdown
+<div align="center">
 
----
+# 🤝 دليل المساهمة في Noorify Bot
 
-## 🧭 فكرة المشروع
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f2027,100:2c5364&height=180&section=header&text=Contribution%20Guide&fontSize=40&fontColor=ffffff" />
 
-* 📿 أذكار يومية وتفاعلية
-* 🧠 نظام تسبيح ذكي
-* 📚 مكتبة كتب PDF
-* ⚙️ إعدادات متقدمة للمجموعات
-* 🔔 تذكيرات مجدولة
+### 💡 "هذا المشروع ليس مجرد كود — بل نظام خدمة مستمر"
 
-هدفنا:
+[![GitHub contributors](https://img.shields.io/github/contributors/YOUR_USERNAME/Noorify_Bot?style=for-the-badge)](https://github.com/YOUR_USERNAME/Noorify_Bot/graphs/contributors)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-> كود نظيف، أداء عالي، وتجربة مستخدم سلسة
+</div>
 
 ---
 
-# 🚀 بدء المساهمة خلال دقائق
+## 🚀 رحلة المساهمة (أول خطواتك)
 
-## 1. استنساخ المشروع
+إذا كنت ترغب في الانضمام إلى فريق التطوير، ابدأ بتنفيذ هذه الخطوات:
 
-```bash id="clone1"
-git clone https://github.com/YOUR_USERNAME/Noorify_Bot.git
-cd Noorify_Bot
+1. **الاستنساخ**: ابدأ بنسخة محلية من المستودع.
+   ```bash
+   git clone [https://github.com/YOUR_USERNAME/Noorify_Bot.git](https://github.com/YOUR_USERNAME/Noorify_Bot.git)
+   cd Noorify_Bot
+   ```
+
+2. **التثبيت**: تأكد من جاهزية البيئة.
+   ```bash
+   npm install
+   ```
+
+3. **الإعداد**: قم بإعداد متغيرات البيئة.
+   ```bash
+   cp .env.example .env
+   # أضف الـ Tokens الخاصة بك في ملف .env
+   ```
+
+4. **التشغيل**: ابدأ رحلة التطوير.
+   ```bash
+   npm run dev
+   ```
+
+---
+
+## 🏗️ نظام الفروع | Branching Strategy
+
+نتبع معايير GitFlow لضمان استقرار الإنتاج:
+
+| الفرع | الوصف | الاستخدام |
+| :--- | :--- | :--- |
+| `main` | **الإنتاج** | النسخة المستقرة (Production) |
+| `dev` | **التطوير** | نسخة العمل الحالية |
+| `feature/*` | **الميزات** | إضافة وظائف جديدة (مثال: `feature/tasbeeh-ui`) |
+| `fix/*` | **الإصلاحات** | معالجة الأخطاء (مثال: `fix/callback-error`) |
+
+---
+
+## 🧠 ميثاق المطور (Coding Standards)
+
+نريد كوداً يعكس جودة المشروع. يرجى الالتزام بالمعايير التالية:
+
+### 1. الكود النظيف (Clean Code)
+* **قاعدة المسؤولية الواحدة:** الدالة الواحدة تقوم بمهمة واحدة فقط.
+* **التسمية:** استخدم `camelCase` واضح ومعبّر.
+* **التعليقات:** علّق على "لماذا" فعلت هذا، لا على "ماذا" فعل الكود.
+
+### 2. معايير TypeScript
+* 🚫 **تجنب `any`**: استخدم الـ `Interface` و `Type` دائماً.
+* ✅ **الاستيراد المنظم**: لا تترك أي `unused imports`.
+
+### 3. الأداء والذكاء
+* ⚡ **العمليات غير المتزامنة**: استخدم `async/await` بحذر لتجنب حظر الـ Event Loop.
+* 💾 **إدارة البيانات**: لا تكرر استعلامات قاعدة البيانات، استخدم الـ `Services` للوصول إليها.
+
+---
+
+## 🔐 الأمن أولاً (Security Policy)
+
+> **⚠️ تنبيه شديد الأهمية:** > لا يتم قبول أي Pull Request يحتوي على مفاتيح سرية (Tokens / Keys).
+
+* **ممنوع نهائياً:** رفع ملف `.env` أو كتابة `BOT_TOKEN` مباشرة داخل الكود.
+* **المطلوب:** استخدم متغيرات البيئة دائماً.
+
+---
+
+## 📦 معايير الالتزام (Commit Convention)
+
+نستخدم `Conventional Commits` لجعل سجل التغييرات واضحاً:
+
+```bash
+feat:     إضافة ميزة جديدة (مثال: إضافة مسبحة إلكترونية)
+fix:      إصلاح خطأ برمجي (مثال: إصلاح تعليق الأزرار)
+refactor: إعادة هيكلة الكود (بدون إضافة ميزات أو إصلاح أخطاء)
+chore:    تحديث التبعيات أو تغييرات في التوثيق
 ```
 
 ---
 
-## 2. تثبيت التبعيات
+## 📢 خطوات الـ Pull Request
 
-```bash id="install1"
-npm install
+عند رفع طلب مساهمة، تأكد من التالي:
+
+1. **الوصف**: اشرح التغيير (ماذا أضفت؟ لماذا أضفت؟).
+2. **التوثيق**: إذا أضفت ميزة، قم بتحديث الـ README إن لزم الأمر.
+3. **الاختبار**: قم بتشغيل `npm run build` للتأكد من عدم وجود أخطاء في الـ TypeScript.
+4. **التفاعل**: ارفق صوراً أو لقطات شاشة إذا كان التغيير مرئياً (واجهة البوت).
+
+---
+
+<div align="center">
+
+### 🌟 شكراً لاهتمامك بـ Noorify Bot
+*معاً نبني نظاماً رقمياً نافعاً للأمة*
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f2027,100:2c5364&height=100&section=footer" />
+
+</div>
 ```
 
----
+***
 
-## 3. إعداد البيئة
-
-أنشئ ملف `.env`:
-
-```env id="env1"
-TELEGRAM_BOT_TOKEN=your_token_here
-NODE_ENV=development
-```
-
-أو استخدم:
-
-```bash id="env2"
-cp env.example .env
-```
-
----
-
-## 4. تشغيل المشروع
-
-```bash id="run1"
-npm run dev
-```
-
-أو إنتاج:
-
-```bash id="run2"
-npm run build
-npm start
-```
-
----
-
-# 🧱 هيكل المشروع
-
-```txt id="structure1"
-src/
- ├── index.ts        # نقطة تشغيل البوت
- ├── bot/            # إنشاء البوت
- ├── handlers/       # الأوامر والـ callbacks
- ├── services/       # منطق التطبيق
- ├── lib/            # أدوات مساعدة
- ├── data/           # الأذكار والبيانات
- └── config/         # الإعدادات
-```
-
----
-
-# 🔀 نظام الفروع
-
-| الفرع     | الاستخدام   |
-| --------- | ----------- |
-| main      | الإنتاج     |
-| dev       | التطوير     |
-| feature/* | ميزات جديدة |
-| fix/*     | إصلاح أخطاء |
-
-مثال:
-
-```bash id="branch1"
-git checkout -b feature/tasbeeh-improvements
-```
-
----
-
-# 📌 قواعد الكود (Important)
-
-## 🧼 1. Clean Code
-
-* أسماء واضحة (camelCase)
-* دوال صغيرة (Single Responsibility)
-* بدون تكرار
-
----
-
-## 🧠 2. TypeScript Rules
-
-* لا تستخدم `any` إلا للضرورة
-* عرّف Types دائماً
-* لا تترك imports غير مستخدمة
-
----
-
-## ⚡ 3. الأداء
-
-* تجنب loops الثقيلة داخل handlers
-* استخدم async/await بشكل صحيح
-* لا تكرر استدعاء database بدون داعي
-
----
-
-## 🧩 4. Structure
-
-✔ منطق في `services/`
-✔ واجهة المستخدم في `handlers/`
-✔ البيانات في `data/`
-
----
-
-# 🧪 الاختبار قبل PR
-
-قبل إرسال أي Pull Request:
-
-```bash id="test1"
-npm run build
-```
-
-ثم:
-
-* جرب `/start`
-* جرب `/tasbeeh`
-* جرب الأزرار (Inline Buttons)
-* تأكد ما في أخطاء في console
-
----
-
-# 🔀 Commit Convention
-
-```bash id="commit1"
-feat: add new dhikr system
-fix: resolve callback error in tasbeeh
-refactor: improve bot structure
-chore: update dependencies
-```
-
----
-
-# 🔐 الأمان (مهم جداً)
-
-🚫 ممنوع تماماً رفع:
-
-* `.env`
-* `TELEGRAM_BOT_TOKEN`
-* أي API Keys
-
-✔ استخدم دائمًا:
-
-```env id="secure1"
-.env file
-```
-
----
-
-# 🧠 Pull Request
-
-عند رفع PR:
-
-* اشرح التغيير
-* أرفق صور أو مثال
-* اذكر السبب وليس فقط ماذا فعلت
-
----
-
-# ⚡ ملاحظات احترافية
-
-* لا تخلط منطق البوت داخل `index.ts`
-* خليه فقط “تشغيل”
-* كل شيء ثاني يكون modular
-
----
-
-# 🏁 رسالة المشروع
-
-> هذا المشروع ليس مجرد كود — بل نظام خدمة مستمر قابل للتطوير
+### 💡 نصائح إضافية لك يا رامي:
+* **GitHub Actions:** إذا كنت تريد أن يكون المشروع "مطوراً" جداً، أنصحك بإضافة ملف `.github/workflows/main.yml` ليقوم بالـ `Build` تلقائياً عند كل `Push` للتأكد من أن الكود سليم.
+* **Issue Templates:** يمكنك إنشاء مجلد `.github/ISSUE_TEMPLATE/` وإضافة ملفات `bug_report.md` و `feature_request.md` لكي يلتزم المستخدمون بتقديم طلباتهم بتنسيق موحد.
