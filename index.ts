@@ -1,171 +1,105 @@
 import TelegramBot from "node-telegram-bot-api";
 import express from "express";
+import { WELCOME_TEXT, BORDER_TOP, BORDER_BOTTOM, SEPARATOR, TASBEEH_OPTIONS, RANDOM_AZKAR, DEVELOPER_URL } from "./azkar";
+import { mainMenuKeyboard, tasbeehInlineKeyboard, intervalSettingsKeyboard, libraryInlineKeyboard } from "./keyboards";
+import { PDF_LIBRARY } from "./pdfs";
 
-// استيراد البيانات والوظائف من الملفات الأخرى
-import { 
-  TASBEEH_OPTIONS, 
-  RANDOM_AZKAR,
-  DEVELOPER_USERNAME,
-} from "./azkar";
-
-import { 
-  mainMenuKeyboard, 
-  tasbeehKeyboard, 
-  tasbeehChooserKeyboard, 
-  libraryKeyboard,
-  dhikrNowKeyboard
-} from "./keyboards";
-
-import { 
-  buildRandomDhikrMessage, 
-  buildTasbeehMessage, 
-  buildLibraryMessage,
-  buildAboutMessage,
-  buildStatsMessage,
-  buildMainMenuMessage,
-} from "./format";
-
-// --- 1. إعداد السيرفر لضمان بقاء البوت حياً على Render ---
-const app = express();
-const PORT = process.env.PORT || 10000;
-app.get("/", (req, res) => res.send("Noorify Bot is Online! 🌙"));
-app.listen(PORT, () => console.log(`📡 Server is running on port ${PORT}`));
-
-// --- 2. إعدادات البوت ---
 const token = process.env.TELEGRAM_BOT_TOKEN || "";
 const bot = new TelegramBot(token, { polling: true });
 
-// مخازن مؤقتة للبيانات
-const userStats = new Map<number, { count: number, total: number, currentDhikr: string }>();
+// إحصائيات حقيقية (في الذاكرة - يفضل ربطها بـ Firestore لاحقاً)
+const stats = { totalTasbeeh: 0, users: new Set(), groups: new Set() };
+const userState = new Map<number, { count: number, dhikr: string }>();
 
-console.log("🌙 Noorify Bot has started successfully...");
-
-// وظيفة التحقق من رتبة المشرف
-async function checkAdmin(chatId: number, userId: number): Promise<boolean> {
-  if (chatId > 0) return true; // في الخاص المستخدم هو المشرف دائماً
-  try {
+// وظيفة التحقق من المشرف
+async function isAdmin(chatId: number, userId: number): Promise<boolean> {
+    if (chatId > 0) return true; // في الخاص مسموح دائماً
     const member = await bot.getChatMember(chatId, userId);
     return ["creator", "administrator"].includes(member.status);
-  } catch { return false; }
 }
 
-// --- 3. معالجة الأوامر الرئيسية ---
-
-bot.onText(/\/start/, async (msg) => {
-  const chatId = msg.chat.id;
-  const isPrivate = chatId > 0;
-  const me = await bot.getMe();
-  
-  bot.sendMessage(chatId, buildMainMenuMessage(msg.from?.first_name), {
-    parse_mode: "HTML",
-    reply_markup: mainMenuKeyboard(isPrivate, me.username)
-  });
+bot.onText(/\/start/, (msg) => {
+    stats.users.add(msg.from?.id);
+    bot.sendMessage(msg.chat.id, WELCOME_TEXT, {
+        parse_mode: "HTML",
+        reply_markup: mainMenuKeyboard()
+    });
 });
 
-// --- 4. معالجة ضغطات الأزرار (Callback Queries) ---
+bot.on("message", async (msg) => {
+    const text = msg.text;
+    const chatId = msg.chat.id;
+
+    if (text === "🔵 المسبحة الإلكترونية") {
+        userState.set(msg.from!.id, { count: 0, dhikr: "سُبْحَانَ اللَّهِ" });
+        bot.sendMessage(chatId, `${BORDER_TOP}\n📿 <b>المسبحة التفاعلية</b>\n\nالذكر الحالي: <b>سُبْحَانَ اللَّهِ</b>\nالعدد: 0\n${BORDER_BOTTOM}`, {
+            parse_mode: "HTML", reply_markup: tasbeehInlineKeyboard(0)
+        });
+    }
+
+    if (text === "🟢 المكتبة الإسلامية") {
+        bot.sendMessage(chatId, `📚 <b>المكتبة الشاملة</b>\n${SEPARATOR}\nاختر الكتاب الذي تود تحميله:`, {
+            parse_mode: "HTML", reply_markup: libraryInlineKeyboard()
+        });
+    }
+
+    if (text === "📊 الإحصائيات") {
+        bot.sendMessage(chatId, `📊 <b>إحصائيات نورفاي الحقيقية</b>\n${SEPARATOR}\n• إجمالي التسبيح: <code>${stats.totalTasbeeh}</code>\n• عدد المستخدمين: <code>${stats.users.size}</code>\n• المجموعات النشطة: <code>${stats.groups.size}</code>\n${BORDER_BOTTOM}`, { parse_mode: "HTML" });
+    }
+
+    if (text === "🔴 الإعدادات") {
+        if (await isAdmin(chatId, msg.from!.id)) {
+            bot.sendMessage(chatId, `⚙️ <b>إعدادات التذكير</b>\n\nاختر المدة الزمنية لإرسال الأذكار التلقائية:`, {
+                parse_mode: "HTML", reply_markup: intervalSettingsKeyboard()
+            });
+        } else {
+            bot.sendMessage(chatId, `⚠️ <b>تنبيه:</b> هذا الخيار مخصص لمشرفي المجموعة فقط.`);
+        }
+    }
+    
+    if (text === "🟢 ذكر عشوائي") {
+        const azkar = RANDOM_AZKAR[Math.floor(Math.random() * RANDOM_AZKAR.length)];
+        bot.sendMessage(chatId, `✨ <b>ذكر الله:</b>\n\n<code>${azkar}</code>`, { parse_mode: "HTML" });
+    }
+});
 
 bot.on("callback_query", async (query) => {
-  const chatId = query.message!.chat.id;
-  const messageId = query.message!.message_id;
-  const data = query.data || "";
-  const userId = query.from.id;
-  const isPrivate = chatId > 0;
+    const data = query.data || "";
+    const chatId = query.message!.chat.id;
+    const userId = query.from.id;
 
-  try {
-    if (data === "menu:main") {
-      const me = await bot.getMe();
-      bot.editMessageText(buildMainMenuMessage(query.from.first_name), {
-        chat_id: chatId, message_id: messageId,
-        parse_mode: "HTML", reply_markup: mainMenuKeyboard(isPrivate, me.username)
-      });
-    } 
-    
-    else if (data === "menu:dhikr_now") {
-      bot.editMessageText(buildRandomDhikrMessage(), {
-        chat_id: chatId, message_id: messageId,
-        parse_mode: "HTML", reply_markup: dhikrNowKeyboard()
-      });
+    if (data === "tasbeeh:tick") {
+        const state = userState.get(userId) || { count: 0, dhikr: "سُبْحَانَ اللَّهِ" };
+        state.count++;
+        stats.totalTasbeeh++;
+        userState.set(userId, state);
+        bot.editMessageText(`${BORDER_TOP}\n📿 <b>المسبحة التفاعلية</b>\n\nالذكر: <b>${state.dhikr}</b>\nالعدد: <code>${state.count}</code>\n${BORDER_BOTTOM}`, {
+            chat_id: chatId, message_id: query.message!.message_id, parse_mode: "HTML",
+            reply_markup: tasbeehInlineKeyboard(state.count)
+        });
     }
 
-    else if (data === "tasbeeh:open") {
-      bot.editMessageText(buildTasbeehMessage({
-        dhikr: "سُبْحَانَ اللَّهِ", count: 0, totalCount: 0, firstName: query.from.first_name
-      }), {
-        chat_id: chatId, message_id: messageId,
-        parse_mode: "HTML", reply_markup: tasbeehKeyboard()
-      });
+    if (data.startsWith("lib_file:")) {
+        const fileId = data.split(":")[1];
+        const file = PDF_LIBRARY.find(p => p.id === fileId);
+        if (file) {
+            bot.answerCallbackQuery(query.id, { text: "جاري تحضير الكتاب..." });
+            bot.sendDocument(chatId, file.url, { caption: `📖 تم تحميل: <b>${file.title}</b>`, parse_mode: "HTML" });
+        }
     }
 
-    else if (data === "tasbeeh:tick") {
-      const stats = userStats.get(userId) || { count: 0, total: 0, currentDhikr: "سُبْحَانَ اللَّهِ" };
-      stats.count++;
-      stats.total++;
-      userStats.set(userId, stats);
-      bot.editMessageText(buildTasbeehMessage({
-        dhikr: stats.currentDhikr, count: stats.count, totalCount: stats.total, firstName: query.from.first_name
-      }), {
-        chat_id: chatId, message_id: messageId,
-        parse_mode: "HTML", reply_markup: tasbeehKeyboard()
-      }).catch(() => {});
+    if (data.startsWith("set_timer:")) {
+        if (await isAdmin(chatId, userId)) {
+            bot.editMessageText(`✅ تم تحديث وقت التذكير بنجاح!`, { chat_id: chatId, message_id: query.message!.message_id });
+        } else {
+            bot.answerCallbackQuery(query.id, { text: "❌ هذا الأمر للمشرفين فقط!", show_alert: true });
+        }
     }
 
-    else if (data === "tasbeeh:change") {
-      bot.editMessageText("📜 اختر الذكر الذي تود البدء به:", {
-        chat_id: chatId, message_id: messageId,
-        parse_mode: "HTML", reply_markup: tasbeehChooserKeyboard()
-      });
-    }
-
-    else if (data.startsWith("tasbeeh:set:")) {
-      const dhikrId = data.split(":")[2];
-      const selected = TASBEEH_OPTIONS.find(o => o.id === dhikrId);
-      const stats = userStats.get(userId) || { count: 0, total: 0, currentDhikr: "" };
-      stats.count = 0;
-      stats.currentDhikr = selected?.text || "سُبْحَانَ اللَّهِ";
-      userStats.set(userId, stats);
-      bot.editMessageText(buildTasbeehMessage({
-        dhikr: stats.currentDhikr, count: 0, totalCount: stats.total, firstName: query.from.first_name
-      }), {
-        chat_id: chatId, message_id: messageId,
-        parse_mode: "HTML", reply_markup: tasbeehKeyboard()
-      });
-    }
-
-    else if (data === "lib:open") {
-      bot.editMessageText(buildLibraryMessage(), {
-        chat_id: chatId, message_id: messageId,
-        parse_mode: "HTML", reply_markup: libraryKeyboard()
-      });
-    }
-
-    else if (data === "stats:open") {
-      const uS = userStats.get(userId);
-      bot.editMessageText(buildStatsMessage({
-        totalTasbeeh: uS?.total || 0,
-      }), {
-        chat_id: chatId, message_id: messageId,
-        parse_mode: "HTML", reply_markup: { inline_keyboard: [[{ text: "« رجوع للقائمة", callback_data: "menu:main" }]] }
-      });
-    }
-
-    else if (data === "menu:about") {
-      bot.editMessageText(buildAboutMessage(), {
-        chat_id: chatId, message_id: messageId,
-        parse_mode: "HTML", reply_markup: { inline_keyboard: [[{ text: "« رجوع للقائمة", callback_data: "menu:main" }]] }
-      });
-    }
-  } catch (err) {
-    console.error("Callback Error:", err);
-  }
-  bot.answerCallbackQuery(query.id).catch(() => {});
+    bot.answerCallbackQuery(query.id).catch(() => {});
 });
 
-// ترحيب المجموعات عند إضافة البوت
-bot.on("my_chat_member", async (update) => {
-  if (update.new_chat_member.status === "member" || update.new_chat_member.status === "administrator") {
-    const welcome = `✅ <b>تم تفعيل نورِفاي بنجاح!</b>\n\n` +
-      `سأقوم بإرسال أذكار دورية لتعطير المجموعة بالذكر.\n` +
-      `اللهم اجعلنا من الذاكرين الشاكرين.`;
-    bot.sendMessage(update.chat.id, welcome, { parse_mode: "HTML" });
-  }
-});
+// Health check for Render
+const app = express();
+app.get("/", (req, res) => res.send("Noorify is Live!"));
+app.listen(process.env.PORT || 10000);
