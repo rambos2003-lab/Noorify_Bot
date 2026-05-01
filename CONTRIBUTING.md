@@ -3,12 +3,11 @@
 
 ```markdown
 <div align="center">
-
+```
 # 🤝 دليل المساهمة في Noorify Bot
 ```
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f2027,100:2c5364&height=180&section=header&text=Contribution%20Guide&fontSize=40&fontColor=ffffff" />
 ```
-
 
 ### 💡 "هذا المشروع ليس مجرد كود — بل نظام خدمة مستمر
 [![GitHub contributors](https://img.shields.io/github/contributors/YOUR_USERNAME/Noorify_Bot?style=for-the-badge)](https://github.com/YOUR_USERNAME/Noorify_Bot/graphs/contributors)
