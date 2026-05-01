@@ -107,7 +107,9 @@ index.ts           # نقطة تشغيل المشروع
 
 👨‍💻 المطور
 <div align="center">
+ 
 🧑‍💻 Rami Bitar
+
 <a href="https://t.me/vx_rq"> <img src="https://img.shields.io/badge/Telegram-Contact-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white"> </a> <a href="mailto:ramibitar.connct@gmail.com"> <img src="https://img.shields.io/badge/Email-Send-D14836?style=for-the-badge&logo=gmail&logoColor=white"> </a> </div>
 
 
@@ -117,4 +119,5 @@ index.ts           # نقطة تشغيل المشروع
 
 ﴿ وَذَكِّرْ فَإِنَّ الذِّكْرَى تَنفَعُ الْمُؤْمِنِينَ ﴾
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f2027,100:2c5364&height=120&section=footer" /> </div> ```
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f2027,100:2c5364&height=120&section=footer" /> 
+</div>
