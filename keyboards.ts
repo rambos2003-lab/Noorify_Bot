@@ -1,11 +1,11 @@
-import { InlineKeyboardMarkup } from "node-telegram-bot-api";
+import { InlineKeyboardMarkup, InlineKeyboardButton } from "node-telegram-bot-api";
 import { TASBEEH_OPTIONS, DEVELOPER_URL } from "./azkar";
 import { PDF_LIBRARY } from "./pdfs";
 
-export const BACK_BUTTON = { text: "« رجوع للقائمة", callback_data: "menu:main" };
+export const BACK_BUTTON: InlineKeyboardButton = { text: "« رجوع للقائمة", callback_data: "menu:main" };
 
 export function mainMenuKeyboard(isAdmin: boolean, botUsername: string): InlineKeyboardMarkup {
-  const rows = [
+  const rows: InlineKeyboardButton[][] = [
     [{ text: "📿 المسبحة الإلكترونية التفاعلية", callback_data: "tasbeeh:open" }],
     [
       { text: "📚 المكتبة الشاملة", callback_data: "lib:open" },
@@ -56,7 +56,7 @@ export function dhikrNowKeyboard(): InlineKeyboardMarkup {
 }
 
 export function libraryKeyboard(): InlineKeyboardMarkup {
-  const rows = [];
+  const rows: InlineKeyboardButton[][] = [];
   for (let i = 0; i < PDF_LIBRARY.length; i += 2) {
     const row = [{ text: `${PDF_LIBRARY[i].emoji} ${PDF_LIBRARY[i].title}`, callback_data: `lib:get:${PDF_LIBRARY[i].id}` }];
     if (PDF_LIBRARY[i + 1]) row.push({ text: `${PDF_LIBRARY[i + 1].emoji} ${PDF_LIBRARY[i + 1].title}`, callback_data: `lib:get:${PDF_LIBRARY[i + 1].id}` });
