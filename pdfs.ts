@@ -9,9 +9,6 @@ export interface PdfBook {
   emoji: string;
 }
 
-/**
- * تم تحديث الرابط ليشير إلى الفرع الرئيسي (main) في مستودعك
- */
 const GITHUB_BASE_URL = "https://raw.githubusercontent.com/rambos2003-lab/Noorify_Bot/main/";
 
 export const PDF_LIBRARY: PdfBook[] = [
@@ -26,10 +23,6 @@ export const PDF_LIBRARY: PdfBook[] = [
   { id: "wake", title: "أذكار الاستيقاظ", filename: "اذكار الإستيقاظ.pdf", emoji: "🌅" },
 ];
 
-/**
- * توليد الرابط المباشر للملف
- */
 export function getPdfUrl(filename: string): string {
-  // نقوم بترميز الاسم للتعامل مع المسافات واللغة العربية في الروابط
-  return `${GITHUB_BASE_URL}${encodeURIComponent(filename)}`;
+  return `${GITHUB_BASE_URL}${encodeURI(filename)}`;
 }
