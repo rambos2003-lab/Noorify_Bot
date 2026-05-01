@@ -1,7 +1,10 @@
-   `🌿 صيام يوم في سبيل الله يُباعد الله به وجهه عن النار سبعين خريفًا.`,
+   // أضف اسم المتغير هنا (FASTING_HADITHS أو أي اسم تفضله)
+export const FASTING_HADITHS = [
+  `🌿 صيام يوم في سبيل الله يُباعد الله به وجهه عن النار سبعين خريفًا.`,
 ];
 
 export const DEVELOPER_USERNAME = "vx_rq";
+// ... باقي الكود
 export const DEVELOPER_URL = `https://t.me/${DEVELOPER_USERNAME}`;
 
 const DIVIDER = "─────────────────────";
@@ -129,3 +132,9 @@ export const HELP_MESSAGE: string =
 
 export function escapeHtml(text: string): string {
   return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
