@@ -55,57 +55,66 @@
 
 ## ⚙️ تشغيل المشروع
 
-# تثبيت الحزم
+ تثبيت الحزم
 npm install
-
-# تشغيل وضع التطوير
+ تشغيل وضع التطوير
 npm run dev
-
-# بناء المشروع
+ بناء المشروع للإنتاج
 npm run build
-
-# تشغيل الإنتاج
+ تشغيل النسخة النهائية
 npm start
 
 
 📁 هيكلة المشروع
+
+هيكلة منظمة وقابلة للتوسع:
+
 src/
- ├── bot/
- ├── handlers/
- ├── services/
- ├── lib/
- ├── database/
- ├── config/
-index.ts
+├── bot/           # إنشاء البوت وربطه
+├── handlers/      # أوامر و callback queries
+├── services/      # منطق التطبيق (business logic)
+├── lib/           # أدوات مساعدة (helpers)
+├── database/      # الاتصال وقواعد البيانات
+├── config/        # إعدادات البيئة
+index.ts           # نقطة تشغيل المشروع
+
+
+
+
 
 
 🌊 رؤية المشروع
 
-مشروع نوريفاي ليس مجرد بوت…
-بل أثر مستمر + صدقة جارية رقمية 🤍
+نوريفاي ليس مجرد بوت تيليجرام…
+بل نظام ذِكر رقمي مستمر
+🤍 صدقة جارية + أثر لا ينقطع
 
+
+
+🤝 المساهمة
+
+نرحب بكل مساهمة تهدف لتطوير المشروع:
+
+✨ إضافة ميزات جديدة (Features)
+🐛 إصلاح الأخطاء (Bug Fixes)
+📚 تحسين التوثيق (Docs)
+⚡ تحسين الأداء (Performance)
+
+⚠️ تنبيه مهم
+لا يتم تخزين أي بيانات حساسة داخل الكود
+يجب استخدام ملف .env لإدارة المفاتيح (Tokens / Keys)
+المشروع مفتوح للتطوير للأغراض المفيدة فقط
 
 👨‍💻 المطور
 <div align="center">
-
 🧑‍💻 Rami Bitar
-<a href="https://t.me/vx_rq"> <img src="https://img.shields.io/badge/Telegram-Contact-blue?style=for-the-badge&logo=telegram"> </a> <a href="mailto:ramibitar.connct@gmail.com"> <img src="https://img.shields.io/badge/Email-Send-red?style=for-the-badge&logo=gmail"> </a> </div>
-🤝 المساهمة
+<a href="https://t.me/vx_rq"> <img src="https://img.shields.io/badge/Telegram-Contact-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white"> </a> <a href="mailto:ramibitar.connct@gmail.com"> <img src="https://img.shields.io/badge/Email-Send-D14836?style=for-the-badge&logo=gmail&logoColor=white"> </a> </div>
 
-نرحب بأي مساهمة لتطوير المشروع:
 
-✨ Features
-🐛 Bug Fixes
-📚 Documentation
-⚡ Performance Improvements
-⚠️ تنبيه
-لا يتم تخزين أي بيانات حساسة داخل الكود
-استخدم .env دائماً
-المشروع مفتوح للتطوير فقط للأغراض المفيدة
+
 🌙 ختام
 <div align="center">
 
+﴿ وَذَكِّرْ فَإِنَّ الذِّكْرَى تَنفَعُ الْمُؤْمِنِينَ ﴾
 
-"وَذَكِّرْ فَإِنَّ ٱلذِّكْرَىٰ تَنفَعُ ٱلْمُؤْمِنِينَ"
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:2c5364,100:0f2027&height=120&section=footer"/> </div> ```
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f2027,100:2c5364&height=120&section=footer" /> </div> ```
