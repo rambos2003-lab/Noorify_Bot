@@ -1,13 +1,17 @@
 # Telegram Bot 🚀
 
-Islamic Telegram Bot with:
+## Features
 - Tasbeeh system
 - Dhikr generator
 - Library system
-- Admin features
+- Admin settings
 
-## Setup
-
-```bash
+## Install
 npm install
+
+## Run
 npm run dev
+
+## Build
+npm run build
+npm start
