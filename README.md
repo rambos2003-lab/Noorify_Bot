@@ -1,105 +1,83 @@
-<div align="center">
+﴿ أَلَا بِذِكْرِ ٱللَّٰهِ تَطْمَئِنُّ ٱلْقُلُوبُ ﴾
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f2027,100:2c5364&height=180&section=header&text=Noorify%20Bot&fontSize=40&fontColor=ffffff" />
+الجيل الجديد من بوتات الأذكار: ذكاء، تفاعل، وطمأنينة رقمية
 
-### ﴿ أَلَا بِذِكْرِ ٱللَّٰهِ تَطْمَئِنُّ ٱلْقُلُوبُ ﴾
+🌟 عن نورِفاي (Noorify)
 
-**بوت ذكي متكامل لنشر الطمأنينة والذكر الرقمي عبر تيليجرام**
+نورِفاي ليس مجرد بوت أذكار تقليدي، بل هو رفيق إيماني ذكي مصمم بأحدث التقنيات لتقديم تجربة ذكر تفاعلية. يركز البوت على التحفيز من خلال "لوحة الذكاء" التي تتبع عباداتك وتفاعلك لحظة بلحظة، مع نظام تنبيهات احترافي للمجموعات والخاص.
 
-[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://core.telegram.org/bots)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+🚀 المميزات المتطورة
 
-</div>
+الميزة
 
----
+الوصف التقني
 
-## 🌟 نبذة عن المشروع
-**Noorify** هو نظام ذكاء رقمي مصمم ليكون رفيقاً إيمانياً للمستخدم عبر منصة تيليجرام. يجمع بين البساطة في الاستخدام والاحترافية في البرمجة، لتقديم تجربة ذكر مستمرة، سريعة، ومستقرة.
+📊 لوحة الذكاء الذكية
 
----
+نظام إحصائيات حقيقي يتتبع (التسبيح، طلب الأذكار، العمليات الذكية) لحظياً.
 
-## 🚀 المميزات الرئيسية
+⏰ نظام التذكير المرن
 
-| الميزة | الوصف |
-| :--- | :--- |
-| **📿 مسبحة ذكية** | نظام تتبع تسبيح متطور مع إحصائيات حفظ تلقائي. |
-| **🌙 الورد اليومي** | أذكار الصباح، المساء، والنوم مع تنبيهات مخصصة. |
-| **📖 مكتبة PDF** | إمكانية تصفح وتحميل الأذكار والكتب بصيغة PDF. |
-| **📊 لوحة تحكم** | إحصائيات دقيقة لنمو المستخدمين وتفاعلهم. |
-| **🔔 نظام التذكير** | إشعارات ذكية مجدولة زمنياً لا تسبب إزعاجاً. |
-| **🧩 تفاعل مرن** | واجهة مستخدم تعتمد على الأزرار التفاعلية (Inline). |
+تذكير دوري (30د، 1س، 2س، 4س، 6س) مع نظام صلاحيات صارم للمشرفين.
 
----
+📿 مسبحة تفاعلية
 
-## 🛠️ التقنيات المستخدمة
+واجهة بصرية ملونة مع شريط تقدم (Progress Bar) ونبضات تفاعلية.
 
-* **Runtime:** `Node.js`
-* **Language:** `TypeScript` (لضمان أمان الكود واستقراره)
-* **API:** `Telegraf.js` أو `grammY`
-* **Architecture:** `Modular Design` (هيكلة معيارية قابلة للتوسع)
-* **Storage:** `JSON / Local DB` (خفيفة وسريعة)
+✨ خوارزمية الأذكار
 
----
+قاعدة بيانات تضم +100 ذكر ودعاء من القرآن والسنة يتم اختيارها بذكاء.
 
-## ⚙️ دليل التشغيل
+🛡️ نظام حماية الإعدادات
 
-### 1. التثبيت
-```bash
+منع الأعضاء العاديين في المجموعات من العبث بإعدادات التذكير.
 
-git clone [https://github.com/your-username/noorify-bot.git](https://github.com/your-username/noorify-bot.git)
-cd noorify-bot
-npm install
+📱 واجهة مربعة (Grid)
 
+تصميم أزرار عصري ومتناسق يوفر سهولة في التنقل وسرعة في الاستجابة.
 
+🛠️ التقنيات المستخدمة (Stack)
 
-2. الإعداد
-قم بإنشاء ملف .env في المجلد الرئيسي وأضف المفاتيح التالية:
+Language: Python 3.x
 
-Kod snippet'i
-BOT_TOKEN=your_telegram_bot_token_here
-ADMIN_ID=your_id
+Library: pyTelegramBotAPI (Telebot)
 
-```
+Architecture: Event-Driven Architecture
+
+Data Handling: In-Memory Real-time Analytics
+
+UI/UX: Inline Query Buttons (Grid Style)
+
+⚙️ تشغيل المشروع (Local Development)
+
+1. المتطلبات
+
+تأكد من تثبيت مكتبة البوت عبر الـ Terminal:
+
+pip install pyTelegramBotAPI
 
 
+2. التشغيل محلياً
+
+قم بتشغيل ملف البوت الأساسي:
+
+python main.py
 
 
+📋 أوامر البوت (BotFather Commands)
 
+للحصول على أفضل تجربة مستخدم، أضف هذه الأوامر في @BotFather:
 
+/start - تشغيل البوت والرسالة الترحيبية
 
+/dhikr - الحصول على ذكر عشوائي من الخوارزمية
 
----
+/stats - فتح لوحة الإحصائيات الذكية
 
-## 🤝 تواصل معي | Get in Touch
+/tasbih - المسبحة الإلكترونية المتطورة
 
-يسعدني دائماً التواصل مع المطورين والمستخدمين. لا تتردد في مراسلتي لأي استفسار أو مقترح تطوير.
+/remind - إعدادات التذكير الدوري
 
-<div align="center">
+🤝 تواصل مع المطور | Get in Touch
 
-<a href="https://t.me/vx_rq">
-  <img src="https://img.shields.io/badge/Telegram-@vx_rq-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram" />
-</a>
-
-<a href="https://linktr.ee/ramibitar.dev">
-  <img src="https://img.shields.io/badge/Portfolio-Linktree-39E09B?style=for-the-badge&logo=linktree&logoColor=white" alt="Linktree" />
-</a>
-
-<a href="mailto:ramibitar.connct@gmail.com">
-  <img src="https://img.shields.io/badge/Email-Send_Mail-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
-</a>
-
-</div>
-
----
-
-<div align="center">
-
-<p>تم التطوير بكل ❤️ بواسطة <b>Rami Bitar</b></p>
-
-<h3>﴿ وَذَكِّرْ فَإِنَّ الذِّكْرَى تَنفَعُ الْمُؤْمِنِينَ ﴾</h3>
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f2027,100:2c5364&height=120&section=footer" />
-
-</div>
+يسعدنا استقبال مقترحاتكم لتطوير المشروع.
