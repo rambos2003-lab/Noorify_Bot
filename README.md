@@ -1,166 +1,61 @@
-<div align="center">
----
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:000428,100:004e92&height=260&section=header" />
+</p>
 
-# 🌊✨ Noorify - نورِفاي ✨🌊
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=800&size=52&pause=800&color=FFFFFF&center=true&vCenter=true&width=1000&lines=Noorify+-+نورفاي" />
+</p>
 
-<div align="center">
-
-```
-   ███╗   ██╗ ██████╗  ██████╗ ██████╗ ██╗███████╗██╗   ██╗
-   ████╗  ██║██╔═══██╗██╔═══██╗██╔══██╗██║██╔════╝╚██╗ ██╔╝
-   ██╔██╗ ██║██║   ██║██║   ██║██████╔╝██║█████╗   ╚████╔╝ 
-   ██║╚██╗██║██║   ██║██║   ██║██╔══██╗██║██╔══╝    ╚██╔╝  
-   ██║ ╚████║╚██████╔╝╚██████╔╝██║  ██║██║███████╗   ██║   
-   ╚═╝  ╚═══╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝╚══════╝   ╚═╝   
-   ```
-
-
-
-### 🕊️ ﴿ أَلَا بِذِكْرِ ٱللَّهِ تَطْمَئِنُّ ٱلْقُلُوبُ ﴾
-
-**⚡ بوت تيليجرام يحوّل هاتفك إلى مساحة ذكر وطمأنينة ⚡**
-
-[![Stars](https://img.shields.io/github/stars/your-repo?style=for-the-badge)]()
-[![Forks](https://img.shields.io/github/forks/your-repo?style=for-the-badge)]()
-[![License](https://img.shields.io/badge/License-MIT-gold?style=for-the-badge)]()
-
-</div>
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=20&pause=900&color=00E5FF&center=true&vCenter=true&width=900&lines=⚡+A+Living+Dhikr+System+for+Your+Phone;🕊️+From+Distraction+to+Tranquility;🌊+Built+to+Remind+You+of+Allah+Silently" />
+</p>
 
 ---
 
-## ⚡ ما هو Noorify؟
+<p align="center">
+  🕊️ <b>﴿ أَلَا بِذِكْرِ ٱللَّهِ تَطْمَئِنُّ ٱلْقُلُوبُ ﴾</b>
+</p>
 
-> مش بوت أذكار عادي…
-> هذا **نظام روحاني رقمي** يعيش معك يومياً 🤍
-
-Noorify يساعدك على:
-
-* تذكّر الله بدون ما تفكر
-* بناء عادة ذكر يومية
-* تحويل الهاتف من مصدر تشتت → مصدر طمأنينة
+<p align="center">
+  <b>⚡ Not just a bot — a digital spiritual ecosystem.</b>
+</p>
 
 ---
 
-## 💥 لماذا هذا المشروع مختلف؟
-
-معظم البوتات:
-
-* مجرد رسائل ❌
-* بدون روح ❌
-* بدون استمرارية ❌
-
-**Noorify هو:**
-
-* نظام ذكي ✔️
-* تفاعل يومي ✔️
-* تجربة هادئة ✔️
-* قابل للتوسّع ✔️
+<p align="center">
+  <a href="https://t.me/Noorify_bot">
+    <img src="https://img.shields.io/badge/⚡_Launch_Bot-Noorify-00E5FF?style=for-the-badge&logo=telegram&logoColor=white">
+  </a>
+  <a href="https://t.me/TechNest_AI">
+    <img src="https://img.shields.io/badge/📢_Channel-TechNest_AI-FF6F00?style=for-the-badge&logo=telegram&logoColor=white">
+  </a>
+  <a href="https://linktr.ee/ramibitar.dev">
+    <img src="https://img.shields.io/badge/🌐_Developer-Portfolio-9C27B0?style=for-the-badge">
+  </a>
+</p>
 
 ---
 
-## 🚀 الميزات التي تخليك تستخدمه فوراً
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:00c6ff,100:0072ff&height=3" />
+</p>
 
-### 📿 مسبحة ذكية
-
-تسبّح + تتبع تقدمك بدون ما تضيع العدد
-
-### 📜 أذكار يومية
-
-أذكار صباح / مساء / نوم بشكل منظم
-
-### ⏰ تذكير تلقائي
-
-يشتغل بالمجموعات بدون تدخل منك:
-
-* 30 دقيقة
-* 1 ساعة
-* 2 ساعات
-* 3 ساعات
-* 4 ساعات
-
-### 📊 إحصائيات
-
-تعرف كم مرة ذكرت الله اليوم 🤍
-
-### 🔗 مشاركة بنقرة واحدة
-
-خليه ينتشر = أجر مستمر لك
+<p align="center">
+  <img src="https://media.giphy.com/media/3o7btPCcdNniyf0ArS/giphy.gif" width="320" />
+</p>
 
 ---
 
-## 🌊 فكرة المشروع
+<p align="center">
+  <b>🌊 Noorify = When code becomes remembrance.</b>
+</p>
 
-> “إذا كان الهاتف يسرق وقتك…
-> خلّه هو نفسه يذكّرك بربك”
-
----
-
-## 🛠️ التقنيات
-
-```text
-Python 3.13
-Aiogram 3.x (Async)
-Telegram Bot API
-Architecture: Modular + Scalable
-```
+<p align="center">
+  <i>“If your phone owns your attention… let it return your heart.”</i>
+</p>
 
 ---
 
-## ⚙️ التشغيل خلال 60 ثانية
-
-```bash
-pip install aiogram
-python main.py
-```
-
-ثم ضع التوكن:
-
-```python
-TOKEN = "YOUR_BOT_TOKEN"
-```
-
----
-
-## 🧠 فلسفة المشروع
-
-* لا تشتت
-* لا تعقيد
-* فقط ذكر + طمأنينة + استمرارية
-
----
-
-## 🌱 هدف المشروع
-
-> بناء أثر… لا مجرد كود
-
-﴿ فَذَكِّرْ فَإِنَّ الذِّكْرَىٰ تَنْفَعُ الْمُؤْمِنِينَ ﴾
-
----
-
-## 🤝 ساهم في نشره
-
-إذا أعجبك المشروع:
-
-* ⭐ Star
-* 🍴 Fork
-* 📩 Share
-
-قد تكون سبب ذكر شخص لله 🤍
-
----
-
-## 📩 التواصل
-
-💬 المطوّر: **@vx_rq**
-
----
-
-## 🕊️ النهاية
-
-```
-Noorify… ليس تطبيقًا
-بل عادة حياة 🤍
-```
-
----
-
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:004e92,100:000428&height=160&section=footer" />
+</p>
