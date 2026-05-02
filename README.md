@@ -1,7 +1,6 @@
 
 ---
 
-# 🌊🚀 NOORIFY — README النهائي (VIRAL EDITION)
 
 ```markdown id="noorify_full_final"
 <p align="center">
