@@ -4,8 +4,7 @@
 
 <div align="center">
 
-# 🌌 NOORIFY
-**نظام ذكر رقمي متكامل | Digital Dhikr Companion**
+#  NOORIFY
 
 ---
 
