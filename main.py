@@ -294,31 +294,45 @@ async def btn_tasbih_menu(call: CallbackQuery):
         
     btns.append([InlineKeyboardButton(text="🔙 عودة للرئيسية", callback_data="btn_home")])
     await call.message.edit_text(f"📿 {html.bold('اختر نوع الذكر المفضل لفتح المسبحة التفاعلية:')}", reply_markup=InlineKeyboardMarkup(inline_keyboard=btns))
-
+    
 @dp.callback_query(F.data.startswith(("go_", "hit_")))
 async def engine_tasbih(call: CallbackQuery):
-    idx = int(call.data.split("_")[1])
+    try:
+        idx = int(call.data.split("_")[1])
+    except (IndexError, ValueError):
+        await call.answer("خطأ في البيانات", show_alert=True)
+        return
+
     u = init_user(call.from_user.id, call.from_user.full_name)
-    if "hit_" in call.data: u["tasbih"] += 1
-    
-    rank_n, rank_i = get_spiritual_rank(u['tasbih'])
+    u.setdefault("tasbih", 0)
+
+    if call.data.startswith("hit_"):
+        u["tasbih"] += 1
+        # لازم هنا حفظ البيانات إذا عندك DB
+
+    rank_n, rank_i = get_spiritual_rank(u["tasbih"])
     progress = get_unique_progress(u["tasbih"] % 34)
-    
+
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=f"إضغط للتسبيح }", callback_data=f"hit_{idx}")],
-        [InlineKeyboardButton(text="🔄 تغيير النوع", callback_data="btn_tasbih_menu"), InlineKeyboardButton(text="🔙 عودة", callback_data="btn_home")]
+        [InlineKeyboardButton(text="إضغط للتسبيح", callback_data=f"hit_{idx}")],
+        [
+            InlineKeyboardButton(text="🔄 تغيير النوع", callback_data="btn_tasbih_menu"),
+            InlineKeyboardButton(text="🔙 عودة", callback_data="btn_home")
+        ]
     ])
-    
+
     txt = (
-        f" {html.bold('المسبحة')} {rank_i}\n"
+        f"{html.bold('المسبحة')} {rank_i}\n"
         f"🕊️ {html.italic(TASBIH_TYPES[idx])}\n\n"
         f"📊 التقدم في الدورة:\n{html.code(progress)}\n"
         f"🏅 الرتبة: {rank_n}\n"
         f"📿 إجمالي تسبيحاتك: {u['tasbih']}\n"
-       
     )
-    try: await call.message.edit_text(txt, reply_markup=kb)
-    except: pass
+
+    try:
+        await call.message.edit_text(txt, reply_markup=kb, parse_mode="HTML")
+    except Exception:
+        pass
 
 # --- [ لوحة الإحصائيات الفائقة ] ---
 
