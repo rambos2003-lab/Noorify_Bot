@@ -96,7 +96,15 @@ TASBIH_TYPES = [
     "🟢 سُبْحَانَ اللَّهِ", "⚪ الْحَمْدُ لِلَّهِ", "🟡 لَا إِلَهَ إِلَّا اللَّهُ", "🟠 اللَّهُ أَكْبَرُ",
     "🔴 أَسْتَغْفِرُ اللَّهَ", "🔵 صَلِّ عَلَى مُحَمَّدٍ", "🟣 لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
     "🟤 سُبْحَانَ اللَّهِ وَبِحَمْدِهِ", "⚪ سُبْحَانَ اللَّهِ الْعَظِيمِ", "🟢 يَا حَيُّ يَا قَيُّومُ",
-    "🟡 رَبِّ اغْفِرْ لِي", "🟠 حَسْبِيَ اللَّهُ", "🔴 لَا إِلَهَ إِلَّا أَنْتَ", "🔵 تَوَكَّلْتُ عَلَى اللَّهِ"
+    "🟡 رَبِّ اغْفِرْ لِي", "🟠 حَسْبِيَ اللَّهُ", "🔴 لَا إِلَهَ إِلَّا أَنْتَ", "🔵 تَوَكَّلْتُ عَلَى اللَّهِ",
+    "⚫ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ", "🟪 اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي",
+    "🟨 حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ", "🟩 لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ",
+    "🟦 يَا رَزَّاقُ يَا ذَا الْقُوَّةِ الْمَتِينُ", "🟥 اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ",
+    "🟫 يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ", "⚪ سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ",
+    "🟢 أستغفر الله العظيم وأتوب إليه", "🟡 لا إله إلا الله الملك الحق المبين",
+    "🟠 اللهم إني أسألك الجنة", "🔴 اللهم إني أعوذ بك من النار",
+    "🔵 يا فتاح يا عليم", "🟣 يا رحمن يا رحيم",
+    "🟤 اللهم صل وسلم على نبينا محمد", "⚪ رب اجعلني مقيم الصلاة ومن ذريتي"
 ]
 
 # --- [ إدارة الحالة وقاعدة البيانات في الذاكرة ] ---
@@ -162,8 +170,8 @@ def ai_spiritual_analysis(total: int) -> str:
 def text_welcome() -> str:
     """نص الترحيب الرسمي المتكامل"""
     return (
-        f"✨ ❮ {bold_title} ❯ ✨\n\n"
-        f"💎 {bold_sub} 💎\n"
+        f"✨ ❮ {html.bold('نظام نُورِفَاي الملكي')} ❯ ✨\n\n"
+        f"💎 {html.bold('بوابتك نحو السكينة والطمأنينة')} 💎\n"
         "💠 السَّلامُ عَلَيْكُم وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ\n"
         "🌙 أهلاً بك في من نورفاي.\n\n"
         f"🕊️ {html.italic('﴿ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ ﴾')}\n\n"
@@ -263,13 +271,30 @@ async def master_command_router(message: Message):
 
 # --- [ محرك المسبحة التفاعلي ] ---
 
-@dp.callback_query(F.data == "btn_tasbih_menu")
+@dp.callback_query(F.data.startswith("btn_tasbih_menu"))
 async def btn_tasbih_menu(call: CallbackQuery):
+    # تحديد الصفحة الحالية
+    page = 1
+    if call.data == "btn_tasbih_menu_2":
+        page = 2
+        
     btns = []
-    for i in range(0, len(TASBIH_TYPES), 2):
+    # تحديد بداية ونهاية المؤشر بناءً على الصفحة
+    start_idx = 0 if page == 1 else 14
+    end_idx = 14 if page == 1 else len(TASBIH_TYPES)
+    
+    for i in range(start_idx, end_idx, 2):
         row = [InlineKeyboardButton(text=TASBIH_TYPES[i], callback_data=f"go_{i}")]
-        if i+1 < len(TASBIH_TYPES): row.append(InlineKeyboardButton(text=TASBIH_TYPES[i+1], callback_data=f"go_{i+1}"))
+        if i+1 < end_idx: 
+            row.append(InlineKeyboardButton(text=TASBIH_TYPES[i+1], callback_data=f"go_{i+1}"))
         btns.append(row)
+    
+    # إضافة أزرار التنقل بين الصفحات
+    if page == 1:
+        btns.append([InlineKeyboardButton(text="الأذكار التالية ➡️", callback_data="btn_tasbih_menu_2")])
+    else:
+        btns.append([InlineKeyboardButton(text="⬅️ الأذكار السابقة", callback_data="btn_tasbih_menu")])
+        
     btns.append([InlineKeyboardButton(text="🔙 عودة للرئيسية", callback_data="btn_home")])
     await call.message.edit_text(f"📿 {html.bold('اختر نوع الذكر المفضل لفتح المسبحة التفاعلية:')}", reply_markup=InlineKeyboardMarkup(inline_keyboard=btns))
 
