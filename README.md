@@ -1,58 +1,54 @@
+<!-- 🌊 Wave Header -->
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:000428,100:004e92&height=240&section=header" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f2027,50:203a43,100:2c5364&height=280&section=header&text=NOORIFY&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=35" />
 </p>
 
-<div align="center">
-
-#  NOORIFY
-
----
-
-[![Python 3.13](https://img.shields.io/badge/Python-3.13-blue?logo=python)](https://www.python.org/)
-[![Aiogram 3.x](https://img.shields.io/badge/Aiogram-3.x-00E5FF?logo=telegram)](https://aiogram.dev/)
-[![Status](https://img.shields.io/badge/Status-Active-brightgreen)]()
-
-</div>
-
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=25&pause=800&color=00E5FF&center=true&vCenter=true&width=800&lines=⚡+من+التشتت+إلى+الطمأنينة;🕊️+ذكرٌ+حيٌّ+يُرافقُك;🌊+اجعل+هاتفك+روضةً+من+رياض+الجنة" />
+  <b>صدقة جارية رقمية 🤍</b><br>
+  <i>حوّل وقتك على الهاتف إلى ذكر مستمر</i>
 </p>
 
 ---
 
-## 💡 نبذة عن المشروع
-**Noorify** ليس مجرد بوت تيليجرام؛ بل هو فلسفة رقمية تهدف لاستغلال "الوقت الضائع" أمام الشاشات وتحويله إلى لحظات اتصال بالخالق. صُمم البوت ليكون خفيفاً، سريعاً، ومستداماً.
+## 🔗 روابط المشروع
 
-> *"إذا كان الهاتف يسرق انتباهك، اجعله يذكّرك بربك."*
-
----
-
-## 🛠️ المميزات الجوهرية
-
-| الميزة | الوصف التقني |
-| :--- | :--- |
-| **📿 المسبحة الرقمية** | عدّاد ذكي مع حفظ تلقائي لحالة الجلسة. |
-| **📜 الأذكار اليومية** | جدول مُنظم (صباح، مساء، نوم) مع تنبيهات ذكية. |
-| **⏰ نظام التذكير** | فواصل زمنية مرنة (30د - 4س) لكسر روتين الغفلة. |
-| **📊 لوحة الإحصائيات** | تتبع أثرك الروحي ومعرفة معدل الذكر اليومي. |
-| **🚀 أداء فائق** | مبني على `Aiogram 3.x` (Async) لضمان سرعة الاستجابة. |
+<p align="center">
+  <a href="https://t.me/your_bot">
+    <img src="https://img.shields.io/badge/🚀%20تشغيل%20البوت-Telegram-0088cc?style=for-the-badge&logo=telegram"/>
+  </a>
+  <a href="https://github.com/your-username/noorify">
+    <img src="https://img.shields.io/badge/📦%20GitHub-Repository-black?style=for-the-badge&logo=github"/>
+  </a>
+  <a href="#">
+    <img src="https://img.shields.io/badge/📜%20الرخصة-MIT-green?style=for-the-badge"/>
+  </a>
+</p>
 
 ---
 
-## ⚙️ البدء في التشغيل
+## ⚡ نظرة سريعة
 
-### المتطلبات الأساسية
-* Python 3.13+
-* Telegram Bot Token (من [@BotFather](https://t.me/botfather))
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&pause=800&color=00E5FF&center=true&vCenter=true&width=700&lines=من+التشتت+إلى+السكينة;ذكرٌ+يُرافقك+في+كل+لحظة;هاتفك+يمكن+أن+يكون+صدقة+جارية" />
+</p>
 
-### خطوات التثبيت
-1. **استنساخ المستودع:**
-   ```bash
-   git clone [https://github.com/your-username/noorify.git](https://github.com/your-username/noorify.git)
-   cd noorify
+---
 
+## 💡 الفكرة
 
+> "إذا كان الهاتف يسرق انتباهك... اجعله يقودك إلى الله."
 
+**Noorify** هو بوت ذكي مبني لتحويل الاستخدام العشوائي للهاتف إلى تجربة روحية منظمة.
 
+---
 
-   
+## 🧠 كيف يعمل (تقنياً)
+
+```text
+User → Telegram → Bot (Aiogram Async)
+                ↓
+          Task Scheduler
+                ↓
+        Reminder Engine
+                ↓
+        Database (Stats)
