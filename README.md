@@ -49,7 +49,12 @@ E --> G[Notifications]
 ## 🧩 التقنيات
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=python,github, " />
+  <img src="https://skillicons.dev/icons?i=python,github" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Railway-Server-0B0D0E?style=for-the-badge&logo=railway&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Telegram-Bot-0088cc?style=for-the-badge&logo=telegram&logoColor=white"/>
 </p>
 
 ---
