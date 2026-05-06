@@ -53,11 +53,17 @@ E --> G[Notifications]
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Railway-Server-0B0D0E?style=for-the-badge&logo=railway&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Telegram-Bot-0088cc?style=for-the-badge&logo=telegram&logoColor=white"/>
-</p>
 
----
+<!-- Telegram -->
+<img src="https://img.shields.io/badge/Telegram_Bot-Aiogram-0088cc?style=for-the-badge&logo=telegram&logoColor=white"/>
+
+<!-- Railway -->
+<img src="https://img.shields.io/badge/Deployed%20on-Railway-0B0D0E?style=for-the-badge&logo=railway&logoColor=white"/>
+
+<!-- Async Concept -->
+<img src="https://img.shields.io/badge/Async-Python%20Event%20Loop-3776AB?style=for-the-badge"/>
+
+</p>
 
 ## ⚙️ التشغيل
 
