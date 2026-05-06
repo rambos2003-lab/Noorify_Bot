@@ -1,7 +1,6 @@
 
 
 
-``html id="noorify-readme-final"
 <!-- 🌊 HEADER -->
 <p align="center">
   <img src="https://capsule-render.vercel.app/api?type=waving&color=0:050505,50:0f2027,100:203a43&height=300&section=header&text=NOORIFY&fontSize=65&fontColor=ffffff&animation=fadeIn&fontAlignY=38" />
