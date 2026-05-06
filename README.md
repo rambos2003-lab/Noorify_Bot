@@ -1,54 +1,68 @@
-<!-- 🌊 Wave Header -->
+<!-- 🌊 HERO HEADER -->
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f2027,50:203a43,100:2c5364&height=280&section=header&text=NOORIFY&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=35" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:050505,50:0f2027,100:203a43&height=300&section=header&text=NOORIFY&fontSize=65&fontColor=ffffff&animation=fadeIn&fontAlignY=38" />
 </p>
 
 <p align="center">
-  <b>صدقة جارية رقمية 🤍</b><br>
-  <i>حوّل وقتك على الهاتف إلى ذكر مستمر</i>
-</p>
-
----
-
-## 🔗 روابط المشروع
-
-<p align="center">
-  <a href="https://t.me/Noorify_bot">
-    <img src="https://img.shields.io/badge/🚀%20تشغيل%20البوت-Telegram-0088cc?style=for-the-badge&logo=telegram"/>
-  </a>
-  <a href="https://github.com/your-username/noorify">
-    <img src="https://img.shields.io/badge/📦%20GitHub-Repository-black?style=for-the-badge&logo=github"/>
-  </a>
-  <a href="#">
-    <img src="https://img.shields.io/badge/📜%20الرخصة-MIT-green?style=for-the-badge"/>
-  </a>
+  <b>✨ صدقة جارية رقمية — نحو استخدام أهدأ للهاتف</b><br>
+  <sub>تحويل التشتت إلى ذكر • والوقت الضائع إلى أثر</sub>
 </p>
 
 ---
 
-## ⚡ نظرة سريعة
-
+<!-- BADGES -->
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&pause=800&color=00E5FF&center=true&vCenter=true&width=700&lines=من+التشتت+إلى+السكينة;ذكرٌ+يُرافقك+في+كل+لحظة;هاتفك+يمكن+أن+يكون+صدقة+جارية" />
+  <img src="https://img.shields.io/badge/Python-3.13-3776AB?style=for-the-badge&logo=python"/>
+  <img src="https://img.shields.io/badge/Aiogram-3.x-00E5FF?style=for-the-badge&logo=telegram"/>
+  <img src="https://img.shields.io/badge/Status-Active-00C853?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/License-MIT-lightgrey?style=for-the-badge"/>
 </p>
 
 ---
 
-## 💡 الفكرة
+## ⚡ الفكرة
 
-> "إذا كان الهاتف يسرق انتباهك... اجعله يقودك إلى الله."
+> “ليس الهدف أن تترك هاتفك… بل أن تجعله يذكّرك بالله.”
 
-**Noorify** هو بوت ذكي مبني لتحويل الاستخدام العشوائي للهاتف إلى تجربة روحية منظمة.
+**Noorify** مشروع ذكي يهدف إلى:
+- تقليل التشتت الرقمي
+- بناء عادات ذكر مستمرة
+- تحويل الهاتف من مصدر ضياع إلى مصدر أجر
 
 ---
 
-## 🧠 كيف يعمل (تقنياً)
+## 🌙 الرسالة
 
-```text
-User → Telegram → Bot (Aiogram Async)
-                ↓
-          Task Scheduler
-                ↓
-        Reminder Engine
-                ↓
-        Database (Stats)
+<p align="center">
+  <i>“كل تسبيحة قد تكون سببًا في راحة قلبك”</i>
+</p>
+
+---
+
+## 🧠 كيف يعمل النظام
+
+```mermaid
+flowchart TD
+A[User on Telegram] --> B[Noorify Bot - Aiogram]
+B --> C[Async Event Handler]
+C --> D[Reminder Engine]
+C --> E[Dhikr Counter System]
+D --> F[Push Notifications]
+E --> G[User Statistics DB]
+```
+🧩 التقنيات
+<p align="center"> <img src="https://skillicons.dev/icons?i=python,git,github,linux" /> </p>
+
+
+
+
+🎯 أهداف المشروع
+تقليل الإدمان الرقمي
+بناء عادات روحانية مستمرة
+تقديم تجربة هادئة داخل تيليجرام
+جعل التقنية وسيلة للخير
+🤍 صدقة جارية
+<p align="center"> <b>إذا استفدت من المشروع فلا تنسَ دعوة صالحة 🤍</b><br> <sub>الدال على الخير كفاعله</sub> </p>
+⭐ دعم المشروع
+<p align="center"> <a href="https://github.com/your-username/noorify"> <img src="https://img.shields.io/badge/⭐%20Star%20This%20Repo-ادعم%20المشروع-yellow?style=for-the-badge"/> </a> </p>
+<!-- 🌊 FOOTER --> <p align="center"> <img src="https://capsule-render.vercel.app/api?type=waving&color=0:203a43,50:0f2027,100:050505&height=140&section=footer"/> </p> ```
