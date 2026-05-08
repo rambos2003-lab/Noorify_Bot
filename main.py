@@ -322,7 +322,7 @@ async def engine_tasbih(call: CallbackQuery):
     progress = get_unique_progress(u["tasbih"] % 34)
 
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="إضغط للتسبيح", callback_data=f"hit_{idx}")],
+        [InlineKeyboardButton(text="إضغط ", callback_data=f"hit_{idx}")],
         [
             InlineKeyboardButton(text="🔄 تغيير النوع", callback_data="btn_tasbih_menu"),
             InlineKeyboardButton(text="🔙 عودة", callback_data="btn_home")
