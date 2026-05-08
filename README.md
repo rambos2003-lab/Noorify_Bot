@@ -106,7 +106,7 @@ python bot.py
   <img src="https://img.shields.io/badge/👤%20Profile-rambos2003--lab-181717?style=for-the-badge&logo=github"/>
 </a>
 
-<a href="https://t.me/vx_rq">
+<a href="https://t.me/RamiAILab">
   <img src="https://img.shields.io/badge/💬%20Telegram-Channel-0088cc?style=for-the-badge&logo=telegram"/>
 </a>
 
